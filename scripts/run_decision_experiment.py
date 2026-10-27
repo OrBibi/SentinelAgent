@@ -23,6 +23,7 @@ from app.agent_worker import (  # noqa: E402
     MetaModelClient,
     MitigationPolicy,
     build_messages,
+    investigate,
     parse_verdict,
 )
 from app.ml_filter import FastFilter  # noqa: E402
@@ -330,6 +331,7 @@ def score_sample(engine: RAGEngine, fast: FastFilter, sample: dict):
         matched_route=route.template,
         undeclared_fields=undeclared,
         privileged_fields=privileged,
+        headers=sample.get("headers") or None,
     )
     verdict = fast.evaluate(features, distinct_objects=int(sample.get("distinct_objects") or 0))
     return route, features, verdict
@@ -390,8 +392,8 @@ async def judge_one(client: MetaModelClient, request, history: list[str], contex
 
 
 async def run_locked(engine: RAGEngine, fast: FastFilter, suspicious: list[dict]) -> list[dict]:
-    """One call per sample, without the fast-filter score, scored by the production confidence policy."""
-    client = MetaModelClient.from_env(timeout=120, max_tokens=4096, max_retries=1)
+    """Chain of thought then a verdict, without the fast-filter score, scored by the production policy."""
+    client = MetaModelClient.from_env(timeout=120, max_tokens=4096, max_retries=2)
     if client is None:
         raise SystemExit("META_API_KEY is empty")
     semaphore = asyncio.Semaphore(3)
@@ -404,28 +406,29 @@ async def run_locked(engine: RAGEngine, fast: FastFilter, suspicious: list[dict]
             path=sample["path"],
             query=query_of(sample),
             body_preview=body_of(sample)[:2000].decode("utf-8", "replace"),
+            headers={key: str(value)[:300] for key, value in (sample.get("headers") or {}).items()},
             features=features,
             fast_verdict=fast_verdict,
         )
         context = await asyncio.to_thread(engine.retrieve_context, request)
-        threat_titles = [doc.split("\n", 1)[0] for doc in context.threat_docs]
         async with semaphore:
-            verdict, raw, error = await judge_one(
-                client, request, list(sample.get("history") or []), context, False
+            messages = build_messages(request, list(sample.get("history") or []), context, include_fast_score=False)
+            verdict, raw, tool_trace, error, chain = await investigate(
+                client, engine, messages, req=request, ctx=context
             )
-        action = ""
-        rationale = error or ""
-        if verdict is not None:
-            decided, rationale = POLICY.decide(verdict, request, context)
-            action = decided.value
-        print(sample["id"], action or "FAIL", flush=True)
+        decided, rationale = POLICY.decide(verdict, request, context)
+        if error:
+            rationale = f"{rationale}; {error}"
+        action = decided.value
+        print(sample["id"], action, flush=True)
         return {
             "id": sample["id"],
             "label": sample["label"],
             "note": sample.get("note", ""),
             "tier": fast_verdict.tier.value,
             "fast_score": fast_verdict.score,
-            "threat_titles": threat_titles,
+            "tool_trace": tool_trace,
+            "chain": chain,
             "action": action,
             "rationale": rationale,
             "verdict": _dump(verdict, raw, error),
@@ -438,7 +441,7 @@ async def run_locked(engine: RAGEngine, fast: FastFilter, suspicious: list[dict]
 
 
 async def run_live(engine: RAGEngine, fast: FastFilter, suspicious: list[dict]) -> list[dict]:
-    client = MetaModelClient.from_env(timeout=120, max_tokens=4096, max_retries=1)
+    client = MetaModelClient.from_env(timeout=120, max_tokens=4096, max_retries=2)
     if client is None:
         raise SystemExit("META_API_KEY is empty")
     semaphore = asyncio.Semaphore(3)
@@ -550,6 +553,7 @@ def main() -> None:
     parser.add_argument("--locked-policy", action="store_true")
     parser.add_argument("--match", default="", help="Comma-separated substrings; keep suspicious samples whose note contains one")
     parser.add_argument("--results", default="")
+    parser.add_argument("--slice", default="", help="JSON list of extra labeled samples to score instead of the 100-set")
     args = parser.parse_args()
     document = prepare_fixture()
     engine = RAGEngine.create(chroma_dir=str(ROOT / "data" / "experiment_chroma"), enable_chroma=False)
@@ -576,6 +580,9 @@ def main() -> None:
     clean_report = {"total": len(document["clean"]), "not_clean": len(clean_bad), "leaks": clean_bad}
     if args.locked_policy:
         selected = document["suspicious"]
+        if args.slice:
+            selected = json.loads(Path(args.slice).read_text(encoding="utf-8"))
+            print(f"slice {len(selected)} samples", flush=True)
         if args.match:
             needles = [part.strip().lower() for part in args.match.split(",") if part.strip()]
             selected = [sample for sample in selected if any(needle in sample.get("note", "").lower() for needle in needles)]

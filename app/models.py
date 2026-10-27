@@ -35,6 +35,7 @@ class RequestFeatures(BaseModel):
     special_char_ratio: float = 0.0
     traversal_hits: int = 0
     injection_hits: int = 0
+    log_forging_hits: int = 0
     numeric_id_segments: int = 0
     window_rate: int = 0
     route_known: bool | None = None

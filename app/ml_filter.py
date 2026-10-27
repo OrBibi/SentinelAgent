@@ -8,6 +8,7 @@ feature vectors so repeated traffic shapes cost a dictionary lookup.
 
 from __future__ import annotations
 
+import base64
 import math
 import re
 from dataclasses import dataclass
@@ -67,11 +68,32 @@ INJECTION_SIGNATURES: tuple[Signature, ...] = (
     _sig(("'",), r"'\s*(?:or|and)\s*'?\d+'?\s*=\s*'?\d+"),
     _sig(("'",), r"'\s*(?:--|#|;)"),
     _sig((";", "||", "&&"), r"(?:;|\|\||&&)\s*(?:cat|ls|id|whoami|curl|wget|nc|bash|sh)\b"),
-    _sig(("<", "javascript:", "onerror", "onload"), r"<\s*script\b|javascript:|onerror\s*=|onload\s*="),
+    _sig(
+        ("<", "javascript:", "onerror", "onload", "onmouseover", "onfocus"),
+        r"<\s*script\b|javascript:|on(?:error|load|mouseover|focus|toggle)\s*=|<\s*(?:svg|img|iframe|body)\b",
+    ),
     _sig(("${",), r"\$\{\s*jndi\s*:"),
+    _sig(("${",), r"\$\{[^{}]{0,20}\*[^{}]{0,20}\}"),  # template math such as ${7*7}
+    _sig(("{{",), r"\{\{.{1,60}\}\}"),
+    _sig(("#{",), r"#\{.{1,40}\}"),
     _sig(("sleep", "benchmark"), r"\b(?:sleep|benchmark|pg_sleep)\s*\(\s*\d"),
     _sig(("$",), r"\{\s*\"?\$(?:where|ne|gt|regex)\"?\s*:"),
+    _sig(("gasv", "aced0005", "ro0ab"), r"gasv[a-z0-9+/=]{4,}|aced0005|ro0ab"),
+    _sig(
+        ("http://", "https://", "169.254"),
+        r"https?://(?:127\.0\.0\.1|localhost|0\.0\.0\.0|\[::1\]|169\.254\.169\.254|metadata\.google(?:\.internal)?)"
+        r"(?:[:/?#]|$)",
+    ),
 )
+
+# CRLF that would split a log line. Raw newlines inside a free-text body are not scanned.
+_CRLF_ENCODED = re.compile(r"%0d|%0a", re.I)
+_IDENTITY_CRLF = re.compile(
+    r'"(?:user(?:name)?|email|login|name)"\s*:\s*"[^"\\]{0,80}(?:\\n|\\r|\r|\n)',
+    re.I,
+)
+_LOWER_LOOKUP = re.compile(r"\$\{(?:lower|upper)::?-?([a-z0-9]{1,8})\}")
+_EMPTY_LOOKUP = re.compile(r"\$\{::-?([a-z0-9]{1,8})\}")
 
 _UUID_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", re.I)
 _NUMERIC_RE = re.compile(r"^\d{1,20}$")
@@ -96,7 +118,7 @@ def heuristic_template(path: str) -> tuple[str, str | None]:
 def decode_variants(text: str, rounds: int = 3) -> str:
     """Return the raw text plus up to `rounds` URL-decoded variants, lowercased, joined by newlines."""
     variants = [text.lower()]
-    if "%" not in text:
+    if "%" not in text and "%" not in text.lower():
         return variants[0]
     current = text
     for _ in range(rounds):
@@ -106,6 +128,80 @@ def decode_variants(text: str, rounds: int = 3) -> str:
         variants.append(decoded.lower())
         current = decoded
     return "\n".join(variants)
+
+
+def unfold_lookups(text: str, rounds: int = 4) -> str:
+    """Expand `${lower:j}` style wrappers so an obfuscated lookup becomes readable text.
+
+    This only rewrites the string. It does not resolve the lookup or contact any host.
+    """
+    current = text.lower()
+    for _ in range(rounds):
+        nxt = _LOWER_LOOKUP.sub(lambda match: match.group(1), current)
+        nxt = _EMPTY_LOOKUP.sub(lambda match: match.group(1), nxt)
+        if nxt == current:
+            break
+        current = nxt
+    return current
+
+
+def signature_text(text: str) -> str:
+    """URL-decoded text plus a lookup-unfolded copy when the unfold changed anything."""
+    decoded = decode_variants(text)
+    unfolded = unfold_lookups(decoded)
+    if unfolded != decoded:
+        return decoded + "\n" + unfolded
+    return decoded
+
+
+def describe_decodings(value: str) -> str:
+    """Return URL, base64, hex, and lookup-wrapper decodings. Never executes the value."""
+    text = str(value)[:500]
+    lines: list[str] = []
+    current = text
+    for i in range(3):
+        decoded = unquote(current)
+        if decoded == current:
+            break
+        lines.append(f"url-{i + 1}: {decoded[:300]}")
+        current = decoded
+    compact = re.sub(r"\s+", "", text)
+    if re.fullmatch(r"[A-Za-z0-9+/]{8,}={0,2}", compact) and len(compact) % 4 == 0:
+        try:
+            shown = base64.b64decode(compact, validate=True).decode("utf-8", errors="replace")[:300]
+            lines.append(f"base64: {shown}")
+        except ValueError:
+            pass
+    hexbody = compact[2:] if compact.lower().startswith("0x") else compact
+    if re.fullmatch(r"[0-9a-fA-F]{8,}", hexbody) and len(hexbody) % 2 == 0:
+        try:
+            shown = bytes.fromhex(hexbody).decode("utf-8", errors="replace")[:300]
+            lines.append(f"hex: {shown}")
+        except ValueError:
+            pass
+    unfolded = unfold_lookups(text)
+    if unfolded != text.lower():
+        lines.append(f"lookup: {unfolded[:300]}")
+    return "\n".join(lines) if lines else "no decoding applied"
+
+
+def log_forging_hits(query: str, body_text: str, headers: dict[str, str] | None) -> int:
+    """Count CRLF in the query, headers, encoded body, or a short identity field.
+
+    A raw newline inside a comment or description is ordinary prose and is ignored.
+    """
+    hits = 0
+    fields = [query]
+    if headers:
+        fields.extend(headers.values())
+    for text in fields:
+        if "\r" in text or "\n" in text or _CRLF_ENCODED.search(text):
+            hits += 1
+    if body_text and _CRLF_ENCODED.search(body_text):
+        hits += 1
+    if body_text and _IDENTITY_CRLF.search(body_text):
+        hits += 1
+    return hits
 
 
 def _average_path_length(n: int) -> float:
@@ -221,15 +317,23 @@ class FastFilter:
         matched_route: str | None = None,
         undeclared_fields: list[str] | None = None,
         privileged_fields: list[str] | None = None,
+        headers: dict[str, str] | None = None,
     ) -> RequestFeatures:
         body_text = body[:INSPECT_BODY_BYTES].decode("utf-8", errors="replace") if body else ""
         target = f"{path}?{query}" if query else path
-        haystack = decode_variants(target)
+        haystack = signature_text(target)
         if body_text:
-            haystack += "\n" + decode_variants(body_text, rounds=1)
+            haystack += "\n" + signature_text(body_text)
+        if headers:
+            cookie = next((v for k, v in headers.items() if k.lower() == "cookie"), "")
+            if cookie:
+                haystack += "\n" + signature_text(cookie)
 
         traversal_hits = sum(sig.count(haystack) for sig in TRAVERSAL_SIGNATURES)
         injection_hits = sum(sig.count(haystack) for sig in INJECTION_SIGNATURES)
+        unfolded = unfold_lookups(haystack)
+        if unfolded != haystack and "jndi:" in unfolded:
+            injection_hits += 1
         sample = target + body_text[:2048]
         special = len(sample) - len(sample.translate(_STRIP_SPECIAL))
         id_segments = sum(1 for seg in path.split("/") if seg and is_object_id(seg))
@@ -243,6 +347,7 @@ class FastFilter:
             special_char_ratio=special / max(len(sample), 1),
             traversal_hits=traversal_hits,
             injection_hits=injection_hits,
+            log_forging_hits=log_forging_hits(query, body_text, headers),
             numeric_id_segments=id_segments,
             window_rate=window_rate,
             route_known=route_known,
@@ -283,6 +388,9 @@ class FastFilter:
             # Stay under the hard-block threshold so the request is still forwarded and the agent decides.
             score = min(0.6 + 0.15 * f.injection_hits, 0.85)
             scores.append((score, f"injection signature x{f.injection_hits}", "injection"))
+        if f.log_forging_hits:
+            score = min(0.6 + 0.15 * f.log_forging_hits, 0.85)
+            scores.append((score, f"log forging signature x{f.log_forging_hits}", "log_forging"))
         if f.route_known is False:
             scores.append((0.55, "method/path not declared in OpenAPI schema", "schema_violation"))
         if f.privileged_fields:

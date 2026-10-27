@@ -1,0 +1,173 @@
+{
+  "policy": "confidence_without_fast_score",
+  "clean": {
+    "total": 98,
+    "not_clean": 0,
+    "leaks": []
+  },
+  "summary": {
+    "scored": 9,
+    "tp": 6,
+    "fn": 0,
+    "fp": 0,
+    "tn": 3,
+    "accuracy": 1.0
+  },
+  "misses": [],
+  "false_blocks": [],
+  "rows": [
+    {
+      "id": "b29",
+      "label": "benign",
+      "note": "docs mention a relative image",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.05,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "The query cites a single public relative asset '/../images/logo.png as a relative public asset' which the threat library explicitly excludes as documentation, not path traversal. No sensitive-file target like /etc/passwd or .env is present and POST /api/search matches its declared operation."
+      }
+    },
+    {
+      "id": "b30",
+      "label": "benign",
+      "note": "docs mention a stylesheet path",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.05,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Body query 'example stylesheet lives at /../assets/site.css' cites only one public relative asset in natural language. Retrieved pattern explicitly excludes ../assets/site.css as documentation, and there are no sensitive-file targets or undeclared operations."
+      }
+    },
+    {
+      "id": "b31",
+      "label": "benign",
+      "note": "customer quotes a tutorial path",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.05,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "The text field only cites '/../guides/returns.pdf' in a help-page sentence, which the threat library explicitly lists as documentation, not path traversal. No sensitive targets like /etc/passwd are present and the request matches declared POST /api/comments with no BOLA indicators."
+      }
+    },
+    {
+      "id": "m06",
+      "label": "malicious",
+      "note": "traversal in a comment",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.97 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.97,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "The text field contains '../../../../' dot-dot segments targeting /etc/shadow. Free-text fields like text are not safe as values may reach file APIs, and legitimate clients never reference /etc/shadow. This matches retrieved CWE-22 patterns requiring block."
+      }
+    },
+    {
+      "id": "m07",
+      "label": "malicious",
+      "note": "traversal in search",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.97 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.97,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "Body query contains '../../' directory-escape sequence targeting /etc/hosts. Retrieved patterns state dot-dot and sensitive-file targets in free-text search fields are path traversal attacks. No benign documentation exception applies."
+      }
+    },
+    {
+      "id": "m08",
+      "label": "malicious",
+      "note": "obfuscated traversal",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "Body field contains obfuscated traversal '....//....//' targeting '/etc/passwd'. Free-text ticket body can still reach file APIs so field type does not make it safe. Sensitive-file target is not a benign public asset reference."
+      }
+    },
+    {
+      "id": "m09",
+      "label": "malicious",
+      "note": "traversal in a title",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.98 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.98,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "The title field contains \"/../etc/passwd\" combining dot-dot escape \"/../\" with sensitive-file target /etc/passwd. Free-text fields like title can still reach file APIs per CWE-22, and legitimate reviews do not use system file paths. This matches retrieved path-traversal patterns requiring block."
+      }
+    },
+    {
+      "id": "m47",
+      "label": "malicious",
+      "note": "command name in a comment",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.92 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.92,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "POST /api/comments text field contains \"see `cat /etc/passwd`\" referencing sensitive file /etc/passwd. A delivery comment has no legitimate use for system file paths, matching the free-text path-traversal pattern where /etc/passwd in any field is an attack."
+      }
+    },
+    {
+      "id": "m50",
+      "label": "malicious",
+      "note": "note that carries a traversal",
+      "tier": "hard_block",
+      "fast_score": 0.95,
+      "tool_trace": [],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "path_traversal",
+        "reasoning": "The note field contains '../../' directory-escape targeting sensitive file '.env' with phrase 'read ../../.env'. Threat patterns state such sequences in free-text fields like note are CWE-22 attacks regardless of declared type. No legitimate order requires accessing .env."
+      }
+    }
+  ]
+}
