@@ -74,6 +74,21 @@ class Settings(BaseSettings):
 
     chroma_dir: str = "data/chroma"
     enable_chroma: bool = True
+    # Comma-separated path prefixes that are judged. Empty means every path is judged.
+    # A site that also serves pages sets this to /api so HTML and static files are forwarded.
+    inspect_path_prefixes: str = ""
+
+    @property
+    def inspect_prefixes(self) -> tuple[str, ...]:
+        prefixes: list[str] = []
+        for raw in self.inspect_path_prefixes.split(","):
+            text = raw.strip()
+            if not text:
+                continue
+            if not text.startswith("/"):
+                text = f"/{text}"
+            prefixes.append(text.rstrip("/") or "/")
+        return tuple(prefixes)
 
     @model_validator(mode="before")
     @classmethod

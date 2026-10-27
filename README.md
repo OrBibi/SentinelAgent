@@ -202,6 +202,47 @@ OpenAPI 3.x and Swagger 2.0 are accepted, as JSON or YAML, as a raw body or a mu
 path and operation parameters, request body fields, and security requirements. Each source is stored in
 `data/schemas/<source>.json` and reloaded on startup. Re-uploading a source replaces it.
 
+### Describe an existing application
+
+Sentinel only learns the contract you upload. Write one operation for every HTTP call the client
+actually makes, using that path and method, not an internal rewrite. A PickPics example is
+[`examples/pickpics_openapi.yaml`](examples/pickpics_openapi.yaml): the browser calls
+`/api/paypal/create-order`, while Vercel rewrites that onto another function. The proxy sees the
+browser path, so that is the path in the file.
+
+For each operation record only what the fast filter reads:
+
+| Piece | Why it matters |
+| --- | --- |
+| Method and path, with `{id}` segments | A missing path or method is an undeclared-route finding |
+| Query and path parameters | Type and name checks |
+| Top-level JSON body fields | Any other key is a mass-assignment finding. List fields the real client sends, including optional ones |
+| `security` on the operation, or `security: []` when the route is public | Marks the route as authenticated. An empty list overrides a global requirement |
+| One-line `summary` | Shown to the model with the matched operation |
+
+Leave out response schemas, examples, and fields that are not sent. Nested keys inside a declared
+object are not compared one by one. Calls the browser makes straight to Firebase, storage, or another
+host never reach the proxy, so they do not belong in the file.
+
+When the application changes, diff its client calls (`fetch`, the server router, the rewrite table)
+against `paths` and upload the file again under the same `source` name.
+
+### Connect an existing site
+
+The public name stays the same. The DNS record for that name points at Sentinel, and Sentinel
+forwards to the origin. Nothing in the application has to call Sentinel itself.
+
+1. **DNS.** Point the public host at Sentinel. Leave the origin on a hostname clients do not use.
+2. **`UPSTREAM_BASE_URL`.** Set it to that origin, including the scheme and port.
+3. **OpenAPI.** Upload the contract, for example `examples/pickpics_openapi.yaml` with `source=pickpics`.
+4. **Agent.** Set `META_API_KEY`, a real `ADMIN_TOKEN`, `ENFORCE_BLOCKS=true`, and a reachable `REDIS_URL`.
+5. **`INSPECT_PATH_PREFIXES`.** Set this to the API prefix, usually `/api`. Pages, scripts, and images
+   outside that prefix are forwarded immediately, with no filter and no agent. A blocklisted client
+   is still denied. Leave the variable empty to judge every path, which is what the demo API expects.
+
+Auth redirects, payment return URLs, and email links keep using the public host. Scheduled jobs may
+keep calling the origin directly. Client calls to Firebase or another host do not pass through Sentinel.
+
 ### Try the attacks
 
 ```bash
@@ -289,7 +330,7 @@ app/
   templates/        dashboard HTML
   config.py         settings
   models.py         shared Pydantic models
-examples/           demo backend, demo OpenAPI schema, offline Baseten mock
+examples/           demo backend, demo and PickPics OpenAPI schemas, offline model mock
 tests/              unit and integration tests
 ```
 

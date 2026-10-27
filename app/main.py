@@ -12,7 +12,7 @@ import logging
 import time
 import uuid
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
+from typing import Any, AsyncIterator
 from urllib.parse import unquote
 
 import httpx
@@ -76,6 +76,15 @@ def normalize_proxy_path(raw_path: str) -> str:
     """
     path = raw_path if raw_path.startswith("/") else f"/{raw_path}"
     return "/" + path.lstrip("/")
+
+
+def path_is_inspected(path: str, prefixes: tuple[str, ...]) -> bool:
+    """True when this path should be judged. Empty prefixes judge every path."""
+    if not prefixes:
+        return True
+    normalized = path if path.startswith("/") else f"/{path}"
+    normalized = normalized.rstrip("/") or "/"
+    return any(normalized == prefix or normalized.startswith(prefix + "/") for prefix in prefixes)
 
 
 def same_upstream(url: httpx.URL, base: httpx.URL) -> bool:
@@ -247,6 +256,9 @@ def create_app(
         if decoded_path == "/sentinel" or decoded_path.startswith("/sentinel/"):
             return _error(404, "not_found", "Unknown SentinelAgent endpoint.", request_id)
 
+        if not path_is_inspected(decoded_path, cfg.inspect_prefixes):
+            return await _forward_uninspected(state, request, cfg, ip, method, raw_path, query, request_id, started)
+
         route = state.rag.routes.classify(method, decoded_path)
         template = route.template
         history_entry = f"{int(time.time())} {method} {raw_path[:200]}" + (f"?{query[:200]}" if query else "")
@@ -327,6 +339,37 @@ def create_app(
     return app
 
 
+async def _forward_uninspected(
+    state: Any,
+    request: Request,
+    cfg: Settings,
+    ip: str,
+    method: str,
+    raw_path: str,
+    query: str,
+    request_id: str,
+    started: float,
+) -> Response:
+    """Forward a page or static file. A blocklisted client is still denied."""
+    if cfg.enforce_blocks:
+        try:
+            if await state.store.get_block(ip):
+                return forbidden(request_id)
+        except RedisError as exc:
+            if cfg.fail_mode == "closed":
+                logger.error("Redis unavailable, failing closed: %s", exc)
+                return _error(503, "unavailable", "Security service temporarily unavailable.", request_id)
+            logger.warning("Redis unavailable, failing open: %s", exc)
+    try:
+        body = await read_body(request, cfg.max_body_bytes)
+    except BodyTooLarge:
+        return _error(413, "payload_too_large", "Request body too large.", request_id)
+    guard_ms = (time.perf_counter() - started) * 1000
+    return await _forward(
+        state.http, request, ip, method, raw_path, query, body, request_id, guard_ms, "passthrough"
+    )
+
+
 async def _record(
     store: RedisStore,
     ip: str,
@@ -359,7 +402,7 @@ async def _forward(
     body: bytes,
     request_id: str,
     guard_ms: float,
-    tier: Tier,
+    tier: Tier | str,
 ) -> Response:
     target = raw_path + (f"?{query}" if query else "")
     try:
@@ -385,7 +428,7 @@ async def _forward(
     ] + [
         (b"x-sentinel-request-id", request_id.encode()),
         (b"x-sentinel-guard-ms", f"{guard_ms:.3f}".encode()),
-        (b"x-sentinel-tier", tier.value.encode()),
+        (b"x-sentinel-tier", (tier.value if isinstance(tier, Tier) else tier).encode()),
     ]
     return response
 

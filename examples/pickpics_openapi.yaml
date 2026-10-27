@@ -1,0 +1,487 @@
+# HTTP API of PickPics (WeddingQRPics) as the browser calls it through Vite.
+# Photo bytes and event documents go to Firebase directly and never pass this proxy,
+# so they are not operations here. Regenerate this file when a route or body field changes.
+openapi: 3.0.3
+info:
+  title: PickPics HTTP API
+  version: 1.0.0
+  description: >
+    Paths are the ones the client fetches. Vercel rewrites them onto fewer
+    functions; Sentinel matches the path it sees, which is the client path.
+servers:
+  - url: http://127.0.0.1:5173
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Firebase ID token
+    cronSecret:
+      type: apiKey
+      in: header
+      name: Authorization
+  schemas:
+    EventIdBody:
+      type: object
+      properties:
+        eventId:
+          type: string
+      required: [eventId]
+    ShippingAddress:
+      type: object
+      properties:
+        fullName:
+          type: string
+        phone:
+          type: string
+        city:
+          type: string
+        street:
+          type: string
+        houseNumber:
+          type: string
+        apartment:
+          type: string
+        zip:
+          type: string
+        notes:
+          type: string
+paths:
+  /api/paypal/create-order:
+    post:
+      operationId: createPaypalOrder
+      summary: Start a PayPal checkout for an event the couple owns
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eventId:
+                  type: string
+                packageType:
+                  type: string
+                  enum: [diy, print_20, print_40]
+                shippingAddress:
+                  $ref: "#/components/schemas/ShippingAddress"
+              required: [eventId, packageType]
+      responses:
+        "200":
+          description: PayPal order id
+  /api/paypal/capture-order:
+    post:
+      operationId: capturePaypalOrder
+      summary: Capture a PayPal order and activate the event
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eventId:
+                  type: string
+                orderID:
+                  type: string
+              required: [eventId, orderID]
+      responses:
+        "200":
+          description: Event activated
+  /api/paypal/activate-free:
+    post:
+      operationId: activateFreeEvent
+      summary: Activate an event without payment when the server allows it
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/EventIdBody"
+                - type: object
+                  properties:
+                    packageType:
+                      type: string
+                      enum: [diy, print_20, print_40]
+                    shippingAddress:
+                      $ref: "#/components/schemas/ShippingAddress"
+      responses:
+        "200":
+          description: Event activated
+  /api/notify/event-created:
+    post:
+      operationId: notifyEventCreated
+      summary: Email the couple, or a manager when managerEmail is set
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eventId:
+                  type: string
+                managerEmail:
+                  type: string
+              required: [eventId]
+      responses:
+        "200":
+          description: Notification accepted
+  /api/notify/gallery-published:
+    post:
+      operationId: notifyGalleryPublished
+      summary: Email the couple that the gallery link is live
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eventId:
+                  type: string
+                galleryUrl:
+                  type: string
+              required: [eventId, galleryUrl]
+      responses:
+        "200":
+          description: Notification accepted
+  /api/guest/record-scan:
+    post:
+      operationId: recordGuestScan
+      summary: Count a guest QR scan. No authentication.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventIdBody"
+      responses:
+        "200":
+          description: Scan recorded
+  /api/landing-lead:
+    get:
+      operationId: proxyGuestMedia
+      summary: Stream one approved guest photo or poster
+      security: []
+      parameters:
+        - name: eventId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: photoId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: kind
+          in: query
+          schema:
+            type: string
+            enum: [file, poster]
+      responses:
+        "200":
+          description: Media bytes
+    post:
+      operationId: saveLandingLead
+      summary: Store a marketing lead from the public landing page
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone:
+                  type: string
+                message:
+                  type: string
+              required: [phone]
+      responses:
+        "200":
+          description: Lead stored
+  /api/couple/delete-pending-event:
+    post:
+      operationId: deletePendingEvent
+      summary: Delete an event that has not been activated
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventIdBody"
+      responses:
+        "200":
+          description: Event deleted
+  /api/submit-email-feedback:
+    post:
+      operationId: submitEmailFeedback
+      summary: Store a gallery rating from the emailed link
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eventId:
+                  type: string
+                token:
+                  type: string
+                rating:
+                  type: string
+                  enum: [good, bad]
+                message:
+                  type: string
+              required: [eventId, token, rating]
+      responses:
+        "200":
+          description: Feedback stored
+  /api/singles:
+    post:
+      operationId: singlesCorner
+      summary: Singles Corner. The operation name is the op field.
+      security: []
+      parameters:
+        - name: job
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [purge]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                op:
+                  type: string
+                eventId:
+                  type: string
+                passcode:
+                  type: string
+                token:
+                  type: string
+                pid:
+                  type: string
+                liked:
+                  type: boolean
+                reason:
+                  type: string
+                note:
+                  type: string
+                stage:
+                  type: string
+                name:
+                  type: string
+                birthMonth:
+                  type: integer
+                birthYear:
+                  type: integer
+                gender:
+                  type: string
+                seeks:
+                  type: string
+                relation:
+                  type: string
+                occupation:
+                  type: string
+                instagram:
+                  type: string
+                phone:
+                  type: string
+                phoneConsent:
+                  type: boolean
+                photo:
+                  type: string
+                aloneConfirmed:
+                  type: boolean
+                adultConfirmed:
+                  type: boolean
+                sensitiveConsent:
+                  type: boolean
+                finalConfirm:
+                  type: boolean
+                consentVersion:
+                  type: string
+                matchEmail:
+                  type: boolean
+              required: [op, eventId]
+      responses:
+        "200":
+          description: Operation result
+  /api/admin/events:
+    get:
+      operationId: listAdminEvents
+      summary: List events for an administrator
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Event list
+  /api/admin/events/{eventId}:
+    get:
+      operationId: getAdminEvent
+      summary: Read one event as an administrator
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Event detail
+  /api/admin/activate-free:
+    post:
+      operationId: adminActivateFree
+      summary: Activate an event from the admin console
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventIdBody"
+      responses:
+        "200":
+          description: Event activated
+  /api/admin/set-qr-mail-shipped:
+    post:
+      operationId: setQrMailShipped
+      summary: Mark printed QR kits as shipped
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eventId:
+                  type: string
+                shipped:
+                  type: boolean
+              required: [eventId, shipped]
+      responses:
+        "200":
+          description: Shipment recorded
+  /api/miluim/upload:
+    post:
+      operationId: uploadMiluimForm
+      summary: Upload a small reserve-duty form through the API
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                step:
+                  type: string
+                eventId:
+                  type: string
+                ext:
+                  type: string
+                contentType:
+                  type: string
+                fileBase64:
+                  type: string
+              required: [eventId]
+      responses:
+        "200":
+          description: Form stored
+  /api/miluim/submit:
+    post:
+      operationId: submitMiluimRequest
+      summary: Submit a reserve-duty discount request
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eventId:
+                  type: string
+                reserveDays:
+                  type: integer
+                form3010Url:
+                  type: string
+                form3010Path:
+                  type: string
+              required: [eventId, reserveDays, form3010Url, form3010Path]
+      responses:
+        "200":
+          description: Request stored
+  /api/miluim/admin-requests:
+    get:
+      operationId: listMiluimRequests
+      summary: List reserve-duty requests for an administrator
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Request list
+  /api/miluim/admin-decide:
+    post:
+      operationId: decideMiluimRequest
+      summary: Approve or reject a reserve-duty request
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eventId:
+                  type: string
+                action:
+                  type: string
+                  enum: [approve, reject]
+                adminNote:
+                  type: string
+              required: [eventId, action]
+      responses:
+        "200":
+          description: Decision stored
+  /api/cron/event-day-emails:
+    get:
+      operationId: sendEventDayEmails
+      summary: Scheduled mail for events happening today
+      security:
+        - cronSecret: []
+      responses:
+        "200":
+          description: Job finished

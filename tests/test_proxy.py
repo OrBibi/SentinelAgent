@@ -14,7 +14,7 @@ from fastapi.testclient import TestClient
 from redis.exceptions import ConnectionError as RedisConnectionError
 
 from app.config import Settings
-from app.main import create_app, normalize_proxy_path, same_upstream
+from app.main import create_app, normalize_proxy_path, path_is_inspected, same_upstream
 from app.redis_store import RedisStore
 
 ADMIN = {"X-Admin-Token": "test-token"}
@@ -87,6 +87,36 @@ def wait_for_agent(c: TestClient, timeout: float = 10.0) -> None:
             return
         time.sleep(0.05)
     raise AssertionError("agent did not finish in time")
+
+
+def test_path_prefix_limits_inspection() -> None:
+    assert path_is_inspected("/api/users/1", ())
+    assert path_is_inspected("/", ())
+    prefixes = ("/api",)
+    assert path_is_inspected("/api", prefixes)
+    assert path_is_inspected("/api/paypal/create-order", prefixes)
+    assert not path_is_inspected("/", prefixes)
+    assert not path_is_inspected("/assets/app.js", prefixes)
+    assert not path_is_inspected("/e/demo-event", prefixes)
+
+
+def test_pages_outside_the_api_prefix_are_forwarded_without_inspection(
+    tmp_path: Path, llm_calls: list[dict]
+) -> None:
+    app = create_app(
+        make_settings(tmp_path, inspect_path_prefixes="/api"),
+        redis_client=FakeAsyncRedis(decode_responses=True),
+        upstream_transport=httpx.MockTransport(upstream_handler),
+        llm_transport=httpx.MockTransport(llm_handler_factory(llm_calls)),
+    )
+    with TestClient(app, client=("198.51.100.20", 5000)) as client:
+        page = client.get("/")
+        asset = client.get("/assets/app.js")
+        api = client.get("/api/users/42")
+    assert page.status_code == 200 and page.headers["x-sentinel-tier"] == "passthrough"
+    assert asset.status_code == 200 and asset.headers["x-sentinel-tier"] == "passthrough"
+    assert api.status_code == 200 and api.headers["x-sentinel-tier"] == "clean"
+    assert llm_calls == []
 
 
 def test_clean_request_is_forwarded_with_guard_headers(client: TestClient, llm_calls: list[dict]) -> None:

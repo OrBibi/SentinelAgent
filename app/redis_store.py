@@ -148,6 +148,7 @@ class RedisStore:
         return bool(await self._r.expire(_k("block", ip), ttl))
 
     async def get_block(self, ip: str) -> dict[str, Any] | None:
+        """Read the blocklist entry without counting the request toward rate or history."""
         return _load_object(await self._r.get(_k("block", ip)))
 
     async def unblock_ip(self, ip: str) -> bool:
