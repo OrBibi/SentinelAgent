@@ -117,15 +117,15 @@ request shapes. The sliding-window rate limit returns `429`.
 
 ## Meta model integration
 
-`MetaModelClient` in `app/agent_worker.py` calls Baseten's OpenAI-compatible Chat Completions API:
+`MetaModelClient` in `app/agent_worker.py` calls the Meta Model API, which is OpenAI-compatible:
 
 ```
-POST {BASETEN_BASE_URL}/chat/completions      (default https://inference.baseten.co/v1)
-Authorization: Bearer $BASETEN_API_KEY
-model: meta-models/muse-spark-open-1026
+POST {META_API_URL}/chat/completions
+Authorization: Bearer $META_API_KEY
+model: muse-spark-1.3
 ```
 
-> If your workspace exposes only the public slug, set `BASETEN_MODEL=meta-models/muse-spark-open`.
+`META_API_URL`, `META_API_KEY`, and `META_MODEL` are read with `os.getenv`.
 
 The model must return one JSON object:
 
@@ -156,7 +156,7 @@ The client retries timeouts, `429`, and `5xx` responses with exponential backoff
 | Otherwise | `alert` |
 
 Repeated flags from the same client, route, and threat within `AGENT_COOLDOWN_SECONDS` are analyzed
-once, so a scanner cannot flood the model. If `BASETEN_API_KEY` is empty, the fast filter still blocks
+once, so a scanner cannot flood the model. If `META_API_KEY` is empty, the fast filter still blocks
 signature hits and records alerts, but no LLM-driven blocklisting happens.
 
 ---
@@ -169,7 +169,7 @@ Requirements: Python 3.11 or newer (developed and tested on 3.14), plus Docker f
 python -m venv .venv
 # Windows: .venv\Scripts\activate    macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env            # then set BASETEN_API_KEY and ADMIN_TOKEN
+cp .env.example .env            # then set META_API_KEY and ADMIN_TOKEN
 ```
 
 **Redis:** `docker compose up -d` starts Redis on `localhost:6379`. Without Docker, set
@@ -186,7 +186,7 @@ uvicorn app.main:app --port 8000                       # SentinelAgent (UPSTREAM
 
 ```bash
 uvicorn examples.mock_baseten:app --port 9100
-# .env: BASETEN_API_KEY=mock  BASETEN_BASE_URL=http://localhost:9100/v1
+# .env: META_API_KEY=mock  META_API_URL=http://localhost:9100/v1  META_MODEL=muse-spark-1.3
 ```
 
 ### Ingest an OpenAPI schema
@@ -234,8 +234,9 @@ All settings are environment variables (or `.env`); see `.env.example`.
 | `UPSTREAM_BASE_URL` | `http://localhost:9000` | Protected backend |
 | `REDIS_URL` | `redis://localhost:6379/0` | Redis connection (`memory://` for in-process) |
 | `FAIL_MODE` | `open` | Redis outage behavior: `open` forwards (signatures still block), `closed` returns `503` |
-| `BASETEN_API_KEY` | empty | Enables the Meta model agent |
-| `BASETEN_MODEL` | `meta-models/muse-spark-open-1026` | Model slug |
+| `META_API_KEY` | empty | Enables the Meta model agent |
+| `META_API_URL` | `https://api.meta.ai/v1` | Meta Model API base URL |
+| `META_MODEL` | `muse-spark-1.3` | Model id |
 | `SUSPICIOUS_THRESHOLD` / `HARD_BLOCK_THRESHOLD` | `0.45` / `0.9` | Fast-filter tiers |
 | `RATE_WINDOW_SECONDS` / `RATE_LIMIT_PER_WINDOW` | `10` / `50` | Sliding-window rate limit |
 | `BOLA_WINDOW_SECONDS` / `BOLA_DISTINCT_THRESHOLD` | `60` / `15` | Object-ID enumeration detection |

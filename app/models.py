@@ -59,6 +59,8 @@ class AgentVerdict(BaseModel):
     confidence_score: float = Field(ge=0.0, le=1.0)
     threat_type: str = "unknown"
     reasoning: str = ""
+    # allow, alert, or block. Empty when the model did not recommend an action.
+    recommended_action: str = ""
 
 
 class SuspiciousRequest(BaseModel):

@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from app.agent_worker import MitigationPolicy, normalize_threat_type, parse_verdict
+from app.agent_worker import MitigationPolicy, build_messages, normalize_threat_type, parse_verdict
 from app.ml_filter import FastFilter, heuristic_template
 from app.models import Action, AgentVerdict, FastVerdict, RequestFeatures, SuspiciousRequest, Tier
 from app.rag_engine import (
@@ -214,6 +214,23 @@ def test_parse_verdict_rejects_unusable_output() -> None:
     assert parse_verdict('{"is_malicious": true, "confidence_score": 0.9}') is None
     assert parse_verdict('{"is_malicious": true, "confidence_score": 1e309, "threat_type": "bola"}') is None
     assert parse_verdict('{"is_malicious": 2, "confidence_score": 0.9, "threat_type": "bola"}') is None
+
+
+def test_prompt_omits_fast_score_unless_requested() -> None:
+    request = _req()
+    hidden = build_messages(request, [], _ctx())
+    shown = build_messages(request, [], _ctx(), include_fast_score=True)
+    assert "score=" not in hidden[1]["content"]
+    assert "score=0.60" in shown[1]["content"]
+
+
+def test_parse_recommended_action() -> None:
+    verdict = parse_verdict(
+        '{"is_malicious": true, "confidence_score": 0.85, "recommended_action": "alert", '
+        '"threat_type": "api_intrusion", "reasoning": "undeclared method"}'
+    )
+    assert verdict is not None
+    assert verdict.recommended_action == "alert"
 
 
 def test_normalize_threat_type() -> None:

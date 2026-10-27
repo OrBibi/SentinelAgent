@@ -95,7 +95,7 @@ async def dashboard_page(request: Request, limit: int = Query(100, ge=1, le=500)
             "blocked": blocked,
             "stats": stats,
             "llm_enabled": state.worker.llm_enabled,
-            "model": state.settings.baseten_model,
+            "model": state.settings.meta_model,
             "vector_store": state.rag.backend,
             "schema_sources": state.rag.routes.sources,
             "queue_depth": state.worker.queue_depth,

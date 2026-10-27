@@ -44,6 +44,19 @@ paths:
       responses:
         "200":
           description: OK
+  /users/{userId}/orders:
+    get:
+      operationId: listUserOrders
+      summary: List orders owned by the caller
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
   /orders:
     get:
       operationId: listOrders
@@ -74,9 +87,202 @@ paths:
                   type: string
                 qty:
                   type: integer
+                note:
+                  type: string
       responses:
         "201":
           description: Created
+  /search:
+    post:
+      operationId: searchCatalog
+      summary: Search the public catalog with a natural-language query
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+      responses:
+        "200":
+          description: OK
+  /comments:
+    post:
+      operationId: addComment
+      summary: Add a delivery comment to an order owned by the caller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                order_id:
+                  type: integer
+                text:
+                  type: string
+      responses:
+        "201":
+          description: Created
+  /payments:
+    get:
+      operationId: listPayments
+      summary: List the caller's payments
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: createPayment
+      summary: Pay for an order owned by the caller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                order_id:
+                  type: integer
+                amount:
+                  type: number
+                currency:
+                  type: string
+      responses:
+        "201":
+          description: Created
+  /payments/{paymentId}:
+    get:
+      operationId: getPayment
+      summary: Fetch one payment owned by the caller
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+  /addresses:
+    get:
+      operationId: listAddresses
+      summary: List the caller's shipping addresses
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: createAddress
+      summary: Add a shipping address for the caller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                line1:
+                  type: string
+                city:
+                  type: string
+                postal_code:
+                  type: string
+      responses:
+        "201":
+          description: Created
+  /tickets:
+    get:
+      operationId: listTickets
+      summary: List the caller's support tickets
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: createTicket
+      summary: Open a support ticket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: string
+                body:
+                  type: string
+      responses:
+        "201":
+          description: Created
+  /tickets/{ticketId}:
+    get:
+      operationId: getTicket
+      summary: Fetch one support ticket owned by the caller
+      parameters:
+        - name: ticketId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+  /reviews:
+    post:
+      operationId: createReview
+      summary: Review a product the caller bought
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                order_id:
+                  type: integer
+                rating:
+                  type: integer
+                title:
+                  type: string
+      responses:
+        "201":
+          description: Created
+  /cart:
+    get:
+      operationId: getCart
+      summary: Read the caller's cart
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: addCartItem
+      summary: Add an item to the caller's cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                item:
+                  type: string
+                qty:
+                  type: integer
+      responses:
+        "201":
+          description: Created
+  /notifications:
+    get:
+      operationId: listNotifications
+      summary: List the caller's notifications
+      parameters:
+        - name: unread
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: OK
   /files:
     get:
       operationId: downloadFile

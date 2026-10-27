@@ -1,8 +1,8 @@
-"""Offline stand-in for Baseten's Chat Completions API, for demos without an API key.
+"""Offline stand-in for the Meta chat completions API, for demos without an API key.
 
 Returns a verdict in the same JSON contract the real model is prompted for, based on
 simple keyword checks of the prompt. Run: uvicorn examples.mock_baseten:app --port 9100
-and set BASETEN_BASE_URL=http://localhost:9100/v1 with any non-empty BASETEN_API_KEY.
+and set META_API_URL=http://localhost:9100/v1 with any non-empty META_API_KEY.
 """
 
 from __future__ import annotations

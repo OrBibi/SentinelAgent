@@ -1,0 +1,188 @@
+{
+  "policy": "confidence_without_fast_score",
+  "clean": {
+    "total": 98,
+    "not_clean": 0,
+    "leaks": []
+  },
+  "summary": {
+    "scored": 8,
+    "tp": 5,
+    "fn": 0,
+    "fp": 0,
+    "tn": 3,
+    "accuracy": 1.0
+  },
+  "misses": [],
+  "false_blocks": [],
+  "rows": [
+    {
+      "id": "b28",
+      "label": "benign",
+      "note": "student quoting SQL",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "threat_titles": [
+        "SQL injection in any field (OWASP A03:2021, CWE-89)",
+        "Injection: SQL, NoSQL, command, template (OWASP A03:2021)",
+        "Sensitive file targets"
+      ],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.05,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "The text field contains only a prose mention of 'UNION SELECT' without quotes, tautology, or comment terminator, which the threat pattern explicitly excludes as not an attack. The request matches declared POST /api/comments with expected fields order_id and text and shows no traversal, BOLA, or mass-assignment indicators."
+      }
+    },
+    {
+      "id": "b34",
+      "label": "benign",
+      "note": "review that mentions select and union in prose",
+      "tier": "suspicious",
+      "fast_score": 0.5,
+      "threat_titles": [
+        "SQL injection in any field (OWASP A03:2021, CWE-89)",
+        "Path traversal via dot-dot segments (CWE-22, OWASP A01:2021)",
+        "Common benign anomalies"
+      ],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "Title 'Please select the union of blue and grey options next time' contains the word union but lacks UNION SELECT syntax, quotes, tautology or comment terminator required for injection. Extra field 'recommend':'more colors' is undeclared for POST /api/reviews but is a benign string with no privilege-escalation intent, and the request matches the declared operation with no traversal evidence."
+      }
+    },
+    {
+      "id": "b40",
+      "label": "benign",
+      "note": "prose mention of UNION ALL SELECT",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "threat_titles": [
+        "SQL injection in any field (OWASP A03:2021, CWE-89)",
+        "Injection: SQL, NoSQL, command, template (OWASP A03:2021)",
+        "Sensitive file targets"
+      ],
+      "action": "ignored",
+      "rationale": "model judged the request benign",
+      "verdict": {
+        "is_malicious": false,
+        "confidence_score": 0.08,
+        "recommended_action": "allow",
+        "threat_type": "benign",
+        "reasoning": "The text 'Chapter 3 says UNION ALL SELECT is a teaching example only' is a prose mention without quote, tautology, or comment terminator, which the threat pattern explicitly says is not SQL injection. The extra field \"source\":\"web\" is non-privileged with no mass-assignment intent, and there is no traversal or enumeration evidence."
+      }
+    },
+    {
+      "id": "m11",
+      "label": "malicious",
+      "note": "sql tautology in item",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "threat_titles": [
+        "Sensitive file targets",
+        "SQL injection in any field (OWASP A03:2021, CWE-89)",
+        "Broken Object Level Authorization (OWASP API1:2023)"
+      ],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "Body field item contains x' OR 1=1 -- with quote followed by OR tautology and -- comment terminator on POST /api/orders. This exactly matches SQL injection indicators for free-text fields where declared type does not make it safe."
+      }
+    },
+    {
+      "id": "m12",
+      "label": "malicious",
+      "note": "sql tautology in search",
+      "tier": "suspicious",
+      "fast_score": 0.85,
+      "threat_titles": [
+        "SQL injection in any field (OWASP A03:2021, CWE-89)",
+        "Broken Function Level Authorization and undeclared operations (OWASP API5:2023, API9:2023)",
+        "Broken Object Property Level Authorization / mass assignment (OWASP API3:2023)"
+      ],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.98 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.98,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "Request body query contains notebook' OR '1'='1' -- which includes quote plus OR tautology and SQL comment terminator. This matches SQL injection indicators for free-text search fields where declared type does not make concatenation safe."
+      }
+    },
+    {
+      "id": "m13",
+      "label": "malicious",
+      "note": "union select",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "threat_titles": [
+        "Sensitive file targets",
+        "SQL injection in any field (OWASP A03:2021, CWE-89)",
+        "Injection: SQL, NoSQL, command, template (OWASP A03:2021)"
+      ],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.98 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.98,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "The text field contains \"hi' UNION SELECT password FROM users --\" with quote, UNION SELECT, and -- terminator. Retrieved patterns state this executable SQL syntax is an attack in every parameter including free-text fields like text."
+      }
+    },
+    {
+      "id": "m18",
+      "label": "malicious",
+      "note": "stacked sql",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "threat_titles": [
+        "Sensitive file targets",
+        "SQL injection in any field (OWASP A03:2021, CWE-89)",
+        "Broken Object Property Level Authorization / mass assignment (OWASP API3:2023)"
+      ],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.95 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.95,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "The body field contains \"'; DROP TABLE orders; --\" with a leading quote, stacked statement DROP TABLE, and comment terminator --. This exactly matches the retrieved SQL injection pattern stating executable syntax in free-text fields like body is an attack. The operation POST /api/tickets is declared, so field type does not make it safe."
+      }
+    },
+    {
+      "id": "m46",
+      "label": "malicious",
+      "note": "hash-terminated tautology",
+      "tier": "suspicious",
+      "fast_score": 0.75,
+      "threat_titles": [
+        "Broken Object Level Authorization (OWASP API1:2023)",
+        "SQL injection in any field (OWASP A03:2021, CWE-89)",
+        "Broken Object Property Level Authorization / mass assignment (OWASP API3:2023)"
+      ],
+      "action": "blocklisted",
+      "rationale": "malicious with confidence 0.98 >= 0.85",
+      "verdict": {
+        "is_malicious": true,
+        "confidence_score": 0.98,
+        "recommended_action": "block",
+        "threat_type": "injection",
+        "reasoning": "Body query is \"1' OR 1=1#\" containing quote followed by OR tautology plus # comment terminator matching CWE-89 SQL injection indicators. POST /api/search takes free-text query field where executable SQL syntax is an attack regardless of declared type."
+      }
+    }
+  ]
+}

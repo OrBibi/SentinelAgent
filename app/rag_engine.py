@@ -577,15 +577,29 @@ THREAT_PATTERNS: list[dict[str, str]] = [
         "threat_type": "injection",
         "title": "Injection: SQL, NoSQL, command, template (OWASP A03:2021)",
         "body": "Indicators: quote-balanced boolean tautologies, UNION SELECT, time-based functions, $where/$ne operators, "
-        "shell metacharacters followed by commands, ${jndi: lookups, script tags. Response: block when combined with "
-        "parameter values that should be simple scalars per the schema.",
+        "shell metacharacters followed by commands, ${jndi: lookups, script tags. SQL syntax is specified separately "
+        "and is malicious in any field. Response: block when the value contains the payload syntax.",
+    },
+    {
+        "id": "threat:sql-injection",
+        "threat_type": "injection",
+        "title": "SQL injection in any field (OWASP A03:2021, CWE-89)",
+        "body": "Executable SQL syntax is an attack in every parameter, including free-text fields such as text, body, "
+        "title, note, comment, and search. The server may concatenate that value into a query; the declared field type "
+        "does not make it safe. Indicators: a quote followed by an OR or AND tautology (' OR 1=1, ' OR '1'='1), "
+        "UNION SELECT, stacked statements such as DROP TABLE, and a SQL comment terminator (-- or #) after a quote. "
+        "Response: block the client. A prose mention that does not contain this syntax, for example a sentence saying "
+        "the chapter about UNION SELECT is confusing, is not this pattern.",
     },
     {
         "id": "threat:benign-noise",
         "threat_type": "benign",
         "title": "Common benign anomalies",
         "body": "Natural language text with apostrophes or semicolons, URLs in JSON bodies, large legitimate uploads, "
-        "and search queries with punctuation are not attacks by themselves. Require concrete malicious intent before blocking.",
+        "and search queries with punctuation are not attacks by themselves. A sentence that merely discusses SQL, "
+        "without a quote-breaking tautology, UNION SELECT syntax, a comment terminator after a quote, or a statement "
+        "such as DROP TABLE, stays benign. A value that contains that syntax is not covered by this exception, even "
+        "inside text, body, or title. Require concrete malicious intent before blocking.",
     },
 ]
 

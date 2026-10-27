@@ -49,8 +49,10 @@ def make_settings(tmp_path: Path, **overrides) -> Settings:
     base = dict(
         upstream_base_url="http://upstream.test",
         redis_url="memory://",
-        baseten_api_key="test-key",
-        baseten_base_url="http://llm.test/v1",
+        meta_api_key="test-key",
+        meta_api_url="http://llm.test/v1",
+        meta_model="muse-spark-1.3",
+        enforce_blocks=True,
         admin_token="test-token",
         chroma_dir=str(tmp_path / "chroma"),
         enable_chroma=False,
@@ -105,7 +107,7 @@ def test_traversal_blocks_immediately_then_agent_blocklists(client: TestClient, 
 
     wait_for_agent(client)
     assert len(llm_calls) == 1
-    assert llm_calls[0]["model"] == "meta-models/muse-spark-open-1026"
+    assert llm_calls[0]["model"] == "muse-spark-1.3"
     assert "<request>" in llm_calls[0]["messages"][1]["content"]
 
     assert client.get("/api/users/42").status_code == 403
@@ -117,6 +119,26 @@ def test_traversal_blocks_immediately_then_agent_blocklists(client: TestClient, 
 
     assert client.delete("/sentinel/admin/blocklist/198.51.100.10", headers=ADMIN).status_code == 200
     assert client.get("/api/users/42").status_code == 200
+
+
+def test_enforce_blocks_false_logs_decision_without_denying_later_requests(
+    tmp_path: Path, llm_calls: list[dict]
+) -> None:
+    app = create_app(
+        make_settings(tmp_path, enforce_blocks=False),
+        redis_client=FakeAsyncRedis(decode_responses=True),
+        upstream_transport=httpx.MockTransport(upstream_handler),
+        llm_transport=httpx.MockTransport(llm_handler_factory(llm_calls)),
+    )
+    with TestClient(app, client=("198.51.100.10", 5000)) as client:
+        assert client.get("/api/files?name=../../etc/passwd").status_code == 403
+        wait_for_agent(client)
+        assert client.get("/sentinel/admin/blocklist", headers=ADMIN).json() == []
+        assert client.get("/api/users/42").status_code == 200
+        events = client.get("/sentinel/admin/events", headers=ADMIN).json()
+        logged = [e for e in events if e["source"] == "meta_agent"]
+        assert logged[0]["action"] == "blocklisted"
+        assert logged[0]["extra"]["enforced"] is False
 
 
 def test_suspicious_request_is_forwarded_without_waiting(client: TestClient) -> None:
@@ -135,17 +157,17 @@ def test_suspicious_request_is_forwarded_without_waiting(client: TestClient) -> 
 def test_openapi_ingestion_endpoint(client: TestClient) -> None:
     assert client.post("/sentinel/admin/openapi", content=DEMO_SCHEMA.read_bytes()).status_code == 401
     r = client.post("/sentinel/admin/openapi?source=demo", headers=ADMIN, content=DEMO_SCHEMA.read_bytes())
-    assert r.status_code == 200 and r.json()["operations"] == 6
+    assert r.status_code == 200 and r.json()["operations"] == 21
     files = {"file": ("api.yaml", DEMO_SCHEMA.read_bytes(), "application/yaml")}
     r = client.post("/sentinel/admin/openapi", headers=ADMIN, files=files, data={"source": "uploaded"}, follow_redirects=False)
     assert r.status_code == 303
-    assert client.get("/sentinel/admin/openapi", headers=ADMIN).json()["sources"] == {"demo": 6, "uploaded": 6}
+    assert client.get("/sentinel/admin/openapi", headers=ADMIN).json()["sources"] == {"demo": 21, "uploaded": 21}
     assert client.post("/sentinel/admin/openapi", headers=ADMIN, content=b"[1, 2]").status_code == 422
 
 
 def test_rate_limit_returns_429(tmp_path: Path) -> None:
     app = create_app(
-        make_settings(tmp_path, rate_limit_per_window=5, baseten_api_key=""),
+        make_settings(tmp_path, rate_limit_per_window=5, meta_api_key=""),
         redis_client=FakeAsyncRedis(decode_responses=True),
         upstream_transport=httpx.MockTransport(upstream_handler),
     )
@@ -205,7 +227,7 @@ def test_redis_outage_fails_open_or_closed(tmp_path: Path) -> None:
 
     for mode, expected in (("open", 200), ("closed", 503)):
         app = create_app(
-            make_settings(tmp_path, fail_mode=mode, baseten_api_key=""),
+            make_settings(tmp_path, fail_mode=mode, meta_api_key=""),
             redis_client=BrokenRedis(decode_responses=True),
             upstream_transport=httpx.MockTransport(upstream_handler),
         )

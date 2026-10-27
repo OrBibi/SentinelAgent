@@ -156,18 +156,20 @@ def create_app(
         llm: MetaModelClient | None = None
         if settings.llm_enabled:
             llm = MetaModelClient(
-                api_key=settings.baseten_api_key,
-                base_url=settings.baseten_base_url,
-                model=settings.baseten_model,
+                api_key=settings.meta_api_key,
+                base_url=settings.meta_api_url,
+                model=settings.meta_model,
                 timeout=settings.llm_timeout_seconds,
                 max_tokens=settings.llm_max_tokens,
                 max_retries=settings.llm_max_retries,
                 transport=llm_transport,
             )
         else:
-            logger.warning("BASETEN_API_KEY not set: fast filter only, no LLM-driven blocklisting")
+            logger.warning("META_API_KEY not set: fast filter only, no LLM-driven blocklisting")
         if settings.admin_token == "change-me":
             logger.warning("ADMIN_TOKEN is the default value; set a strong token before exposing the dashboard")
+        if not settings.enforce_blocks:
+            logger.warning("ENFORCE_BLOCKS=false; blocklist decisions are logged but not applied")
 
         worker: AgentWorker | None = None
         http: httpx.AsyncClient | None = None
@@ -191,7 +193,7 @@ def create_app(
                 "SentinelAgent ready: upstream=%s vector_store=%s llm=%s",
                 settings.upstream_base_url,
                 rag.backend,
-                settings.baseten_model if llm else "disabled",
+                settings.meta_model if llm else "disabled",
             )
             yield
         finally:
@@ -224,7 +226,7 @@ def create_app(
             "status": "ok" if redis_ok else "degraded",
             "redis": redis_ok,
             "llm_enabled": state.worker.llm_enabled,
-            "model": state.settings.baseten_model,
+            "model": state.settings.meta_model,
             "vector_store": state.rag.backend,
             "schema_sources": state.rag.routes.sources,
             "agent_queue_depth": state.worker.queue_depth,
@@ -260,7 +262,7 @@ def create_app(
             logger.warning("Redis unavailable, failing open: %s", exc)
             rs = RequestState(block_info=None, window_rate=0, distinct_objects=0)
 
-        if rs.block_info:
+        if rs.block_info and cfg.enforce_blocks:
             return forbidden(request_id)
 
         if rs.window_rate > cfg.rate_limit_per_window:
