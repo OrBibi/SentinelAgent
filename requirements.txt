@@ -1,0 +1,17 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+httpx>=0.27
+redis>=5.0
+scikit-learn>=1.5
+numpy>=1.26
+pydantic>=2.7
+pydantic-settings>=2.3
+PyYAML>=6.0
+chromadb>=0.5
+jinja2>=3.1
+python-multipart>=0.0.9
+# In-memory Redis for REDIS_URL=memory:// demos and the test suite
+fakeredis>=2.23
+
+# Tests
+pytest>=8.0

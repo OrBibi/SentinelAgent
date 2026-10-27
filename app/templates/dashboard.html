@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SentinelAgent Dashboard</title>
+  <style>
+    :root {
+      --bg: #0b1020; --panel: #121a2f; --border: #1f2a44; --text: #e6ebf5; --muted: #8a96b2;
+      --red: #ff5c6c; --amber: #ffb547; --green: #3ddc97; --blue: #5aa9ff; --violet: #a98bff;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+             padding: 18px 28px; border-bottom: 1px solid var(--border); background: #0e1528; }
+    header h1 { margin: 0; font-size: 20px; letter-spacing: .3px; }
+    header h1 span { color: var(--blue); }
+    .meta { color: var(--muted); font-size: 12px; display: flex; gap: 14px; flex-wrap: wrap; }
+    .meta b { color: var(--text); font-weight: 600; }
+    main { padding: 22px 28px; display: grid; gap: 22px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+    .card .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .6px; }
+    .card .value { font-size: 26px; font-weight: 700; margin-top: 4px; }
+    section { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    section h2 { margin: 0; padding: 12px 16px; font-size: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .grid2 { display: grid; grid-template-columns: 2fr 1fr; gap: 22px; }
+    @media (max-width: 1000px) { .grid2 { grid-template-columns: 1fr; } }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; }
+    td.mono:first-child { white-space: nowrap; }
+    @media (max-width: 600px) { header, main { padding-left: 14px; padding-right: 14px; } }
+    th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; }
+    td.mono, .mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12.5px; word-break: break-all; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 600; white-space: nowrap; }
+    .a-blocked, .a-blocklisted { background: rgba(255,92,108,.15); color: var(--red); }
+    .a-alert { background: rgba(255,181,71,.15); color: var(--amber); }
+    .a-ignored, .a-forwarded { background: rgba(61,220,151,.13); color: var(--green); }
+    .src { color: var(--violet); font-size: 11.5px; }
+    .conf { font-weight: 700; }
+    .reason { color: #c8d0e2; max-width: 520px; }
+    details summary { cursor: pointer; color: var(--blue); font-size: 12px; margin-top: 4px; }
+    details pre { white-space: pre-wrap; background: #0b1224; border: 1px solid var(--border); border-radius: 6px; padding: 8px; font-size: 12px; }
+    .empty { padding: 22px 16px; color: var(--muted); }
+    form.inline { display: inline; }
+    button, .btn { background: #1d2a4a; color: var(--text); border: 1px solid #2c3d66; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
+    button:hover { border-color: var(--blue); }
+    button.danger { border-color: rgba(255,92,108,.5); color: var(--red); }
+    .upload { padding: 14px 16px; display: grid; gap: 10px; }
+    .upload input[type=text] { background: #0b1224; color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; }
+    .flash { background: rgba(90,169,255,.12); border: 1px solid rgba(90,169,255,.4); color: var(--blue); padding: 10px 14px; border-radius: 8px; }
+    .sources { padding: 0 16px 14px; color: var(--muted); font-size: 12.5px; }
+    label.toggle { font-size: 12px; color: var(--muted); font-weight: 400; display: flex; gap: 6px; align-items: center; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Sentinel<span>Agent</span> &middot; Threat Console</h1>
+  <div class="meta">
+    <span>Model: <b>{{ model if llm_enabled else "disabled (no API key)" }}</b></span>
+    <span>Vector store: <b>{{ vector_store }}</b></span>
+    <span>Agent queue: <b>{{ queue_depth }}</b></span>
+  </div>
+</header>
+<main>
+  {% if flash %}<div class="flash" role="status">{{ flash }}</div>{% endif %}
+
+  <div class="cards">
+    <div class="card"><div class="label">Requests</div><div class="value">{{ stats.get("requests", 0) }}</div></div>
+    <div class="card"><div class="label">Blocked (fast)</div><div class="value" style="color:var(--red)">{{ stats.get("blocked", 0) }}</div></div>
+    <div class="card"><div class="label">Blocklisted (agent)</div><div class="value" style="color:var(--red)">{{ stats.get("blocklisted", 0) }}</div></div>
+    <div class="card"><div class="label">Alerts</div><div class="value" style="color:var(--amber)">{{ stats.get("alert", 0) }}</div></div>
+    <div class="card"><div class="label">Cleared by agent</div><div class="value" style="color:var(--green)">{{ stats.get("ignored", 0) }}</div></div>
+    <div class="card"><div class="label">Active blocks</div><div class="value">{{ blocked | length }}</div></div>
+  </div>
+
+  <section>
+    <h2>Security events
+      <label class="toggle"><input type="checkbox" id="autorefresh" checked> auto-refresh 10s</label>
+    </h2>
+    {% if events %}
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Time (UTC)</th><th>Client</th><th>Request</th><th>Threat</th><th>Fast score</th><th>Confidence</th><th>Action</th><th>Reasoning</th></tr></thead>
+      <tbody>
+      {% for e in events %}
+        <tr>
+          <td class="mono">{{ e.timestamp | ts }}</td>
+          <td class="mono">{{ e.client_ip }}</td>
+          <td class="mono">{{ e.method }} {{ e.path[:160] }}</td>
+          <td>{{ e.threat_type or "-" }}</td>
+          <td class="conf">{{ "%.2f" | format(e.fast_score) }}</td>
+          <td class="conf">{{ "%.2f" | format(e.confidence_score) if e.confidence_score is not none else "-" }}</td>
+          <td><span class="badge a-{{ e.action.value }}">{{ e.action.value }}</span><div class="src">{{ e.source }}</div></td>
+          <td class="reason">{{ e.reasoning[:400] }}
+            {% if e.extra %}
+            <details><summary>details</summary><pre>{{ e.extra | tojson(indent=2) }}</pre></details>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    {% else %}
+      <div class="empty">No security events yet. Clean traffic is forwarded without being logged here.</div>
+    {% endif %}
+  </section>
+
+  <div class="grid2">
+    <section>
+      <h2>Active blocklist</h2>
+      {% if blocked %}
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>IP</th><th>Threat</th><th>Confidence</th><th>Expires in</th><th>Reason</th><th></th></tr></thead>
+        <tbody>
+        {% for b in blocked %}
+          <tr>
+            <td class="mono">{{ b.ip }}</td>
+            <td>{{ b.threat_type }}</td>
+            <td class="conf">{{ "%.2f" | format(b.confidence) }}</td>
+            <td>{{ b.ttl_remaining }}s</td>
+            <td class="reason">{{ b.reason[:200] }}</td>
+            <td>
+              <form class="inline" method="post" action="/sentinel/admin/blocklist/{{ b.ip | urlencode }}/delete">
+                <button class="danger" type="submit">Unblock</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div>
+      {% else %}
+        <div class="empty">No IPs are currently blocklisted.</div>
+      {% endif %}
+    </section>
+
+    <section>
+      <h2>OpenAPI schemas</h2>
+      <form class="upload" method="post" action="/sentinel/admin/openapi" enctype="multipart/form-data">
+        <input type="text" name="source" placeholder="source name (e.g. payments-api)" value="default" maxlength="64">
+        <input type="file" name="file" id="schema-file" accept=".json,.yaml,.yml" required>
+        <button type="submit">Ingest schema</button>
+      </form>
+      <div class="sources">
+        {% if schema_sources %}
+          {% for name, count in schema_sources.items() %}<div><b>{{ name }}</b>: {{ count }} operations</div>{% endfor %}
+        {% else %}
+          No schema loaded: schema validation is skipped and object IDs are inferred heuristically.
+        {% endif %}
+      </div>
+    </section>
+  </div>
+</main>
+<script>
+  setInterval(function () {
+    var auto = document.getElementById("autorefresh");
+    var file = document.getElementById("schema-file");
+    if (auto && auto.checked && !(file && file.value)) { window.location.replace(window.location.pathname); }
+  }, 10000);
+</script>
+</body>
+</html>

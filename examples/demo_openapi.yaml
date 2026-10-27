@@ -1,0 +1,106 @@
+openapi: 3.0.3
+info:
+  title: Demo Store API
+  version: 1.0.0
+servers:
+  - url: http://localhost:9000/api
+security:
+  - bearerAuth: []
+paths:
+  /users/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      operationId: getUser
+      summary: Fetch a user profile owned by the caller
+      responses:
+        "200":
+          description: OK
+    patch:
+      operationId: updateUser
+      summary: Update the caller's display name or email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        "200":
+          description: OK
+  /orders/{orderId}:
+    get:
+      operationId: getOrder
+      summary: Fetch an order belonging to the caller
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+  /orders:
+    get:
+      operationId: listOrders
+      summary: List the caller's orders
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [open, shipped, cancelled]
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: createOrder
+      summary: Create an order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                item:
+                  type: string
+                qty:
+                  type: integer
+      responses:
+        "201":
+          description: Created
+  /files:
+    get:
+      operationId: downloadFile
+      summary: Download a public document by name
+      security: []
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    UserUpdate:
+      type: object
+      properties:
+        display_name:
+          type: string
+        email:
+          type: string
