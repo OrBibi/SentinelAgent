@@ -321,6 +321,22 @@ A corrected label is a step that had been marked `malicious` but is one declared
 
 StratumNotes' two false blocks are benign reads of a third artifact id in one session. The agent treated that hop as object enumeration. Each server has two session files, `sess001`–`sess100` and `sess101`–`sess200`, under `examples/holdout/train` or `examples/holdout/test`.
 
+### Fast filter after the refit
+
+The isolation forest is loaded from `app/ml_forest.json`. It was fit on the benign steps from servers 1–3, the suspicious-benign steps that carried no traversal or injection signature (228 of 233), and 400 synthetic rows so request rate still varies. Each tree draws 2048 samples. Startup does not fit the forest again; `scripts/fit_isolation_forest.py` is what rebuilds the file.
+
+The table below is the fast filter only, on the same corrected labels. A hard block is the only immediate stop. Suspicious means the request is forwarded and queued for the model. Every malicious step that stayed clean is still queued, because its route is free text, a URL or file field, or a second object id.
+
+| Server | Malicious hard-blocked | Malicious suspicious | Malicious clean, still queued | Benign above clean | Suspicious-benign above clean |
+| --- | --- | --- | --- | --- | --- |
+| 1 EchoGrid | 13 / 123 | 107 | 3 | 0 / 748 | 5 / 73 |
+| 2 RiftNote | 12 / 109 | 88 | 9 | 0 / 609 | 13 / 82 |
+| 3 StratumNotes | 7 / 72 | 65 | 0 | 0 / 751 | 23 / 78 |
+| 4 ChromaPress | 14 / 118 | 101 | 3 | 0 / 620 | 17 / 75 |
+| 5 SporeNote | 15 / 126 | 101 | 10 | 0 / 697 | 2 / 66 |
+
+No benign step left the clean tier, and no suspicious-benign step was hard-blocked. The full-agent table above is a different measurement: there the model, not the filter, stops the suspicious tier.
+
 ## Tests
 
 ```bash
@@ -338,7 +354,8 @@ and fail-closed behavior.
 ```
 app/
   main.py           reverse proxy, hot path, streaming forwarder
-  ml_filter.py      signatures, feature extraction, compiled Isolation Forest
+  ml_filter.py      signatures, feature extraction, loaded Isolation Forest
+  ml_forest.json    compiled forest, fit offline on train-server benign traffic
   redis_store.py    sliding windows, blocklist, session history, events
   agent_worker.py   Baseten client, prompt, verdict parsing, mitigation policy, workers
   rag_engine.py     OpenAPI ingestion, route index, schema validation, Chroma retrieval

@@ -1,22 +1,29 @@
 """Fast in-process anomaly filter: deterministic signatures plus an Isolation Forest.
 
-Everything here is pure CPU work with no I/O, so it is safe to run on the request path.
-The fitted forest is compiled into flat Python lists so scoring a single request avoids
-scikit-learn's per-call overhead (milliseconds), and scores are memoized on quantized
-feature vectors so repeated traffic shapes cost a dictionary lookup.
+Scoring one request is pure CPU work with no I/O, so it is safe to run on the request path.
+The forest is loaded once from ``ml_forest.json``. It was fit on benign steps from the train
+holdout servers, plus signature-clean suspicious-benign steps and a small synthetic rate
+supplement. ``scripts/fit_isolation_forest.py`` is what rebuilds that file.
+The compiled trees are flat Python lists so scoring avoids scikit-learn's per-call overhead,
+and scores are memoized on quantized feature vectors.
 """
 
 from __future__ import annotations
 
 import base64
+import json
 import math
 import re
 from dataclasses import dataclass
 from functools import lru_cache
+from pathlib import Path
 from urllib.parse import unquote
 
 import numpy as np
 from sklearn.ensemble import IsolationForest
+
+# Compiled trees loaded by FastFilter. Rebuilt only by scripts/fit_isolation_forest.py.
+FOREST_PATH = Path(__file__).with_name("ml_forest.json")
 
 from app.models import FastVerdict, RequestFeatures, Tier
 
@@ -276,6 +283,39 @@ class CompiledIsolationForest:
             )
         self._norm = len(self._trees) * _average_path_length(int(forest.max_samples_))
 
+    @classmethod
+    def load(cls, path: Path) -> CompiledIsolationForest:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        compiled = cls.__new__(cls)
+        compiled._trees = [
+            _CompiledTree(
+                left=tree["left"],
+                right=tree["right"],
+                feature=tree["feature"],
+                threshold=tree["threshold"],
+                leaf_depth_bonus=tree["leaf_depth_bonus"],
+            )
+            for tree in payload["trees"]
+        ]
+        compiled._norm = float(payload["norm"])
+        return compiled
+
+    def dump(self, path: Path) -> None:
+        payload = {
+            "norm": self._norm,
+            "trees": [
+                {
+                    "left": tree.left,
+                    "right": tree.right,
+                    "feature": tree.feature,
+                    "threshold": tree.threshold,
+                    "leaf_depth_bonus": tree.leaf_depth_bonus,
+                }
+                for tree in self._trees
+            ],
+        }
+        path.write_text(json.dumps(payload), encoding="utf-8")
+
     def anomaly_score(self, row: list[float] | tuple[float, ...]) -> float:
         """Return s in (0, 1); values above 0.5 indicate anomalies (original paper's definition)."""
         total = 0.0
@@ -290,8 +330,8 @@ class CompiledIsolationForest:
         return 2.0 ** (-total / self._norm)
 
 
-def _benign_training_set(n: int = 4000, seed: int = 1337) -> np.ndarray:
-    """Synthetic profile of ordinary API traffic used to fit the forest at startup."""
+def _benign_training_set(n: int = 400, seed: int = 1337) -> np.ndarray:
+    """Small synthetic supplement so window rate still varies around the real rows."""
     rng = np.random.default_rng(seed)
     methods = rng.choice([0, 1, 2, 3], size=n, p=[0.65, 0.2, 0.1, 0.05])
     has_body = methods > 0
@@ -317,8 +357,23 @@ def _benign_training_set(n: int = 4000, seed: int = 1337) -> np.ndarray:
     )
 
 
+def fit_compiled_forest(
+    rows: np.ndarray, *, n_estimators: int = 64, max_samples: int = 2048, seed: int = 1337
+) -> CompiledIsolationForest:
+    """Fit an isolation forest and return its compiled trees. This is not called on startup."""
+    samples = min(max_samples, len(rows))
+    forest = IsolationForest(n_estimators=n_estimators, max_samples=samples, random_state=seed)
+    forest.fit(rows)
+    return CompiledIsolationForest(forest)
+
+
 class FastFilter:
-    """Synchronous request scorer combining signatures, schema checks, and Isolation Forest."""
+    """Synchronous request scorer combining signatures, schema checks, and a loaded Isolation Forest.
+
+    The trees are read from ``app/ml_forest.json``. They were fit on benign steps from the
+    train holdout servers, signature-clean suspicious-benign steps, and a small synthetic
+    rate supplement. Rebuild that file with ``scripts/fit_isolation_forest.py``.
+    """
 
     def __init__(
         self,
@@ -326,16 +381,14 @@ class FastFilter:
         suspicious_threshold: float,
         hard_block_threshold: float,
         bola_distinct_threshold: int,
-        n_estimators: int = 64,
-        seed: int = 1337,
         cache_size: int = 8192,
+        forest_path: Path | None = None,
     ) -> None:
         self.suspicious_threshold = suspicious_threshold
         self.hard_block_threshold = hard_block_threshold
         self.bola_distinct_threshold = bola_distinct_threshold
-        self.forest = IsolationForest(n_estimators=n_estimators, max_samples=256, random_state=seed)
-        self.forest.fit(_benign_training_set(seed=seed))
-        self._compiled = CompiledIsolationForest(self.forest)
+        path = forest_path or FOREST_PATH
+        self._compiled = CompiledIsolationForest.load(path)
         # Feature vectors are quantized, so repeated traffic shapes hit this cache.
         self._cached_score = lru_cache(maxsize=cache_size)(self._compiled.anomaly_score)
 

@@ -197,12 +197,20 @@ def test_privileged_mass_assignment_is_suspicious(ff: FastFilter) -> None:
     assert v.tier is Tier.SUSPICIOUS and v.threat_hint == "mass_assignment"
 
 
-def test_compiled_forest_matches_sklearn(ff: FastFilter) -> None:
+def test_compiled_forest_matches_sklearn() -> None:
+    from sklearn.ensemble import IsolationForest
+
+    from app.ml_filter import CompiledIsolationForest, _benign_training_set
+
+    rows = _benign_training_set(n=80, seed=7)
+    forest = IsolationForest(n_estimators=8, max_samples=32, random_state=7)
+    forest.fit(rows)
+    compiled = CompiledIsolationForest(forest)
     rng = np.random.default_rng(7)
-    for _ in range(50):
+    for _ in range(20):
         row = tuple(float(x) for x in rng.uniform(0, 6, size=9))
-        expected = -ff.forest.score_samples(np.array([row]))[0]
-        assert ff._compiled.anomaly_score(row) == pytest.approx(expected, rel=1e-9)
+        expected = -forest.score_samples(np.array([row]))[0]
+        assert compiled.anomaly_score(row) == pytest.approx(expected, rel=1e-9)
 
 
 def test_review_classes_follow_the_operation_shape() -> None:
