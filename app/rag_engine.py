@@ -453,6 +453,66 @@ def route_document(r: RouteSpec) -> str:
             f"Parameters: {params or 'none'}",
             f"Request body fields: {', '.join(r.body_fields) or 'none'}",
             f"Authentication required: {'yes' if r.secured else 'no'}",
+            f"Review classes: {', '.join(sorted(review_classes(r))) or 'none'}",
+        ]
+    )
+
+
+def review_classes(spec: RouteSpec | None) -> frozenset[str]:
+    """Classify a declared operation once, from its shape, not from any one product's names.
+
+    object_access: the path identifies one object.
+    free_text: the body carries a field that is not only a credential or an id.
+    url_or_file: a parameter name looks like a URL or a file.
+    """
+    if spec is None:
+        return frozenset()
+    classes: set[str] = set()
+    if spec.path_param_names:
+        classes.add("object_access")
+    if any(not _is_credential(name) and not _is_identifier(name) for name in spec.body_fields):
+        classes.add("free_text")
+    names = [*spec.body_fields, *(param.name for param in spec.params)]
+    if any(_is_url_or_file(name) for name in names):
+        classes.add("url_or_file")
+    return frozenset(classes)
+
+
+def needs_agent_review(spec: RouteSpec | None, distinct_objects: int) -> bool:
+    """True when the operation should be shown to the model even if the fast score is low.
+
+    A single object id is ordinary. The model is asked from the second distinct id on that route.
+    Free text and URL or file fields are reviewed on every request.
+    """
+    classes = review_classes(spec)
+    if "free_text" in classes or "url_or_file" in classes:
+        return True
+    return "object_access" in classes and distinct_objects >= 2
+
+
+def _is_credential(name: str) -> bool:
+    key = re.sub(r"[^a-z0-9]", "", name.lower())
+    return key in {"username", "user", "password", "passwd", "email", "passcode", "token", "secret"}
+
+
+def _is_identifier(name: str) -> bool:
+    key = name.lower().replace("-", "").replace("_", "")
+    return key == "id" or key.endswith("id")
+
+
+def _is_url_or_file(name: str) -> bool:
+    key = name.lower()
+    return any(part in key for part in ("url", "uri", "href", "file", "path", "avatar", "image", "attachment", "document"))
+    params = ", ".join(
+        f"{p.name} ({p.location}, {p.type or 'any'}{', required' if p.required else ''})" for p in r.params
+    )
+    return "\n".join(
+        [
+            f"Endpoint: {r.method} {r.template}",
+            f"Operation: {r.operation_id or 'n/a'} - {r.summary or 'no summary'}",
+            f"Parameters: {params or 'none'}",
+            f"Request body fields: {', '.join(r.body_fields) or 'none'}",
+            f"Authentication required: {'yes' if r.secured else 'no'}",
         ]
     )
 
@@ -579,7 +639,10 @@ THREAT_PATTERNS: list[dict[str, str]] = [
         "body": "Indicators: one client requesting many distinct object IDs on the same route template in a short window "
         "(sequential or random enumeration), IDs that do not belong to the caller, swapping IDs in path or body. "
         "Schema context: routes with path parameters such as /users/{userId} or /orders/{orderId} that require auth. "
-        "Response: enumeration across many IDs justifies blocklisting; a single foreign ID is an alert.",
+        "Response: the first object id a client uses on a route is normal. From the second distinct id, "
+        "judge the hop. An id whose text looks secret is not evidence. Enumeration across many ids justifies "
+        "blocklisting; one extra id can be ordinary work and should be allowed when the history looks like use, "
+        "or alerted when it is unclear.",
     },
     {
         "id": "threat:bopla-mass-assignment",
@@ -595,9 +658,10 @@ THREAT_PATTERNS: list[dict[str, str]] = [
         "body": "An undeclared write or delete on a route that only offers a read is a probe on the first request, "
         "not one harmless miss. A path is also a probe on the first request when its segments name a control plane "
         "rather than a product feature: administration, internal tooling, debugging, private export, staff operations, "
-        "dumps, or impersonation. Operational paths such as health, readiness, documentation, help, or legal text are "
-        "missing features, not a control plane. Response: block a control-plane path or an undeclared method. Alert "
-        "only for one ordinary missing route.",
+        "dumps, or impersonation. A health path is the declared health operation, or an undeclared path that is "
+        "exactly /health, /ready, /live, or /status. Documentation, help, and legal text are missing features. "
+        "An undeclared path that adds a prefix, such as /system/status, is a probe. Response: block a "
+        "control-plane path or an undeclared method. Alert only for one ordinary missing route.",
     },
     {
         "id": "threat:resource-consumption",
@@ -654,10 +718,12 @@ THREAT_PATTERNS: list[dict[str, str]] = [
         "id": "threat:log-forging",
         "threat_type": "log_forging",
         "title": "Log forging via CRLF (CWE-117)",
-        "body": "Technique: a carriage return or line feed, raw or percent-encoded, splits a log line so a later "
-        "field looks like a new event. The sink is a header, a query parameter, or a short identity field such as "
-        "username, email, or login. A newline inside a comment, description, or other free-text body is prose, not "
-        "this technique. Response: block when the break is in a header, query, or identity field.",
+        "body": "Technique: a carriage return or line feed, raw or percent-encoded, splits a log line, and the next "
+        "line is a log stamp: a level word, a bracketed level such as [INFO] or [AUDIT], or a timestamp followed by "
+        "a level. The stamp counts in any field, including free text. The sink is a "
+        "header, a query parameter, an identity field, or free text. A newline that only continues a value, with no "
+        "log stamp on the next line, is not this technique. Response: block "
+        "when the next line is a log stamp.",
     },
     {
         "id": "threat:cookie-payload",
@@ -680,10 +746,13 @@ THREAT_PATTERNS: list[dict[str, str]] = [
         "id": "threat:ssrf",
         "threat_type": "ssrf",
         "title": "Server-side request forgery (CWE-918, OWASP API7:2023)",
-        "body": "Technique: a parameter value is a URL the server will fetch. Destinations that matter are the "
-        "cloud metadata address, loopback, or a file URL. The host of the incoming request itself is not a "
-        "parameter and is not this technique. A sentence that mentions an address without a URL is discussion. "
-        "Response: block when a parameter is that URL.",
+        "body": "Technique: an http or https URL points at the cloud metadata address, loopback, a private "
+        "address, or a file URL. The URL can sit in any field, including one that is not declared as a URL. In a "
+        "field whose job is a URL or file, the visible text of a markdown link counts too. In a note or "
+        "description, only the link target counts. A private address that is only the visible text of a link to a "
+        "public host, inside a note or description, is not this technique. The host of the incoming request itself "
+        "is not this technique. A sentence that mentions an address without a URL is discussion. Response: block "
+        "when the value that would be requested is one of those destinations.",
     },
     {
         "id": "threat:ssti",

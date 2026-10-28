@@ -305,6 +305,22 @@ are at `/sentinel/docs`. The `/sentinel` prefix is reserved and never forwarded.
 | `GET`, `POST /sentinel/admin/openapi?source=name` | List schema sources, or ingest a schema |
 | `DELETE /sentinel/admin/openapi/{source}` | Remove a schema source |
 
+## Holdout results
+
+Five dummy servers were scored in the order they were first tested. Servers 1–3 are the train split: misses from those servers were used to change the agent, and they were scored again with the current agent. Servers 4–5 are the test split: the agent was not changed because of them.
+
+A corrected label is a step that had been marked `malicious` but is one declared read, an unused header or query name, `X-Forwarded-For`, a private address that is only the visible text of a link to a public host, or text that only names a technique. Those steps are `suspicious_benign`. The scores below use the corrected labels.
+
+| Server | Split | Steps | Malicious stopped | False blocks | Accuracy | Labels corrected |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 EchoGrid | train | 944 | 123 / 123 | 0 | 1.000 | 11 |
+| 2 RiftNote | train | 800 | 109 / 109 | 0 | 1.000 | 24 |
+| 3 StratumNotes | train | 901 | 72 / 72 | 2 | 0.998 | 16 |
+| 4 ChromaPress | test | 813 | 118 / 118 | 0 | 1.000 | 14 |
+| 5 SporeNote | test | 889 | 126 / 126 | 0 | 1.000 | 15 |
+
+StratumNotes' two false blocks are benign reads of a third artifact id in one session. The agent treated that hop as object enumeration. Each server has two session files, `sess001`–`sess100` and `sess101`–`sess200`, under `examples/holdout/train` or `examples/holdout/test`.
+
 ## Tests
 
 ```bash

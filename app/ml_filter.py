@@ -65,9 +65,18 @@ TRAVERSAL_SIGNATURES: tuple[Signature, ...] = (
 
 INJECTION_SIGNATURES: tuple[Signature, ...] = (
     _sig(("union",), r"\bunion\b[\s/*+]+(?:all[\s/*+]+)?select\b"),
-    _sig(("'",), r"'\s*(?:or|and)\s*'?\d+'?\s*=\s*'?\d+"),
-    _sig(("'",), r"'\s*(?:--|#|;)"),
-    _sig((";", "||", "&&"), r"(?:;|\|\||&&)\s*(?:cat|ls|id|whoami|curl|wget|nc|bash|sh)\b"),
+    _sig(("'",), r"'[\s+]*(?:or|and)[\s+]*'?\d+'?[\s+]*=[\s+]*'?\d+"),
+    # Quoted tautologies such as ' OR 'a'='a' and " OR "ab"="ab", including a closing paren.
+    _sig(
+        ("' or ", "'or", "' and ", "'and", '" or ', '"or', '" and ', '"and'),
+        r"""['\"][\s+]*\)?[\s+]*(?:or|and)[\s+]*\(?[\s+]*['\"][^'\"]{0,40}['\"][\s+]*=[\s+]*['\"][^'\"]{0,40}['\"]""",
+    ),
+    _sig(("'",), r"'[\s+]*(?:--|#|;)"),
+    _sig(
+        (" or ", "+or+", "+or ", " and ", "+and+", "+and "),
+        r"(?:^|[\s+'\"=+])(?:or|and)[\s+]+\d+[\s+]*=[\s+]*\d+",
+    ),
+    _sig((";", "||", "&&", "|", "cmd", "powershell"), r"(?:;|\|\||&&|\|)\s*(?:cat|ls|id|whoami|curl|wget|nc|bash|sh|cmd|powershell|calc)(?:\.exe)?\b|\b(?:cmd|powershell)(?:\.exe)?\s+(?:/c|-enc|-command)\b"),
     _sig(
         ("<", "javascript:", "onerror", "onload", "onmouseover", "onfocus"),
         r"<\s*script\b|javascript:|on(?:error|load|mouseover|focus|toggle)\s*=|<\s*(?:svg|img|iframe|body)\b",
@@ -78,18 +87,40 @@ INJECTION_SIGNATURES: tuple[Signature, ...] = (
     _sig(("#{",), r"#\{.{1,40}\}"),
     _sig(("sleep", "benchmark"), r"\b(?:sleep|benchmark|pg_sleep)\s*\(\s*\d"),
     _sig(("$",), r"\{\s*\"?\$(?:where|ne|gt|regex)\"?\s*:"),
+    _sig(("o:",), r"\bo:\d+:"),  # PHP serialized object, including a quoted class name
     _sig(("gasv", "aced0005", "ro0ab"), r"gasv[a-z0-9+/=]{4,}|aced0005|ro0ab"),
     _sig(
         ("http://", "https://", "169.254"),
-        r"https?://(?:127\.0\.0\.1|localhost|0\.0\.0\.0|\[::1\]|169\.254\.169\.254|metadata\.google(?:\.internal)?)"
-        r"(?:[:/?#]|$)",
+        r"https?://(?:127\.0\.0\.1|localhost|0\.0\.0\.0|\[::1\]|169\.254\.169\.254|metadata\.google(?:\.internal)?"
+        r"|10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3})",
     ),
 )
 
-# CRLF that would split a log line. Raw newlines inside a free-text body are not scanned.
-_CRLF_ENCODED = re.compile(r"%0d|%0a", re.I)
+# Statement-level SQL words. Everyday words and normal list parameters
+# (and, or, limit, offset, order, group, user, key) are omitted: they show up
+# in ordinary requests. A hit only raises a low suspicious score.
+_SQL_KEYWORD = re.compile(
+    r"\b(?:alter|ascii|benchmark|cast|char|concat|convert|create|cursor|declare|delay|delete|drop"
+    r"|dumpfile|exec|execute|from|grant|group_concat|having|information_schema|insert|into|join"
+    r"|load_file|merge|nchar|nvarchar|opendatasource|openrowset|outfile|pg_sleep|procedure|revoke"
+    r"|row_number|rownum|schema|select|shutdown|sleep|sp_executesql|substring|syscolumns|sysobjects"
+    r"|table|truncate|union|update|values|varchar|waitfor|where|xp_cmdshell)\b"
+)
+
+# A line break is log forging only when the next line is a log stamp: a level word,
+# a bracketed level, or a timestamp followed by a level. A bare newline is not.
+_LOG_LEVEL = r"(?:debug|info|warn(?:ing)?|error|fatal|critical|trace|notice|audit)"
+# \\n and \\r match the escaped newline inside a JSON body. \n and \r match a raw break.
+_LOG_STAMP_AFTER_BREAK = re.compile(
+    rf"(?:%0d%0a|%0a%0d|%0d|%0a|\\r\\n|\\n|\\r|\r\n|\n|\r)\s*(?:"
+    rf"\[\s*{_LOG_LEVEL}\s*\]"
+    rf"|{_LOG_LEVEL}\b"
+    rf"|(?:\d{{4}}[-/]\d{{1,2}}[-/]\d{{1,2}}|\d{{1,2}}:\d{{2}}:\d{{2}}).{{0,48}}?{_LOG_LEVEL}\b)",
+    re.I,
+)
 _IDENTITY_CRLF = re.compile(
-    r'"(?:user(?:name)?|email|login|name)"\s*:\s*"[^"\\]{0,80}(?:\\n|\\r|\r|\n)',
+    rf'"(?:user(?:name)?|email|login|name)"\s*:\s*"[^"\\]{{0,80}}(?:\\n|\\r|\r|\n)\s*'
+    rf"(?:\[\s*{_LOG_LEVEL}\s*\]|{_LOG_LEVEL}\b)",
     re.I,
 )
 _LOWER_LOOKUP = re.compile(r"\$\{(?:lower|upper)::?-?([a-z0-9]{1,8})\}")
@@ -186,22 +217,27 @@ def describe_decodings(value: str) -> str:
 
 
 def log_forging_hits(query: str, body_text: str, headers: dict[str, str] | None) -> int:
-    """Count CRLF in the query, headers, encoded body, or a short identity field.
+    """Count line breaks whose next line is a log stamp.
 
-    A raw newline inside a comment or description is ordinary prose and is ignored.
+    A newline that only continues a value, and a raw newline inside a comment or
+    description, are ignored. The stamp is a level word, a bracketed level, or a
+    timestamp followed by a level.
     """
     hits = 0
     fields = [query]
     if headers:
         fields.extend(headers.values())
     for text in fields:
-        if "\r" in text or "\n" in text or _CRLF_ENCODED.search(text):
+        if _LOG_STAMP_AFTER_BREAK.search(text):
             hits += 1
-    if body_text and _CRLF_ENCODED.search(body_text):
-        hits += 1
-    if body_text and _IDENTITY_CRLF.search(body_text):
+    if body_text and (_LOG_STAMP_AFTER_BREAK.search(body_text) or _IDENTITY_CRLF.search(body_text)):
         hits += 1
     return hits
+
+
+def sql_keyword_hits(text: str) -> int:
+    """Count whole-word SQL statement keywords. Substrings inside ordinary words do not count."""
+    return len(_SQL_KEYWORD.findall(text))
 
 
 def _average_path_length(n: int) -> float:
@@ -348,6 +384,7 @@ class FastFilter:
             traversal_hits=traversal_hits,
             injection_hits=injection_hits,
             log_forging_hits=log_forging_hits(query, body_text, headers),
+            sql_keyword_hits=sql_keyword_hits(haystack),
             numeric_id_segments=id_segments,
             window_rate=window_rate,
             route_known=route_known,
@@ -388,6 +425,9 @@ class FastFilter:
             # Stay under the hard-block threshold so the request is still forwarded and the agent decides.
             score = min(0.6 + 0.15 * f.injection_hits, 0.85)
             scores.append((score, f"injection signature x{f.injection_hits}", "injection"))
+        elif f.sql_keyword_hits:
+            # A reserved word alone is a weak signal. Send it to the agent; do not hard-block.
+            scores.append((0.5, f"sql keyword x{f.sql_keyword_hits}", "injection"))
         if f.log_forging_hits:
             score = min(0.6 + 0.15 * f.log_forging_hits, 0.85)
             scores.append((score, f"log forging signature x{f.log_forging_hits}", "log_forging"))

@@ -1,0 +1,3 @@
+**Framing Story**
+
+Marine acousticians aboard deep-sea exploration vessels use **RiftNote** to record, classify, and analyze underwater seismic and biological acoustic anomalies. On an ordinary day, researchers work in short, fast-paced shifts: they log in, list their own anomaly objects, open a specific record to change its classification tags, and occasionally jump back to a previously visited anomaly object to cross-reference sound profiles. To maintain strict scientific integrity and data ownership, **Researcher A must not be able to modify, overwrite, or delete an anomaly log owned by Researcher B**.

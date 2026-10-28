@@ -1,0 +1,295 @@
+openapi: 3.0.3
+info:
+  title: EchoGrid Acoustic Blueprint API
+  version: 1.0.0
+  description: API for managing acoustic chamber blueprints and simulations.
+servers:
+  - url: https://api.echogrid.internal/v1
+paths:
+  /health:
+    get:
+      summary: Check system health status.
+      security: []
+      responses:
+        '200':
+          description: System is healthy.
+
+  /auth/token:
+    post:
+      summary: Authenticate and obtain an access token.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Token issued successfully.
+
+  /chambers:
+    get:
+      summary: List all acoustic chambers owned by the authenticated user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of chambers retrieved successfully.
+    post:
+      summary: Create a new acoustic chamber blueprint.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - volume_cubic_meters
+              properties:
+                name:
+                  type: string
+                volume_cubic_meters:
+                  type: number
+                target_frequency_hz:
+                  type: number
+      responses:
+        '201':
+          description: Chamber created successfully.
+
+  /chambers/{chamber_id}:
+    get:
+      summary: Retrieve details of a specific acoustic chamber.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chamber_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Chamber details retrieved.
+    put:
+      summary: Update parameters of an existing acoustic chamber.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chamber_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                volume_cubic_meters:
+                  type: number
+                target_frequency_hz:
+                  type: number
+      responses:
+        '200':
+          description: Chamber updated successfully.
+    delete:
+      summary: Delete an acoustic chamber blueprint.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chamber_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Chamber deleted successfully.
+
+  /chambers/{chamber_id}/history:
+    get:
+      summary: List revision history for a specific chamber.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chamber_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Revision history retrieved successfully.
+
+  /chambers/{chamber_id}/revert:
+    post:
+      summary: Revert a chamber to a previous revision state.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chamber_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - revision_id
+              properties:
+                revision_id:
+                  type: string
+      responses:
+        '200':
+          description: Chamber reverted successfully.
+
+  /materials:
+    get:
+      summary: List available acoustic dampening materials.
+      security: []
+      responses:
+        '200':
+          description: Materials list retrieved successfully.
+
+  /chambers/{chamber_id}/materials:
+    get:
+      summary: List materials applied to a chamber.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chamber_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Applied materials retrieved successfully.
+    post:
+      summary: Add a dampening material to a chamber.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chamber_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - material_id
+                - coverage_percentage
+              properties:
+                material_id:
+                  type: string
+                coverage_percentage:
+                  type: number
+      responses:
+        '201':
+          description: Material added successfully.
+
+  /chambers/{chamber_id}/materials/{material_id}:
+    delete:
+      summary: Remove a dampening material from a chamber.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chamber_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: material_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Material removed successfully.
+
+  /chambers/{chamber_id}/simulate:
+    post:
+      summary: Run an acoustic resonance simulation for a chamber.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chamber_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - ambient_temperature_celsius
+              properties:
+                ambient_temperature_celsius:
+                  type: number
+      responses:
+        '202':
+          description: Simulation initiated successfully.
+
+  /chambers/{chamber_id}/simulations:
+    get:
+      summary: List past simulation results for a chamber.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chamber_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Simulation results retrieved successfully.
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

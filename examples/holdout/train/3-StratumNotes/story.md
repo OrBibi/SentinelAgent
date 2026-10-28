@@ -1,0 +1,3 @@
+### Framing Story
+
+Dr. Aris is a field archaeologist working at the Tel Hazor excavation site. On an ordinary day, Aris begins a short work session by logging into StratumNotes, listing their own active stratigraphic units, opening a specific layer object (e.g., Unit 4B-East), and updating its soil composition and artifact density. Later in the session, Aris switches back to a previously edited pottery shard object to append a newly discovered rim measurement. Throughout this process, data isolation is strictly enforced: Archaeologist Maya working in Trench C must not be able to alter, overwrite, or delete stratigraphic objects or artifact logs created and owned by Dr. Aris in Trench B, preserving the strict integrity of independent excavation records.

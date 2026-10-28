@@ -1,0 +1,293 @@
+openapi: 3.0.3
+info:
+  title: RiftNote API
+  version: 1.0.0
+  description: API for deep-sea acousticians to manage and analyze acoustic anomalies.
+servers:
+  - url: https://api.riftnote.internal/v1
+paths:
+  /auth/register:
+    post:
+      summary: Register a new acoustician account.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: Created
+  /auth/login:
+    post:
+      summary: Authenticate an acoustician and retrieve an access token.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /status:
+    get:
+      summary: Get public system health and node status.
+      security: []
+      responses:
+        '200':
+          description: OK
+  /stations/public:
+    get:
+      summary: List public deep-sea listening stations.
+      security: []
+      parameters:
+        - name: region
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /anomalies:
+    get:
+      summary: List the authenticated user's anomaly objects.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create a new anomaly record.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - frequency_hz
+              properties:
+                title:
+                  type: string
+                frequency_hz:
+                  type: number
+                notes:
+                  type: string
+      responses:
+        '201':
+          description: Created
+  /anomalies/{anomaly_id}:
+    get:
+      summary: Open a specific anomaly object.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: anomaly_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    put:
+      summary: Change an existing anomaly record owned by the user.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: anomaly_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                frequency_hz:
+                  type: number
+                classification:
+                  type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete an anomaly object owned by the user.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: anomaly_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+  /sessions/recent:
+    get:
+      summary: List recently accessed anomaly objects for quick navigation.
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+  /sessions/access:
+    post:
+      summary: Log access to an anomaly object to track session history.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - anomaly_id
+              properties:
+                anomaly_id:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /anomalies/{anomaly_id}/notes:
+    get:
+      summary: List notes attached to an anomaly record.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: anomaly_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Add a new note to an anomaly record.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: anomaly_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+      responses:
+        '201':
+          description: Created
+  /anomalies/{anomaly_id}/notes/{note_id}:
+    delete:
+      summary: Delete a specific note from an anomaly record.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: anomaly_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: note_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+  /anomalies/{anomaly_id}/spectrum:
+    get:
+      summary: Download the acoustic spectrum file linked to an anomaly.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: anomaly_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Upload an acoustic spectrum audio file for an anomaly.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: anomaly_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - file_url
+              properties:
+                file_url:
+                  type: string
+      responses:
+        '200':
+          description: OK
+components:
+    securitySchemes:
+      BearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT

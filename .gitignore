@@ -5,3 +5,5 @@ venv/
 .env
 data/
 .pytest_cache/
+examples/holdout/**/results.json
+examples/holdout/**/results-*.json

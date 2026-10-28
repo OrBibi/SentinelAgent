@@ -1,0 +1,270 @@
+openapi: 3.0.3
+info:
+  title: ChromaPress API
+  version: 1.0.0
+  description: API for managing custom vinyl record layouts, tracks, and pressing notes.
+paths:
+  /auth/register:
+    post:
+      summary: Register a new designer account.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: Created
+  /auth/login:
+    post:
+      summary: Authenticate a designer and receive an access token.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /system/status:
+    get:
+      summary: Retrieve the public health status of the pressing service.
+      security: []
+      responses:
+        '200':
+          description: OK
+  /projects:
+    get:
+      summary: List all pressing projects owned by the authenticated designer.
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create a new pressing project object.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Created
+  /projects/{projectId}:
+    get:
+      summary: Retrieve details of a specific pressing project.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    put:
+      summary: Update metadata for an existing pressing project.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                status:
+                  type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete a specific pressing project.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+  /projects/{projectId}/tracks:
+    get:
+      summary: List all track objects associated with a specific project.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Add a new track object to a project.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - trackName
+                - durationSeconds
+              properties:
+                trackName:
+                  type: string
+                durationSeconds:
+                  type: integer
+      responses:
+        '201':
+          description: Created
+  /tracks/{trackId}:
+    get:
+      summary: Open and retrieve details of a specific track object.
+      parameters:
+        - name: trackId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    put:
+      summary: Change parameters of an existing track object.
+      parameters:
+        - name: trackId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - trackName
+              properties:
+                trackName:
+                  type: string
+                durationSeconds:
+                  type: integer
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete a specific track object.
+      parameters:
+        - name: trackId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+  /tracks/{trackId}/notes:
+    get:
+      summary: List all mastering notes attached to a track object.
+      parameters:
+        - name: trackId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create a new mastering note object for a track.
+      parameters:
+        - name: trackId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+      responses:
+        '201':
+          description: Created
+  /notes/{noteId}:
+    delete:
+      summary: Delete a specific mastering note object.
+      parameters:
+        - name: noteId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: []

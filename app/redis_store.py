@@ -147,6 +147,11 @@ class RedisStore:
     async def refresh_block(self, ip: str, ttl: int) -> bool:
         return bool(await self._r.expire(_k("block", ip), ttl))
 
+    async def object_ids(self, ip: str, template: str, limit: int = 20) -> list[str]:
+        """Ids this client already touched on one route template. Does not record a new id."""
+        members = await self._r.zrange(_k("obj", ip, template), 0, max(limit, 1) - 1)
+        return [member.decode("utf-8") if isinstance(member, bytes) else str(member) for member in members]
+
     async def get_block(self, ip: str) -> dict[str, Any] | None:
         """Read the blocklist entry without counting the request toward rate or history."""
         return _load_object(await self._r.get(_k("block", ip)))

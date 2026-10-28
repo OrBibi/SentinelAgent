@@ -1,0 +1,258 @@
+openapi: 3.0.3
+info:
+  title: SporeNote API
+  version: 1.0.0
+  description: API for managing home mushroom cultivation tubs and growth logs.
+servers:
+  - url: https://api.sporenote.local/v1
+paths:
+  /auth/register:
+    post:
+      summary: Register a new mycologist account.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: Created
+  /auth/login:
+    post:
+      summary: Authenticate and obtain an access token.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /users/me:
+    get:
+      summary: Retrieve the current authenticated user profile.
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+  /tubs:
+    get:
+      summary: List all substrate tubs belonging to the current user.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create a new substrate tub.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - strainId
+              properties:
+                name:
+                  type: string
+                strainId:
+                  type: string
+                substrateType:
+                  type: string
+      responses:
+        '201':
+          description: Created
+  /tubs/{tubId}:
+    get:
+      summary: Retrieve details of a specific substrate tub.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: tubId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    put:
+      summary: Update a specific substrate tub.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: tubId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                status:
+                  type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete a specific substrate tub.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: tubId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+  /tubs/{tubId}/logs:
+    get:
+      summary: List growth logs for a specific substrate tub.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: tubId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Add a new growth log entry to a specific substrate tub.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: tubId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - humidity
+                - temperature
+              properties:
+                humidity:
+                  type: number
+                temperature:
+                  type: number
+                notes:
+                  type: string
+      responses:
+        '201':
+          description: Created
+  /logs/{logId}:
+    get:
+      summary: Retrieve a specific growth log entry.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: logId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete a specific growth log entry.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: logId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+  /strains:
+    get:
+      summary: List public mushroom strains available in the database.
+      security: []
+      parameters:
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /strains/{strainId}:
+    get:
+      summary: Retrieve details of a specific public mushroom strain.
+      security: []
+      parameters:
+        - name: strainId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /stats/summary:
+    get:
+      summary: Retrieve cultivation summary statistics for the current user.
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+components:
+      securitySchemes:
+        BearerAuth:
+          type: http
+          scheme: bearer
+          bearerFormat: JWT

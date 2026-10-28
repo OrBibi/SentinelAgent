@@ -27,7 +27,7 @@ from app.agent_worker import AgentWorker, MetaModelClient, redact_headers
 from app.config import Settings, get_settings
 from app.ml_filter import FastFilter
 from app.models import Action, SecurityEvent, SuspiciousRequest, Tier
-from app.rag_engine import RAGEngine, undeclared_body_fields
+from app.rag_engine import RAGEngine, needs_agent_review, undeclared_body_fields
 from app.redis_store import RedisStore, RequestState
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -309,8 +309,9 @@ def create_app(
             headers=dict(request.headers),
         )
         verdict = fast.evaluate(features, distinct_objects=rs.distinct_objects)
+        review_anyway = needs_agent_review(route.spec, rs.distinct_objects)
 
-        if verdict.tier is not Tier.CLEAN:
+        if verdict.tier is not Tier.CLEAN or review_anyway:
             state.worker.submit(
                 SuspiciousRequest(
                     request_id=request_id,
