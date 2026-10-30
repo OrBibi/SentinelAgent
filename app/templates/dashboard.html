@@ -3,164 +3,356 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SentinelAgent Dashboard</title>
+  <title>SentinelAgent</title>
   <style>
     :root {
-      --bg: #0b1020; --panel: #121a2f; --border: #1f2a44; --text: #e6ebf5; --muted: #8a96b2;
-      --red: #ff5c6c; --amber: #ffb547; --green: #3ddc97; --blue: #5aa9ff; --violet: #a98bff;
+      --blue: #0064E0;
+      --blue-dark: #0050B4;
+      --ink: #1C2B33;
+      --muted: #5D6C7B;
+      --bg: #F0F2F5;
+      --panel: #ffffff;
+      --line: #E4E6EB;
+      --green: #1D9E75;
+      --amber: #B7791F;
+      --orange: #C2410C;
+      --red: #E11D48;
     }
     * { box-sizing: border-box; }
-    body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
-    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-             padding: 18px 28px; border-bottom: 1px solid var(--border); background: #0e1528; }
-    header h1 { margin: 0; font-size: 20px; letter-spacing: .3px; }
-    header h1 span { color: var(--blue); }
-    .meta { color: var(--muted); font-size: 12px; display: flex; gap: 14px; flex-wrap: wrap; }
-    .meta b { color: var(--text); font-weight: 600; }
-    main { padding: 22px 28px; display: grid; gap: 22px; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
-    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
-    .card .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .6px; }
-    .card .value { font-size: 26px; font-weight: 700; margin-top: 4px; }
-    section { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-    section h2 { margin: 0; padding: 12px 16px; font-size: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .grid2 { display: grid; grid-template-columns: 2fr 1fr; gap: 22px; }
-    @media (max-width: 1000px) { .grid2 { grid-template-columns: 1fr; } }
-    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; min-width: 760px; }
-    td.mono:first-child { white-space: nowrap; }
-    @media (max-width: 600px) { header, main { padding-left: 14px; padding-right: 14px; } }
-    th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
-    th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; }
-    td.mono, .mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12.5px; word-break: break-all; }
-    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 600; white-space: nowrap; }
-    .a-blocked, .a-blocklisted { background: rgba(255,92,108,.15); color: var(--red); }
-    .a-alert { background: rgba(255,181,71,.15); color: var(--amber); }
-    .a-ignored, .a-forwarded { background: rgba(61,220,151,.13); color: var(--green); }
-    .src { color: var(--violet); font-size: 11.5px; }
-    .conf { font-weight: 700; }
-    .reason { color: #c8d0e2; max-width: 520px; }
-    details summary { cursor: pointer; color: var(--blue); font-size: 12px; margin-top: 4px; }
-    details pre { white-space: pre-wrap; background: #0b1224; border: 1px solid var(--border); border-radius: 6px; padding: 8px; font-size: 12px; }
-    .empty { padding: 22px 16px; color: var(--muted); }
-    form.inline { display: inline; }
-    button, .btn { background: #1d2a4a; color: var(--text); border: 1px solid #2c3d66; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
-    button:hover { border-color: var(--blue); }
-    button.danger { border-color: rgba(255,92,108,.5); color: var(--red); }
-    .upload { padding: 14px 16px; display: grid; gap: 10px; }
-    .upload input[type=text] { background: #0b1224; color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; }
-    .flash { background: rgba(90,169,255,.12); border: 1px solid rgba(90,169,255,.4); color: var(--blue); padding: 10px 14px; border-radius: 8px; }
-    .sources { padding: 0 16px 14px; color: var(--muted); font-size: 12.5px; }
-    label.toggle { font-size: 12px; color: var(--muted); font-weight: 400; display: flex; gap: 6px; align-items: center; }
+    body {
+      margin: 0;
+      font: 16px/1.45 "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 20px 32px;
+      background: var(--blue);
+      color: #fff;
+    }
+    header h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.3px; }
+    header p { margin: 4px 0 0; font-size: 14px; opacity: 0.9; }
+    .meta { font-size: 14px; text-align: right; }
+    .meta b { font-weight: 650; }
+    main { padding: 24px 32px 40px; display: grid; gap: 20px; }
+    .counts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .count {
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 1px 2px rgba(28, 43, 51, 0.06);
+    }
+    .count .label { color: var(--muted); font-size: 13px; font-weight: 650; letter-spacing: 0.04em; text-transform: uppercase; }
+    .count .value { margin-top: 6px; font-size: 36px; font-weight: 720; letter-spacing: -0.8px; }
+    .c-forward .value { color: var(--green); }
+    .c-model .value { color: var(--amber); }
+    .c-allow .value { color: var(--blue); }
+    .c-alert .value { color: var(--orange); }
+    .c-block .value { color: var(--red); }
+    .processing {
+      margin-top: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 13px;
+    }
+    .legend { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; color: var(--muted); font-size: 14px; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; background: var(--panel); border-radius: 999px; padding: 6px 12px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    section {
+      background: var(--panel);
+      border-radius: 16px;
+      box-shadow: 0 1px 2px rgba(28, 43, 51, 0.06);
+      overflow: hidden;
+    }
+    section h2 {
+      margin: 0;
+      padding: 16px 20px;
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+    }
+    .log { display: grid; }
+    .row {
+      display: grid;
+      grid-template-columns: 92px 128px 1fr 132px;
+      gap: 12px;
+      align-items: center;
+      min-height: 48px;
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--line);
+      border-left: 6px solid var(--line);
+      cursor: pointer;
+    }
+    .row.open { align-items: start; }
+    .more { display: none; margin-top: 8px; }
+    .row.open .more { display: block; }
+    .more .preview { max-height: none; white-space: pre-wrap; word-break: break-word; }
+    .row:last-child { border-bottom: 0; }
+    .row.status-forward { border-left-color: var(--green); }
+    .row.status-model { border-left-color: var(--amber); }
+    .row.status-allow { border-left-color: var(--blue); }
+    .row.status-alert { border-left-color: var(--orange); }
+    .row.status-block { border-left-color: var(--red); }
+    .when, .who { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 14px; }
+    .req { font-size: 15px; font-weight: 650; }
+    .filters { display: flex; gap: 8px; align-items: center; }
+    .filters button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      color: var(--ink);
+      border: 1.5px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 12px;
+    }
+    .filters button.active { font-weight: 750; background: var(--bg); }
+    .filters button[data-filter="forward"] { border-color: var(--green); }
+    .filters button[data-filter="model"] { border-color: var(--amber); }
+    .filters button[data-filter="allow"] { border-color: var(--blue); }
+    .filters button[data-filter="alert"] { border-color: var(--orange); }
+    .filters button[data-filter="block"] { border-color: var(--red); }
+    .file-picker { display: flex; align-items: center; gap: 12px; }
+    .file-picker input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .file-picker .btn { background: var(--bg); color: var(--ink); }
+    .req span { color: var(--muted); font-weight: 550; margin-right: 8px; }
+    .state { justify-self: end; text-align: right; }
+    .badge {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .status-forward .badge { background: var(--green); }
+    .status-model .badge { background: var(--amber); }
+    .status-allow .badge { background: var(--blue); }
+    .status-alert .badge { background: var(--orange); }
+    .status-block .badge { background: var(--red); }
+    .detail { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .preview {
+      color: var(--ink);
+      font-size: 13px;
+      margin-top: 6px;
+      max-height: 2.8em;
+      overflow: hidden;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+    .empty { padding: 28px 20px; color: var(--muted); }
+    .grid2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
+    th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+    button, .btn {
+      background: var(--blue);
+      color: #fff;
+      border: 0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button.danger { background: var(--red); }
+    .filters button { border-width: 1.5px; border-style: solid; background: #fff; color: var(--ink); }
+    .filters button.active { background: var(--bg); }
+    .upload { padding: 16px 20px; display: grid; gap: 10px; }
+    .upload input[type=text] { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 14px; }
+    .sources { padding: 0 20px 16px; color: var(--muted); }
+    .flash { background: #E7F0FF; color: var(--blue-dark); padding: 12px 14px; border-radius: 12px; }
+    label.toggle { font-size: 14px; color: var(--muted); font-weight: 500; display: flex; gap: 8px; align-items: center; }
+    @media (max-width: 900px) {
+      .counts, .grid2, .row { grid-template-columns: 1fr; }
+      header { flex-direction: column; align-items: flex-start; }
+      .state { justify-self: start; text-align: left; }
+    }
   </style>
 </head>
 <body>
 <header>
-  <h1>Sentinel<span>Agent</span> &middot; Threat Console</h1>
+  <div>
+    <h1>SentinelAgent</h1>
+    <p>Live request log</p>
+  </div>
   <div class="meta">
-    <span>Model: <b>{{ model if llm_enabled else "disabled (no API key)" }}</b></span>
-    <span>Vector store: <b>{{ vector_store }}</b></span>
-    <span>Agent queue: <b>{{ queue_depth }}</b></span>
+    <div>Model <b>{{ model if llm_enabled else "standby" }}</b></div>
+    <div>Queue <b id="queue-depth">{{ queue_depth }}</b></div>
+    <div class="processing">Processing <b id="n-model">0</b></div>
   </div>
 </header>
 <main>
   {% if flash %}<div class="flash" role="status">{{ flash }}</div>{% endif %}
 
-  <div class="cards">
-    <div class="card"><div class="label">Requests</div><div class="value">{{ stats.get("requests", 0) }}</div></div>
-    <div class="card"><div class="label">Blocked (fast)</div><div class="value" style="color:var(--red)">{{ stats.get("blocked", 0) }}</div></div>
-    <div class="card"><div class="label">Blocklisted (agent)</div><div class="value" style="color:var(--red)">{{ stats.get("blocklisted", 0) }}</div></div>
-    <div class="card"><div class="label">Alerts</div><div class="value" style="color:var(--amber)">{{ stats.get("alert", 0) }}</div></div>
-    <div class="card"><div class="label">Cleared by agent</div><div class="value" style="color:var(--green)">{{ stats.get("ignored", 0) }}</div></div>
-    <div class="card"><div class="label">Active blocks</div><div class="value">{{ blocked | length }}</div></div>
+  <div class="counts" id="counts">
+    <div class="count c-forward"><div class="label">Forwarded</div><div class="value" id="n-forward">0</div></div>
+    <div class="count c-allow"><div class="label">Allowed</div><div class="value" id="n-allow">0</div></div>
+    <div class="count c-alert"><div class="label">Alerts</div><div class="value" id="n-alert">0</div></div>
+    <div class="count c-block"><div class="label">Blocked</div><div class="value" id="n-block">0</div></div>
   </div>
 
   <section>
-    <h2>Security events
-      <label class="toggle"><input type="checkbox" id="autorefresh" checked> auto-refresh 10s</label>
+    <h2>Requests
+      <span class="filters">
+        <button type="button" class="active" data-filter="all">All</button>
+        <button type="button" data-filter="forward"><i class="dot" style="background:var(--green)"></i>Forwarded</button>
+        <button type="button" data-filter="model"><i class="dot" style="background:var(--amber)"></i>Processing</button>
+        <button type="button" data-filter="allow"><i class="dot" style="background:var(--blue)"></i>Allowed</button>
+        <button type="button" data-filter="alert"><i class="dot" style="background:var(--orange)"></i>Alerts</button>
+        <button type="button" data-filter="block"><i class="dot" style="background:var(--red)"></i>Blocked</button>
+        <label class="toggle"><input type="checkbox" id="autorefresh" checked> live</label>
+      </span>
     </h2>
-    {% if events %}
-    <div class="table-wrap">
-    <table>
-      <thead><tr><th>Time (UTC)</th><th>Client</th><th>Request</th><th>Threat</th><th>Fast score</th><th>Confidence</th><th>Action</th><th>Reasoning</th></tr></thead>
-      <tbody>
-      {% for e in events %}
-        <tr>
-          <td class="mono">{{ e.timestamp | ts }}</td>
-          <td class="mono">{{ e.client_ip }}</td>
-          <td class="mono">{{ e.method }} {{ e.path[:160] }}</td>
-          <td>{{ e.threat_type or "-" }}</td>
-          <td class="conf">{{ "%.2f" | format(e.fast_score) }}</td>
-          <td class="conf">{{ "%.2f" | format(e.confidence_score) if e.confidence_score is not none else "-" }}</td>
-          <td><span class="badge a-{{ e.action.value }}">{{ e.action.value }}</span><div class="src">{{ e.source }}</div></td>
-          <td class="reason">{{ e.reasoning[:400] }}
-            {% if e.extra %}
-            <details><summary>details</summary><pre>{{ e.extra | tojson(indent=2) }}</pre></details>
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-    </div>
-    {% else %}
-      <div class="empty">No security events yet. Clean traffic is forwarded without being logged here.</div>
-    {% endif %}
+    <div class="log" id="log"></div>
   </section>
 
   <div class="grid2">
     <section>
-      <h2>Active blocklist</h2>
-      {% if blocked %}
-      <div class="table-wrap">
-      <table>
-        <thead><tr><th>IP</th><th>Threat</th><th>Confidence</th><th>Expires in</th><th>Reason</th><th></th></tr></thead>
-        <tbody>
-        {% for b in blocked %}
-          <tr>
-            <td class="mono">{{ b.ip }}</td>
-            <td>{{ b.threat_type }}</td>
-            <td class="conf">{{ "%.2f" | format(b.confidence) }}</td>
-            <td>{{ b.ttl_remaining }}s</td>
-            <td class="reason">{{ b.reason[:200] }}</td>
-            <td>
-              <form class="inline" method="post" action="/sentinel/admin/blocklist/{{ b.ip | urlencode }}/delete">
-                <button class="danger" type="submit">Unblock</button>
-              </form>
-            </td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+      <h2>Blocklist</h2>
+      <div id="blocks">
+        {% if blocked %}
+        <table>
+          <thead><tr><th>IP</th><th>Threat</th><th>Confidence</th><th></th></tr></thead>
+          <tbody>
+          {% for b in blocked %}
+            <tr>
+              <td>{{ b.ip }}</td>
+              <td>{{ b.threat_type }}</td>
+              <td>{{ "%.2f" | format(b.confidence) }}</td>
+              <td>
+                <form method="post" action="/sentinel/admin/blocklist/{{ b.ip | urlencode }}/delete">
+                  <button class="danger" type="submit">Unblock</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+          <div class="empty">No addresses are blocked.</div>
+        {% endif %}
       </div>
-      {% else %}
-        <div class="empty">No IPs are currently blocklisted.</div>
-      {% endif %}
     </section>
-
     <section>
-      <h2>OpenAPI schemas</h2>
+      <h2>API contract</h2>
       <form class="upload" method="post" action="/sentinel/admin/openapi" enctype="multipart/form-data">
-        <input type="text" name="source" placeholder="source name (e.g. payments-api)" value="default" maxlength="64">
-        <input type="file" name="file" id="schema-file" accept=".json,.yaml,.yml" required>
-        <button type="submit">Ingest schema</button>
+        <label for="source-name">Source name</label>
+        <input id="source-name" type="text" name="source" value="default" maxlength="64">
+        <div class="file-picker">
+          <input type="file" name="file" id="schema-file" accept=".json,.yaml,.yml" required>
+          <label class="btn" for="schema-file">Choose file</label>
+          <span id="file-name">No file selected</span>
+        </div>
+        <button type="submit">Load contract</button>
       </form>
       <div class="sources">
         {% if schema_sources %}
-          {% for name, count in schema_sources.items() %}<div><b>{{ name }}</b>: {{ count }} operations</div>{% endfor %}
+          {% for name, count in schema_sources.items() %}<div><b>{{ name }}</b> · {{ count }} operations</div>{% endfor %}
         {% else %}
-          No schema loaded: schema validation is skipped and object IDs are inferred heuristically.
+          No contract loaded.
         {% endif %}
       </div>
     </section>
   </div>
 </main>
 <script>
-  setInterval(function () {
+  function escapeHtml(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, function (ch) {
+      return {"&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"}[ch];
+    });
+  }
+  function statusOf(event) {
+    var extra = event.extra || {};
+    if (event.action === "blocked" || event.action === "blocklisted") return "block";
+    if (event.action === "alert") return "alert";
+    if (event.action === "ignored") return "allow";
+    if (extra.pending_agent) return "model";
+    return "forward";
+  }
+  function labelOf(status) {
+    return {forward: "Forwarded", model: "Processing", allow: "Allowed", alert: "Alert", block: "Blocked"}[status];
+  }
+  var latest = [];
+  var filter = "all";
+  var openIds = {};
+  function paint(events) {
+    latest = events || [];
+    var counts = {forward: 0, model: 0, allow: 0, alert: 0, block: 0};
+    var log = document.getElementById("log");
+    var visible = latest.filter(function (event) {
+      var status = statusOf(event);
+      counts[status] += 1;
+      return filter === "all" || status === filter;
+    });
+    if (!visible.length) {
+      log.innerHTML = '<div class="empty">' + (latest.length ? "No requests in this view." : "Waiting for requests.") + '</div>';
+    } else {
+      log.innerHTML = visible.map(function (event) {
+        var status = statusOf(event);
+        var when = new Date(event.timestamp * 1000).toISOString().slice(11, 19);
+        var threat = event.threat_type ? event.threat_type : event.tier;
+        var http = event.response_status ? ("HTTP " + event.response_status) : "";
+        var size = (event.response_bytes === null || event.response_bytes === undefined) ? "" : (event.response_bytes + " B");
+        var meta = [http, size].filter(Boolean).join(" · ");
+        var open = openIds[event.event_id] ? " open" : "";
+        var preview = event.response_preview
+          ? '<div class="preview">' + escapeHtml(event.response_preview) + '</div>' : "";
+        var reason = event.reasoning
+          ? '<div class="detail">' + escapeHtml(event.reasoning) + '</div>' : "";
+        return '<div class="row status-' + status + open + '" data-id="' + escapeHtml(event.event_id) + '">'
+          + '<div class="when">' + when + '</div>'
+          + '<div class="who">' + escapeHtml(event.client_ip) + '</div>'
+          + '<div><div class="req"><span>' + escapeHtml(event.method) + '</span>' + escapeHtml(event.path) + '</div>'
+          + '<div class="detail">' + escapeHtml(threat) + (meta ? " · " + meta : "") + '</div>'
+          + '<div class="more">' + reason + preview + '</div></div>'
+          + '<div class="state"><span class="badge">' + labelOf(status) + '</span></div></div>';
+      }).join("");
+    }
+    document.getElementById("n-forward").textContent = counts.forward;
+    document.getElementById("n-model").textContent = counts.model;
+    document.getElementById("n-allow").textContent = counts.allow;
+    document.getElementById("n-alert").textContent = counts.alert;
+    document.getElementById("n-block").textContent = counts.block;
+  }
+  document.getElementById("log").addEventListener("click", function (event) {
+    var row = event.target.closest(".row");
+    if (!row) return;
+    var id = row.getAttribute("data-id");
+    openIds[id] = !openIds[id];
+    row.classList.toggle("open", !!openIds[id]);
+  });
+  document.querySelectorAll(".filters button").forEach(function (button) {
+    button.addEventListener("click", function () {
+      filter = button.getAttribute("data-filter");
+      document.querySelectorAll(".filters button").forEach(function (item) {
+        item.classList.toggle("active", item === button);
+      });
+      paint(latest);
+    });
+  });
+  var schemaFile = document.getElementById("schema-file");
+  schemaFile.addEventListener("change", function () {
+    document.getElementById("file-name").textContent = schemaFile.files[0] ? schemaFile.files[0].name : "No file selected";
+  });
+  function refresh() {
     var auto = document.getElementById("autorefresh");
-    var file = document.getElementById("schema-file");
-    if (auto && auto.checked && !(file && file.value)) { window.location.replace(window.location.pathname); }
-  }, 10000);
+    if (!auto || !auto.checked) return;
+    fetch("/sentinel/admin/events?limit=80", {credentials: "same-origin"})
+      .then(function (response) { return response.ok ? response.json() : []; })
+      .then(paint)
+      .catch(function () {});
+  }
+  paint({{ events_json | tojson }});
+  setInterval(refresh, 1000);
 </script>
 </body>
 </html>

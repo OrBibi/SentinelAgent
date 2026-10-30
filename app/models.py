@@ -84,6 +84,7 @@ class SecurityEvent(BaseModel):
     """Entry stored in Redis and displayed on the dashboard."""
 
     event_id: str = Field(default_factory=lambda: uuid.uuid4().hex)
+    request_id: str = ""
     timestamp: float = Field(default_factory=time.time)
     client_ip: str
     method: str
@@ -95,4 +96,7 @@ class SecurityEvent(BaseModel):
     confidence_score: float | None = None
     reasoning: str = ""
     source: str = "fast_filter"
+    response_status: int | None = None
+    response_bytes: int | None = None
+    response_preview: str = ""
     extra: dict[str, Any] = Field(default_factory=dict)

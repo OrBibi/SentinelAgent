@@ -92,6 +92,7 @@ async def dashboard_page(request: Request, limit: int = Query(100, ge=1, le=500)
         "dashboard.html",
         {
             "events": events,
+            "events_json": [event.model_dump() for event in events],
             "blocked": blocked,
             "stats": stats,
             "llm_enabled": state.worker.llm_enabled,

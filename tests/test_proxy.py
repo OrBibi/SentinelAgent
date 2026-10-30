@@ -127,6 +127,10 @@ def test_clean_request_is_forwarded_with_guard_headers(client: TestClient, llm_c
     assert float(r.headers["x-sentinel-guard-ms"]) >= 0
     assert r.headers.get_list("set-cookie") == ["a=1", "b=2"]
     assert llm_calls == []
+    events = client.get("/sentinel/admin/events", headers=ADMIN).json()
+    assert events[0]["response_status"] == 200
+    assert events[0]["response_bytes"] > 0
+    assert events[0]["response_preview"] == ""
 
 
 def test_traversal_blocks_immediately_then_agent_blocklists(client: TestClient, llm_calls: list[dict]) -> None:
@@ -182,6 +186,8 @@ def test_suspicious_request_is_forwarded_without_waiting(client: TestClient) -> 
     wait_for_agent(client)
     events = client.get("/sentinel/admin/events", headers=ADMIN).json()
     assert events[0]["action"] == "ignored"
+    assert events[0]["response_status"] == 200
+    assert events[0]["response_preview"]
     assert any("method not declared" in f for f in events[0]["extra"]["schema_findings"])
     assert client.get("/api/users/42").status_code == 200
 

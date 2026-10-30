@@ -183,6 +183,55 @@ class RedisStore:
         pipe.hincrby(_k("stats"), event.action.value, 1)
         await pipe.execute()
 
+    async def update_pending_event(self, request_id: str, event: SecurityEvent) -> bool:
+        """Replace the queued row for this request once the agent decides."""
+        if not request_id:
+            return False
+        key = _k("events")
+        raw = await self._r.lrange(key, 0, self._max_events - 1)
+        for index, item in enumerate(raw):
+            try:
+                current = SecurityEvent.model_validate_json(item)
+            except ValidationError:
+                continue
+            if current.request_id != request_id or not current.extra.get("pending_agent"):
+                continue
+            merged = current.model_copy(
+                update={
+                    "action": event.action,
+                    "threat_type": event.threat_type,
+                    "confidence_score": event.confidence_score,
+                    "reasoning": event.reasoning,
+                    "source": event.source,
+                    "extra": {**current.extra, **event.extra, "pending_agent": False},
+                }
+            )
+            pipe = self._r.pipeline(transaction=False)
+            pipe.lset(key, index, merged.model_dump_json())
+            pipe.hincrby(_k("stats"), event.action.value, 1)
+            await pipe.execute()
+            return True
+        return False
+
+    async def attach_response(self, request_id: str, status: int, size: int, preview: str) -> None:
+        """Store the upstream status, size, and an optional body snippet on an existing row."""
+        if not request_id:
+            return
+        key = _k("events")
+        raw = await self._r.lrange(key, 0, self._max_events - 1)
+        for index, item in enumerate(raw):
+            try:
+                current = SecurityEvent.model_validate_json(item)
+            except ValidationError:
+                continue
+            if current.request_id != request_id:
+                continue
+            merged = current.model_copy(
+                update={"response_status": status, "response_bytes": size, "response_preview": preview}
+            )
+            await self._r.lset(key, index, merged.model_dump_json())
+            return
+
     async def recent_events(self, limit: int = 100) -> list[SecurityEvent]:
         raw = await self._r.lrange(_k("events"), 0, limit - 1)
         events: list[SecurityEvent] = []

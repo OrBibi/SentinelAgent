@@ -958,6 +958,7 @@ class AgentWorker:
         extra: dict[str, Any] | None = None,
     ) -> SecurityEvent:
         return SecurityEvent(
+            request_id=req.request_id,
             client_ip=req.client_ip,
             method=req.method,
             path=req.path + (f"?{req.query}" if req.query else ""),
@@ -973,6 +974,8 @@ class AgentWorker:
 
     async def _safe_record(self, event: SecurityEvent) -> None:
         try:
+            if await self._store.update_pending_event(event.request_id, event):
+                return
             await self._store.record_event(event)
         except RedisError:
             logger.exception("failed to record security event %s", event.event_id)

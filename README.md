@@ -245,24 +245,53 @@ keep calling the origin directly. Client calls to Firebase or another host do no
 
 ### Try the attacks
 
+The demo store authenticates with `Authorization: Bearer user-<id>`; each account only owns its own data.
+
 ```bash
-curl -i http://localhost:8000/api/users/42                                   # 200, X-Sentinel-Tier: clean
+AUTH="Authorization: Bearer user-42"
+curl -i -H "$AUTH" http://localhost:8000/api/users/42                        # 200, X-Sentinel-Tier: clean
 curl -i --path-as-is "http://localhost:8000/api/files?name=../../etc/passwd" # 403 immediately
-curl -i http://localhost:8000/api/users/42                                   # 403 once the agent blocklists you
+curl -i -H "$AUTH" http://localhost:8000/api/users/42                        # 403 once the agent blocklists you
 curl -X DELETE -H "X-Admin-Token: $ADMIN_TOKEN" http://localhost:8000/sentinel/admin/blocklist/127.0.0.1
 
-curl -i -X PATCH http://localhost:8000/api/users/42 -H "Content-Type: application/json" \
+curl -i -X PATCH -H "$AUTH" http://localhost:8000/api/users/42 -H "Content-Type: application/json" \
   -d '{"display_name":"x","role":"admin"}'                                   # forwarded, then agent decides
-for i in $(seq 100 120); do curl -s -o /dev/null -w "%{http_code} " http://localhost:8000/api/orders/$i; done
+for i in $(seq 100 120); do curl -s -o /dev/null -w "%{http_code} " -H "$AUTH" http://localhost:8000/api/orders/$i; done
                                                                              # BOLA enumeration -> 403s
 ```
 
 ### Dashboard
 
 Open `http://localhost:8000/sentinel/admin?token=<ADMIN_TOKEN>`. The token is exchanged for an HttpOnly,
-SameSite=Strict cookie and removed from the URL. The page shows request counters, every security event
-(fast-filter and agent verdicts with threat type, confidence score, action, model reasoning, policy rationale,
-and schema findings), the active blocklist with unblock buttons, and the schema upload form.
+SameSite=Strict cookie and removed from the URL.
+
+The screen is a live SOC request log. A top strip counts forwarded, allowed, alert, and blocked requests,
+with a processing count in the header for requests still at the model. Every inspected request is one row,
+color-coded by state: green forwarded past the filter, amber still processing at the model, blue allowed by
+the model, orange alert, red blocked. Each row shows the time, client IP, method, path, filter tier, and the
+upstream response status and size; blocked requests and requests sent to the model also keep a short body
+snippet. Clicking a row expands the model reasoning and that snippet. Filter buttons narrow the log to one
+state, for example only blocked requests. The log refreshes about once a second without the page jumping.
+The blocklist (with unblock buttons) and the OpenAPI contract upload sit below the log.
+
+### Live red-team check
+
+`scripts/live_campaign.py` drives model-controlled clients through the proxy against the demo store, to
+confirm the guard holds under adaptive traffic. Benign shoppers do ordinary work on their own account;
+red-team personas probe for broken object authorization and privilege escalation on the store we own.
+Personas see only HTTP status and a short body, never the guard's filter, thresholds, or blocklist. The
+harness rotates the source IP (requires `TRUST_FORWARDED_FOR=true` for the run) and, by default, drives
+every persona with the Meta API; set `TRAFFIC_LLM_API_URL`, `TRAFFIC_LLM_API_KEY`, and `TRAFFIC_LLM_MODEL`
+to use a different provider. A probe counts as a finding only when the store response actually shows the
+out-of-scope effect, not merely a `200`.
+
+```bash
+# Run the demo backend and the guard (ENFORCE_BLOCKS=true, TRUST_FORWARDED_FOR=true), then:
+python scripts/live_campaign.py --benign 10 --attackers 5     # smoke check
+python scripts/live_campaign.py --benign 100 --attackers 50   # full evaluation
+```
+
+Watch it live on the dashboard. The run writes a summary to `data/live_campaign_results.json`.
 
 ---
 
@@ -363,7 +392,8 @@ app/
   templates/        dashboard HTML
   config.py         settings
   models.py         shared Pydantic models
-examples/           demo backend, demo and PickPics OpenAPI schemas, offline model mock
+examples/           stateful demo store, demo and PickPics OpenAPI schemas, holdout servers, offline model mock
+scripts/            holdout runner, forest fitting, live red-team check
 tests/              unit and integration tests
 ```
 

@@ -20,7 +20,6 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, Response, StreamingResponse
 from redis.asyncio import Redis
 from redis.exceptions import RedisError
-from starlette.background import BackgroundTask
 
 from app import dashboard
 from app.agent_worker import AgentWorker, MetaModelClient, redact_headers
@@ -49,6 +48,8 @@ HOP_BY_HOP = frozenset(
     }
 )
 SECURITY_HEADERS = {"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"}
+# Body snippet kept for blocked requests and requests sent to the model. Clean traffic stores status and size only.
+RESPONSE_PREVIEW_BYTES = 800
 
 
 class BodyTooLarge(Exception):
@@ -283,6 +284,9 @@ def create_app(
                 await _record(
                     state.store, ip, method, raw_path, Tier.SUSPICIOUS, 0.0, Action.BLOCKED, "rate_abuse",
                     f"rate limit exceeded: >{cfg.rate_limit_per_window} requests / {cfg.rate_window_seconds}s",
+                    request_id=request_id,
+                    response_status=429,
+                    response_preview="Request blocked by security policy.",
                 )
             return _error(
                 429, "too_many_requests", "Rate limit exceeded.", request_id,
@@ -311,7 +315,8 @@ def create_app(
         verdict = fast.evaluate(features, distinct_objects=rs.distinct_objects)
         review_anyway = needs_agent_review(route.spec, rs.distinct_objects)
 
-        if verdict.tier is not Tier.CLEAN or review_anyway:
+        queued = verdict.tier is not Tier.CLEAN or review_anyway
+        if queued:
             state.worker.submit(
                 SuspiciousRequest(
                     request_id=request_id,
@@ -328,14 +333,25 @@ def create_app(
             )
 
         guard_ms = (time.perf_counter() - started) * 1000
+        target = raw_path + (f"?{query}" if query else "")
         if verdict.tier is Tier.HARD_BLOCK:
             await _record(
-                state.store, ip, method, raw_path + (f"?{query}" if query else ""), verdict.tier,
-                verdict.score, Action.BLOCKED, verdict.threat_hint, "; ".join(verdict.reasons),
+                state.store, ip, method, target, verdict.tier, verdict.score, Action.BLOCKED,
+                verdict.threat_hint, "; ".join(verdict.reasons), request_id=request_id,
+                response_status=403,
+                response_preview="Request blocked by security policy.",
             )
             return forbidden(request_id)
 
-        return await _forward(state.http, request, ip, method, raw_path, query, body, request_id, guard_ms, verdict.tier)
+        await _record(
+            state.store, ip, method, target, verdict.tier, verdict.score, Action.FORWARDED,
+            verdict.threat_hint, "; ".join(verdict.reasons), request_id=request_id,
+            extra={"pending_agent": queued, "fast_reasons": verdict.reasons},
+        )
+        return await _forward(
+            state.http, request, ip, method, raw_path, query, body, request_id, guard_ms, verdict.tier,
+            store=state.store, keep_preview=queued,
+        )
 
     return app
 
@@ -381,12 +397,28 @@ async def _record(
     action: Action,
     threat: str | None,
     reasoning: str,
+    *,
+    request_id: str = "",
+    extra: dict | None = None,
+    response_status: int | None = None,
+    response_preview: str = "",
 ) -> None:
     try:
         await store.record_event(
             SecurityEvent(
-                client_ip=ip, method=method, path=path, tier=tier, fast_score=score,
-                action=action, threat_type=threat, reasoning=reasoning, source="fast_filter",
+                request_id=request_id,
+                client_ip=ip,
+                method=method,
+                path=path,
+                tier=tier,
+                fast_score=score,
+                action=action,
+                threat_type=threat,
+                reasoning=reasoning,
+                source="fast_filter",
+                response_status=response_status,
+                response_preview=response_preview,
+                extra=extra or {},
             )
         )
     except RedisError:
@@ -404,6 +436,9 @@ async def _forward(
     request_id: str,
     guard_ms: float,
     tier: Tier | str,
+    *,
+    store: RedisStore | None = None,
+    keep_preview: bool = False,
 ) -> Response:
     target = raw_path + (f"?{query}" if query else "")
     try:
@@ -421,9 +456,26 @@ async def _forward(
         logger.error("upstream error for %s %s: %s", method, raw_path, exc)
         return _error(502, "bad_gateway", "Upstream service unavailable.", request_id)
 
-    response = StreamingResponse(
-        upstream.aiter_raw(), status_code=upstream.status_code, background=BackgroundTask(upstream.aclose)
-    )
+    async def tracked():
+        preview = bytearray()
+        total = 0
+        limit = RESPONSE_PREVIEW_BYTES if keep_preview else 0
+        try:
+            async for chunk in upstream.aiter_raw():
+                total += len(chunk)
+                if len(preview) < limit:
+                    preview.extend(chunk[: limit - len(preview)])
+                yield chunk
+        finally:
+            if store is not None:
+                text = preview.decode("utf-8", "replace") if preview else ""
+                try:
+                    await store.attach_response(request_id, upstream.status_code, total, text)
+                except RedisError:
+                    logger.exception("failed to store response for %s", request_id)
+            await upstream.aclose()
+
+    response = StreamingResponse(tracked(), status_code=upstream.status_code)
     response.raw_headers = [
         (k, v) for k, v in upstream.headers.raw if k.lower().decode("latin-1") not in HOP_BY_HOP
     ] + [
