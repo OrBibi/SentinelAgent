@@ -300,6 +300,10 @@
         var status = statusOf(event);
         var when = new Date(event.timestamp * 1000).toISOString().slice(11, 19);
         var threat = event.threat_type ? event.threat_type : event.tier;
+        if (event.source === "log_agent") {
+          var signals = event.extra && event.extra.signals ? event.extra.signals.join(", ") : "";
+          threat = "campaign" + (signals ? " · " + signals : "");
+        }
         var http = event.response_status ? ("HTTP " + event.response_status) : "";
         var size = (event.response_bytes === null || event.response_bytes === undefined) ? "" : (event.response_bytes + " B");
         var meta = [http, size].filter(Boolean).join(" · ");

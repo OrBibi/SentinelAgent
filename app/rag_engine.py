@@ -189,6 +189,7 @@ class RouteSpec:
     secured: bool = False
     summary: str = ""
     operation_id: str = ""
+    owner_field: str | None = None
 
     @property
     def static_weight(self) -> tuple[int, int]:
@@ -287,7 +288,7 @@ class RouteIndex:
             template, object_id = heuristic_template(path)
             return RouteClass(False, template, object_id, None)
         object_id = next(reversed(match.path_params.values()), None) if match.path_params else None
-        return RouteClass(match.method_allowed, match.template, object_id, match.spec)
+        return RouteClass(match.method_allowed, match.template, object_id, match.spec, dict(match.path_params))
 
 
 @dataclass(slots=True)
@@ -296,6 +297,7 @@ class RouteClass:
     template: str
     object_id: str | None
     spec: RouteSpec | None
+    path_params: dict[str, str] = field(default_factory=dict)
 
 
 PRIVILEGED_FIELDS = frozenset(
@@ -425,6 +427,7 @@ def parse_routes(doc: dict[str, Any], source: str) -> list[RouteSpec]:
                 template = f"{base}{raw_path}" if raw_path.startswith("/") else f"{base}/{raw_path}"
                 regex, names = _compile_template(template)
                 secured = bool(op["security"]) if "security" in op else global_security
+                owner = op.get("x-sentinel-owner-field") or item.get("x-sentinel-owner-field")
                 routes.append(
                     RouteSpec(
                         method=method.upper(),
@@ -437,6 +440,7 @@ def parse_routes(doc: dict[str, Any], source: str) -> list[RouteSpec]:
                         secured=secured,
                         summary=str(op.get("summary") or op.get("description") or "")[:300],
                         operation_id=str(op.get("operationId") or ""),
+                        owner_field=str(owner) if owner else None,
                     )
                 )
     return routes
@@ -475,19 +479,42 @@ def review_classes(spec: RouteSpec | None) -> frozenset[str]:
     names = [*spec.body_fields, *(param.name for param in spec.params)]
     if any(_is_url_or_file(name) for name in names):
         classes.add("url_or_file")
+    if "file" in spec.template.lower() and any(param.name.lower() == "name" for param in spec.params):
+        classes.add("url_or_file")
     return frozenset(classes)
 
 
-def needs_agent_review(spec: RouteSpec | None, distinct_objects: int) -> bool:
+def needs_agent_review(
+    spec: RouteSpec | None,
+    distinct_objects: int,
+    *,
+    identity_mismatch: bool = False,
+    enum_mismatch: bool = False,
+) -> bool:
     """True when the operation should be shown to the model even if the fast score is low.
 
     A single object id is ordinary. The model is asked from the second distinct id on that route.
-    Free text and URL or file fields are reviewed on every request.
+    Free text and URL or file fields are reviewed on every request. A caller/id mismatch
+    or a query value outside a declared enum is always reviewed.
     """
+    if identity_mismatch or enum_mismatch:
+        return True
     classes = review_classes(spec)
     if "free_text" in classes or "url_or_file" in classes:
         return True
     return "object_access" in classes and distinct_objects >= 2
+
+
+def query_enum_mismatch(spec: RouteSpec | None, query: str) -> bool:
+    """True when a query parameter value is outside its declared OpenAPI enum."""
+    if spec is None or not query:
+        return False
+    by_name = {(p.location, p.name): p for p in spec.params}
+    for key, value in parse_qsl(query, keep_blank_values=True):
+        param = by_name.get(("query", key))
+        if param and param.enum and value not in [str(item) for item in param.enum]:
+            return True
+    return False
 
 
 def _is_credential(name: str) -> bool:
@@ -636,13 +663,13 @@ THREAT_PATTERNS: list[dict[str, str]] = [
         "id": "threat:bola",
         "threat_type": "bola",
         "title": "Broken Object Level Authorization (OWASP API1:2023)",
-        "body": "Indicators: one client requesting many distinct object IDs on the same route template in a short window "
-        "(sequential or random enumeration), IDs that do not belong to the caller, swapping IDs in path or body. "
+        "body": "Indicators: a caller principal that does not match a user-scoped path or body identifier "
+        "(userId, accountId), an owner field such as user_id on a record that is not the caller, or one client "
+        "requesting many distinct object IDs on the same route template in a short window. "
         "Schema context: routes with path parameters such as /users/{userId} or /orders/{orderId} that require auth. "
-        "Response: the first object id a client uses on a route is normal. From the second distinct id, "
-        "judge the hop. An id whose text looks secret is not evidence. Enumeration across many ids justifies "
-        "blocklisting; one extra id can be ordinary work and should be allowed when the history looks like use, "
-        "or alerted when it is unclear.",
+        "Response: when the caller id and a user-scoped param (or an owner field) disagree, that is BOLA on the "
+        "first request. One extra object id on a route whose param is not the caller (for example /orders/{orderId}) "
+        "is ordinary work. Enumeration across many ids justifies blocklisting. An id whose text looks secret is not evidence.",
     },
     {
         "id": "threat:bopla-mass-assignment",
@@ -853,6 +880,12 @@ class RAGEngine:
                     self.ingest_openapi(path.read_bytes(), source=path.stem, persist=False)
                 except OpenAPIError as exc:
                     logger.warning("skipping stored schema %s: %s", path.name, exc)
+        demo_yaml = Path(__file__).resolve().parents[1] / "examples" / "demo_openapi.yaml"
+        if demo_yaml.is_file():
+            try:
+                self.ingest_openapi(demo_yaml.read_bytes(), source="demo", persist=True)
+            except OpenAPIError as exc:
+                logger.warning("skipping demo OpenAPI %s: %s", demo_yaml.name, exc)
 
     def ingest_openapi(self, raw: bytes | str, *, source: str = "default", persist: bool = True) -> IngestResult:
         source = _sanitize_source(source)

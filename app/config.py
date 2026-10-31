@@ -48,6 +48,15 @@ class Settings(BaseSettings):
     # Skip re-analysis of the same client and route template within this window
     agent_cooldown_seconds: float = Field(30.0, ge=0.0)
     agent_queue_size: int = Field(1000, gt=0)
+    # Hold only irreversible requests (privileged writes, injection/log-forging, watched writes)
+    # until the verdict. Other reviewed traffic is forwarded and judged in the background.
+    agent_inline: bool = True
+    # How often the log analyst reads Redis events. 0 disables the loop.
+    log_analyst_interval_seconds: float = Field(5.0, ge=0.0)
+    # Do not re-fire the same actor's campaign within this window.
+    log_analyst_cooldown_seconds: float = Field(120.0, ge=0.0)
+    # Longest a held request waits for a verdict. On timeout FAIL_MODE decides: open forwards, closed denies.
+    agent_inline_timeout_seconds: float = Field(90.0, gt=0.0)
 
     suspicious_threshold: float = Field(0.45, ge=0.0, le=1.0)
     hard_block_threshold: float = Field(0.9, ge=0.0, le=1.0)

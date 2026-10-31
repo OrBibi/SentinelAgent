@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import time
 from collections.abc import Callable, Iterator
@@ -18,6 +19,7 @@ from app.main import create_app, normalize_proxy_path, path_is_inspected, same_u
 from app.redis_store import RedisStore
 
 ADMIN = {"X-Admin-Token": "test-token"}
+AUTH = {"Authorization": "Bearer user-51"}
 DEMO_SCHEMA = Path(__file__).resolve().parent.parent / "examples" / "demo_openapi.yaml"
 
 
@@ -57,6 +59,7 @@ def make_settings(tmp_path: Path, **overrides) -> Settings:
         chroma_dir=str(tmp_path / "chroma"),
         enable_chroma=False,
         agent_cooldown_seconds=0,
+        log_analyst_interval_seconds=0,
     )
     base.update(overrides)
     return Settings(**base)
@@ -177,11 +180,12 @@ def test_enforce_blocks_false_logs_decision_without_denying_later_requests(
         assert logged[0]["extra"]["enforced"] is False
 
 
-def test_suspicious_request_is_forwarded_without_waiting(client: TestClient) -> None:
+def test_suspicious_request_is_forwarded_after_the_agent_allows_it(client: TestClient) -> None:
     client.post("/sentinel/admin/openapi?source=demo", headers=ADMIN, content=DEMO_SCHEMA.read_bytes())
     r = client.delete("/api/users/42")
     assert r.status_code == 200
     assert r.headers["x-sentinel-tier"] == "suspicious"
+    assert client.get("/sentinel/admin/events", headers=ADMIN).json()[0]["extra"]["held"] is False
 
     wait_for_agent(client)
     events = client.get("/sentinel/admin/events", headers=ADMIN).json()
@@ -190,6 +194,107 @@ def test_suspicious_request_is_forwarded_without_waiting(client: TestClient) -> 
     assert events[0]["response_preview"]
     assert any("method not declared" in f for f in events[0]["extra"]["schema_findings"])
     assert client.get("/api/users/42").status_code == 200
+
+
+def test_held_request_is_denied_before_it_reaches_the_upstream(tmp_path: Path) -> None:
+    upstream_calls: list[str] = []
+
+    def counting_upstream(request: httpx.Request) -> httpx.Response:
+        upstream_calls.append(request.method)
+        return upstream_handler(request)
+
+    def malicious_llm(request: httpx.Request) -> httpx.Response:
+        verdict = {"is_malicious": True, "confidence_score": 0.95, "threat_type": "mass_assignment", "reasoning": "role"}
+        return httpx.Response(200, json={"choices": [{"message": {"role": "assistant", "content": json.dumps(verdict)}}]})
+
+    app = create_app(
+        make_settings(tmp_path),
+        redis_client=FakeAsyncRedis(decode_responses=True),
+        upstream_transport=httpx.MockTransport(counting_upstream),
+        llm_transport=httpx.MockTransport(malicious_llm),
+    )
+    with TestClient(app, client=("198.51.100.30", 5000)) as c:
+        c.post("/sentinel/admin/openapi?source=demo", headers=ADMIN, content=DEMO_SCHEMA.read_bytes())
+        r = c.patch("/api/users/42", json={"display_name": "x", "role": "admin"})
+        assert r.status_code == 403
+        assert upstream_calls == []
+        events = c.get("/sentinel/admin/events", headers=ADMIN).json()
+        assert events[0]["action"] == "blocklisted"
+        assert events[0]["response_status"] == 403
+
+
+def test_ordinary_comment_is_forwarded_without_a_hold(tmp_path: Path) -> None:
+    def slow_allow(request: httpx.Request) -> httpx.Response:
+        time.sleep(0.4)
+        verdict = {"is_malicious": False, "confidence_score": 0.2, "threat_type": "benign", "reasoning": "ok"}
+        return httpx.Response(200, json={"choices": [{"message": {"role": "assistant", "content": json.dumps(verdict)}}]})
+
+    app = create_app(
+        make_settings(tmp_path),
+        redis_client=FakeAsyncRedis(decode_responses=True),
+        upstream_transport=httpx.MockTransport(upstream_handler),
+        llm_transport=httpx.MockTransport(slow_allow),
+    )
+    with TestClient(app, client=("198.51.100.31", 5000)) as c:
+        c.post("/sentinel/admin/openapi?source=demo", headers=ADMIN, content=DEMO_SCHEMA.read_bytes())
+        r = c.post("/api/comments", json={"order_id": 1, "text": "leave it at the door"}, headers=AUTH)
+        assert r.status_code == 200
+        assert float(r.headers["x-sentinel-guard-ms"]) < 200
+        events = c.get("/sentinel/admin/events", headers=ADMIN).json()
+        assert events[0]["extra"]["held"] is False
+
+
+def test_injection_comment_is_held_and_denied(tmp_path: Path) -> None:
+    upstream_calls: list[str] = []
+
+    def counting_upstream(request: httpx.Request) -> httpx.Response:
+        upstream_calls.append(request.url.path)
+        return upstream_handler(request)
+
+    def malicious_llm(request: httpx.Request) -> httpx.Response:
+        verdict = {"is_malicious": True, "confidence_score": 0.95, "threat_type": "injection", "reasoning": "sqli"}
+        return httpx.Response(200, json={"choices": [{"message": {"role": "assistant", "content": json.dumps(verdict)}}]})
+
+    app = create_app(
+        make_settings(tmp_path),
+        redis_client=FakeAsyncRedis(decode_responses=True),
+        upstream_transport=httpx.MockTransport(counting_upstream),
+        llm_transport=httpx.MockTransport(malicious_llm),
+    )
+    with TestClient(app, client=("198.51.100.32", 5000)) as c:
+        c.post("/sentinel/admin/openapi?source=demo", headers=ADMIN, content=DEMO_SCHEMA.read_bytes())
+        r = c.post("/api/comments", json={"order_id": 1, "text": "' OR '1'='1"}, headers=AUTH)
+        assert r.status_code == 403
+        assert upstream_calls == []
+
+
+def test_watched_write_is_held(tmp_path: Path) -> None:
+    upstream_calls: list[str] = []
+
+    def counting_upstream(request: httpx.Request) -> httpx.Response:
+        upstream_calls.append(request.method)
+        return store_upstream(request)
+
+    def malicious_llm(request: httpx.Request) -> httpx.Response:
+        verdict = {"is_malicious": True, "confidence_score": 0.92, "threat_type": "bola", "reasoning": "watched"}
+        return httpx.Response(200, json={"choices": [{"message": {"role": "assistant", "content": json.dumps(verdict)}}]})
+
+    app = create_app(
+        make_settings(tmp_path),
+        redis_client=FakeAsyncRedis(decode_responses=True),
+        upstream_transport=httpx.MockTransport(counting_upstream),
+        llm_transport=httpx.MockTransport(malicious_llm),
+    )
+    with TestClient(app, client=("198.51.100.33", 5000)) as c:
+        c.post("/sentinel/admin/openapi?source=demo", headers=ADMIN, content=DEMO_SCHEMA.read_bytes())
+
+        async def watch() -> None:
+            await c.app.state.store.watch_principal("51", reason="test", ttl=60)
+
+        asyncio.run(watch())
+        r = c.patch("/api/users/51", json={"display_name": "ok"}, headers=AUTH)
+        assert r.status_code == 403
+        assert upstream_calls == []
 
 
 def test_openapi_ingestion_endpoint(client: TestClient) -> None:
@@ -253,6 +358,33 @@ def test_memory_redis_and_corrupt_block_entry() -> None:
         await store._r.set("sentinel:block:203.0.113.9", "{not-json")
         corrupt = await store.check_request("203.0.113.9", history_entry="GET /c")
         assert corrupt.block_info is None and corrupt.window_rate == 3
+        shared = await store.check_request(
+            "198.51.100.1",
+            history_entry="GET /u/1",
+            route_template="/api/users/{userId}",
+            object_id="1",
+            principal="51",
+        )
+        assert shared.distinct_objects == 1
+        hopped = await store.check_request(
+            "198.51.100.2",
+            history_entry="GET /u/2",
+            route_template="/api/users/{userId}",
+            object_id="2",
+            principal="51",
+        )
+        assert hopped.distinct_objects == 2
+        await store.block_ip(
+            "198.51.100.1", reason="bola", threat_type="bola", confidence=1.0, ttl=60, principal="51"
+        )
+        other_ip = await store.check_request("198.51.100.9", history_entry="GET /u", principal="51")
+        assert other_ip.block_info is not None
+        await store.watch_principal("77", reason="campaign", ttl=60)
+        assert await store.is_watched("77")
+        watched = await store.check_request("198.51.100.8", history_entry="GET /w", principal="77")
+        assert watched.watched is True
+        assert await store.mark_campaign("77", 60) is True
+        assert await store.mark_campaign("77", 60) is False
         await store.close()
 
     asyncio.run(inner())
@@ -274,3 +406,84 @@ def test_redis_outage_fails_open_or_closed(tmp_path: Path) -> None:
             # Signature blocking keeps working even when Redis is down.
             if mode == "open":
                 assert c.get("/api/files?name=../../etc/passwd").status_code == 403
+
+
+def _json_stream(payload: dict) -> httpx.Response:
+    body = json.dumps(payload).encode()
+    return httpx.Response(
+        200,
+        headers=[("content-type", "application/json")],
+        stream=httpx.ByteStream(body),
+    )
+
+
+def store_upstream(request: httpx.Request) -> httpx.Response:
+    path = request.url.path
+    if path == "/api/users/51":
+        return _json_stream({"id": 51, "email": "user51@demo.test", "role": "customer", "display_name": "user-51"})
+    if path == "/api/users/52":
+        return _json_stream({"id": 52, "email": "user52@demo.test", "role": "customer", "display_name": "user-52"})
+    if path == "/api/orders/11":
+        return _json_stream({"id": 11, "user_id": 1, "item": "notebook"})
+    if path == "/api/orders/511":
+        return _json_stream({"id": 511, "user_id": 51, "item": "notebook"})
+    if path == "/api/files":
+        name = request.url.params.get("name", "")
+        content = "public catalog document" if name == "catalog.pdf" else "EVAL_INTERNAL_DOCUMENT"
+        return _json_stream({"name": name, "content": content})
+    return upstream_handler(request)
+
+
+def test_caller_cannot_read_another_users_profile(tmp_path: Path, llm_calls: list[dict]) -> None:
+    upstream_calls: list[str] = []
+
+    def counting(request: httpx.Request) -> httpx.Response:
+        upstream_calls.append(request.url.path)
+        return store_upstream(request)
+
+    app = create_app(
+        make_settings(tmp_path),
+        redis_client=FakeAsyncRedis(decode_responses=True),
+        upstream_transport=httpx.MockTransport(counting),
+        llm_transport=httpx.MockTransport(llm_handler_factory(llm_calls)),
+    )
+    with TestClient(app, client=("198.51.100.40", 5000)) as c:
+        c.post("/sentinel/admin/openapi?source=demo", headers=ADMIN, content=DEMO_SCHEMA.read_bytes())
+        own = c.get("/api/users/51", headers=AUTH)
+        assert own.status_code == 200 and own.json()["id"] == 51
+        other = c.get("/api/users/52", headers=AUTH)
+        assert other.status_code == 403
+        assert "user52@demo.test" not in other.text
+        assert "/api/users/52" not in upstream_calls
+
+
+def test_order_owner_field_is_checked_on_the_response(tmp_path: Path, llm_calls: list[dict]) -> None:
+    app = create_app(
+        make_settings(tmp_path),
+        redis_client=FakeAsyncRedis(decode_responses=True),
+        upstream_transport=httpx.MockTransport(store_upstream),
+        llm_transport=httpx.MockTransport(llm_handler_factory(llm_calls)),
+    )
+    with TestClient(app, client=("198.51.100.41", 5000)) as c:
+        c.post("/sentinel/admin/openapi?source=demo", headers=ADMIN, content=DEMO_SCHEMA.read_bytes())
+        own = c.get("/api/orders/511", headers=AUTH)
+        assert own.status_code == 200 and own.json()["user_id"] == 51
+        other = c.get("/api/orders/11", headers=AUTH)
+        assert other.status_code == 403
+        assert "user_id" not in other.text
+
+
+def test_undeclared_file_name_is_blocked(tmp_path: Path, llm_calls: list[dict]) -> None:
+    app = create_app(
+        make_settings(tmp_path),
+        redis_client=FakeAsyncRedis(decode_responses=True),
+        upstream_transport=httpx.MockTransport(store_upstream),
+        llm_transport=httpx.MockTransport(llm_handler_factory(llm_calls)),
+    )
+    with TestClient(app, client=("198.51.100.42", 5000)) as c:
+        c.post("/sentinel/admin/openapi?source=demo", headers=ADMIN, content=DEMO_SCHEMA.read_bytes())
+        public = c.get("/api/files", params={"name": "catalog.pdf"})
+        assert public.status_code == 200 and public.json()["content"] == "public catalog document"
+        hidden = c.get("/api/files", params={"name": "test"})
+        assert hidden.status_code == 403
+        assert "EVAL_INTERNAL_DOCUMENT" not in hidden.text

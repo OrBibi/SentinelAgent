@@ -78,6 +78,10 @@ class SuspiciousRequest(BaseModel):
     features: RequestFeatures
     fast_verdict: FastVerdict
     received_at: float = Field(default_factory=time.time)
+    # Extracted caller id (never the raw bearer token). Empty when unknown.
+    principal: str = ""
+    identity_mismatch: bool = False
+    enum_mismatch: bool = False
 
 
 class SecurityEvent(BaseModel):
@@ -100,3 +104,5 @@ class SecurityEvent(BaseModel):
     response_bytes: int | None = None
     response_preview: str = ""
     extra: dict[str, Any] = Field(default_factory=dict)
+    # Caller id extracted from the token (never the raw secret). Empty when unknown.
+    principal: str = ""

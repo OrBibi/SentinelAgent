@@ -469,9 +469,20 @@ class FastFilter:
             return 0.0
         return min(max((s - 0.5) / 0.25, 0.0), 1.0)
 
-    def evaluate(self, f: RequestFeatures, *, distinct_objects: int = 0) -> FastVerdict:
+    def evaluate(
+        self,
+        f: RequestFeatures,
+        *,
+        distinct_objects: int = 0,
+        identity_mismatch: bool = False,
+        enum_mismatch: bool = False,
+    ) -> FastVerdict:
         scores: list[tuple[float, str, str | None]] = []
 
+        if identity_mismatch:
+            scores.append((0.7, "caller principal does not match a user-scoped identifier", "bola"))
+        if enum_mismatch:
+            scores.append((0.7, "query parameter value is outside the declared enum", "schema_violation"))
         if f.traversal_hits:
             scores.append((0.95, f"path traversal signature x{f.traversal_hits}", "path_traversal"))
         if f.injection_hits:
@@ -512,3 +523,19 @@ class FastFilter:
         else:
             tier = Tier.CLEAN
         return FastVerdict(tier=tier, score=round(top_score, 4), reasons=reasons, threat_hint=top_hint)
+
+
+WRITE_METHODS = frozenset({"POST", "PUT", "PATCH", "DELETE"})
+
+
+def needs_inline_hold(features: RequestFeatures, *, method: str = "", watched: bool = False) -> bool:
+    """True when forwarding now could change the store before the model can stop it.
+
+    Comments, searches, and public files are reviewed in the background instead.
+    Identity and enum mismatches are denied on the fast path and do not need a hold.
+    """
+    if features.injection_hits or features.log_forging_hits:
+        return True
+    if features.privileged_fields:
+        return True
+    return watched and method.upper() in WRITE_METHODS

@@ -23,8 +23,9 @@ from app.agent_worker import (
     normalize_threat_type,
     parse_verdict,
 )
-from app.ml_filter import FastFilter, describe_decodings, heuristic_template
-from app.rag_engine import RouteSpec, needs_agent_review, review_classes
+from app.ml_filter import FastFilter, describe_decodings, heuristic_template, needs_inline_hold
+from app.authz import extract_principal, json_owner_mismatch, user_scoped_mismatch
+from app.rag_engine import ParamSpec, RouteSpec, needs_agent_review, review_classes
 from app.models import Action, AgentVerdict, FastVerdict, RequestFeatures, SuspiciousRequest, Tier
 from app.rag_engine import (
     OpenAPIError,
@@ -197,6 +198,19 @@ def test_privileged_mass_assignment_is_suspicious(ff: FastFilter) -> None:
     assert v.tier is Tier.SUSPICIOUS and v.threat_hint == "mass_assignment"
 
 
+def test_inline_hold_is_only_for_irreversible_signals() -> None:
+    comment = RequestFeatures(method="POST", path="/api/comments")
+    assert needs_inline_hold(comment, method="POST") is False
+    injection = RequestFeatures(method="POST", path="/api/comments", injection_hits=1)
+    assert needs_inline_hold(injection, method="POST") is True
+    privileged = RequestFeatures(method="PATCH", path="/api/users/1", privileged_fields=["role"])
+    assert needs_inline_hold(privileged, method="PATCH") is True
+    watched_read = RequestFeatures(method="GET", path="/api/users/1")
+    assert needs_inline_hold(watched_read, method="GET", watched=True) is False
+    watched_write = RequestFeatures(method="PATCH", path="/api/users/1")
+    assert needs_inline_hold(watched_write, method="PATCH", watched=True) is True
+
+
 def test_compiled_forest_matches_sklearn() -> None:
     from sklearn.ensemble import IsolationForest
 
@@ -225,6 +239,11 @@ def test_review_classes_follow_the_operation_shape() -> None:
     assert needs_agent_review(note, 0) is True
     link = RouteSpec("POST", "/files", "x", re.compile(""), [], body_fields=["fileUrl"])
     assert "url_or_file" in review_classes(link)
+    files = RouteSpec(
+        "GET", "/api/files", "x", re.compile(""), [], params=[ParamSpec(name="name", location="query")]
+    )
+    assert "url_or_file" in review_classes(files)
+    assert needs_agent_review(read, 1, identity_mismatch=True) is True
 
 
 def test_heuristic_template_extracts_object_ids() -> None:
@@ -580,3 +599,30 @@ def test_mitigation_policy(verdict: AgentVerdict | None, findings: list[str] | N
         req.features.privileged_fields = ["role"]
     action, _ = policy.decide(verdict, req, _ctx(findings))
     assert action is expected
+
+
+def test_principal_and_owner_helpers() -> None:
+    assert extract_principal("Bearer user-51") == "51"
+    payload = base64.urlsafe_b64encode(json.dumps({"sub": "7"}).encode()).rstrip(b"=").decode()
+    assert extract_principal(f"Bearer hdr.{payload}.sig") == "7"
+    assert user_scoped_mismatch("51", {"userId": "51"}) is False
+    assert user_scoped_mismatch("51", {"userId": "52"}) is True
+    assert user_scoped_mismatch("51", {"orderId": "11"}) is False
+    assert json_owner_mismatch(b'{"id":11,"user_id":1}', "51") is True
+    assert json_owner_mismatch(b'{"id":511,"user_id":51}', "51") is False
+
+
+def test_identity_mismatch_is_suspicious_bola(ff: FastFilter) -> None:
+    verdict = ff.evaluate(ff.extract_features("GET", "/api/users/52", "", b""), identity_mismatch=True)
+    assert verdict.threat_hint == "bola"
+    assert verdict.score == 0.7
+    assert verdict.tier is Tier.SUSPICIOUS
+
+
+def test_policy_blocks_identity_mismatch_even_when_the_model_allows() -> None:
+    policy = MitigationPolicy(block_confidence=0.85, critical_confidence=0.7)
+    req = _req(Tier.SUSPICIOUS)
+    req.identity_mismatch = True
+    allowed = AgentVerdict(is_malicious=False, confidence_score=0.05, threat_type="benign")
+    action, _ = policy.decide(allowed, req, _ctx())
+    assert action is Action.BLOCKLISTED

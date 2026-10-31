@@ -4,10 +4,10 @@
 
 SentinelAgent sits in front of your backend. Every request passes a synchronous, in-process filter
 (signatures, OpenAPI schema checks, Isolation Forest, Redis sliding windows). Clean traffic is
-forwarded immediately. Only suspicious requests are handed to an asynchronous agent that reasons
-with Meta's open-weight **Muse Spark** model (served by Baseten), grounded by RAG over your OpenAPI
-schemas and OWASP/CWE threat patterns. The agent then mitigates autonomously: it logs an alert or
-writes the client to a Redis blocklist so its next request receives `403 Forbidden`.
+forwarded immediately. A request the filter flags is held while an agent reasons about it with Meta's
+open-weight **Muse Spark** model, grounded by RAG over your OpenAPI schemas and OWASP/CWE threat
+patterns. If the agent blocks it, that same request receives `403 Forbidden` and never reaches the
+backend, and the client is written to a Redis blocklist; otherwise it is forwarded.
 
 Built for the Meta Global AI Developer Hackathon.
 
@@ -24,14 +24,14 @@ flowchart LR
   redis1 --> fast["Fast filter: signatures, OpenAPI route index, Isolation Forest"]
   fast -->|hard block| deny
   fast -->|clean| upstream[Backend]
-  fast -->|suspicious| upstream
-  fast -->|"suspicious or hard block"| queue[Async agent queue]
-  queue --> ctx["Context: session history + RAG (Chroma)"]
-  ctx --> llm["Meta Muse Spark via Baseten"]
+  fast -->|"suspicious or reviewed: held"| ctx["Context: session history + RAG (Chroma)"]
+  ctx --> llm["Meta Muse Spark"]
   llm --> policy[Mitigation policy]
-  policy -->|alert| events[(Redis events)]
+  policy -->|"allow or alert"| upstream
+  policy -->|block| deny
   policy -->|blocklist| redis1
-  events --> dash[Admin dashboard]
+  policy --> events[(Redis events)]
+  events --> dash[SOC dashboard]
 ```
 
 | Layer | Module | Runs on request path? |
@@ -51,8 +51,13 @@ flowchart LR
 | Client on the blocklist | `403` immediately | not called |
 | Over the sliding-window rate limit | `429` with `Retry-After` | not called |
 | **Hard block** (traversal signature, score >= 0.9) | `403` immediately | analyzes in the background; may blocklist the client |
-| **Suspicious** (score >= 0.45) | forwarded **without waiting** | analyzes in the background; may blocklist so the **next** request is `403` |
+| **Suspicious** (score >= 0.45), or a route reviewed by its shape | **held** until the verdict | blocks: `403` and the request never reaches the backend; allows or alerts: forwarded |
 | **Clean** | forwarded immediately | not called |
+
+Holding is controlled by `AGENT_INLINE` (default `true`). A held request waits at most
+`AGENT_INLINE_TIMEOUT_SECONDS`; if no verdict arrives, `FAIL_MODE` decides (`open` forwards, `closed`
+denies). Setting `AGENT_INLINE=false` restores the earlier behavior, where flagged requests are forwarded
+without waiting and a block only stops the client's next request.
 
 Blocked responses use a uniform payload that reveals no detection internals:
 
@@ -65,7 +70,8 @@ Forwarded responses carry `X-Sentinel-Request-Id`, `X-Sentinel-Tier`, and `X-Sen
 
 ### Latency
 
-The hot path makes no network calls except one pipelined Redis round trip, and never waits on the LLM.
+For clean traffic, the hot path makes no network calls except one pipelined Redis round trip. Only
+held requests wait on the model, which adds the model's latency (a few seconds) to those requests.
 Scheme-relative targets such as `//host/path` are collapsed to a single path before inspection, and the
 proxy refuses to send a request to any host other than `UPSTREAM_BASE_URL`.
 The fitted Isolation Forest is compiled into flat Python lists (verified identical to scikit-learn's
@@ -255,7 +261,7 @@ curl -i -H "$AUTH" http://localhost:8000/api/users/42                        # 4
 curl -X DELETE -H "X-Admin-Token: $ADMIN_TOKEN" http://localhost:8000/sentinel/admin/blocklist/127.0.0.1
 
 curl -i -X PATCH -H "$AUTH" http://localhost:8000/api/users/42 -H "Content-Type: application/json" \
-  -d '{"display_name":"x","role":"admin"}'                                   # forwarded, then agent decides
+  -d '{"display_name":"x","role":"admin"}'                                   # held, then 403 if the agent blocks it
 for i in $(seq 100 120); do curl -s -o /dev/null -w "%{http_code} " -H "$AUTH" http://localhost:8000/api/orders/$i; done
                                                                              # BOLA enumeration -> 403s
 ```
@@ -276,14 +282,22 @@ The blocklist (with unblock buttons) and the OpenAPI contract upload sit below t
 
 ### Live red-team check
 
-`scripts/live_campaign.py` drives model-controlled clients through the proxy against the demo store, to
-confirm the guard holds under adaptive traffic. Benign shoppers do ordinary work on their own account;
-red-team personas probe for broken object authorization and privilege escalation on the store we own.
-Personas see only HTTP status and a short body, never the guard's filter, thresholds, or blocklist. The
-harness rotates the source IP (requires `TRUST_FORWARDED_FOR=true` for the run) and, by default, drives
-every persona with the Meta API; set `TRAFFIC_LLM_API_URL`, `TRAFFIC_LLM_API_KEY`, and `TRAFFIC_LLM_MODEL`
-to use a different provider. A probe counts as a finding only when the store response actually shows the
-out-of-scope effect, not merely a `200`.
+`scripts/live_campaign.py` drives traffic through the proxy against the demo store, to confirm the guard
+holds under adaptive load. The demo store is an evaluation fixture: authentication is required, but object
+reads and profile writes are not re-checked against the caller, and file download is an in-memory map, so
+the guard is the layer under test. A fixed pack of ordinary and odd-but-legitimate shopper requests is the
+stable denominator for false blocks. Red-team personas, driven by a chat model, probe for broken object
+authorization and privilege escalation on a store we own. Personas see only HTTP status and a short body,
+never the guard's filter, thresholds, or blocklist. The harness rotates the source IP (requires
+`TRUST_FORWARDED_FOR=true` for the run) and, by default, drives every persona with the Meta API; set
+`TRAFFIC_LLM_API_URL`, `TRAFFIC_LLM_API_KEY`, and `TRAFFIC_LLM_MODEL` to use a different provider. Each
+persona controls the whole request, including the path, headers, and a JSON or raw body, and keeps a short
+log of what it tried across address rotations so later sessions build on earlier ones. A probe counts as a
+finding only when the store response actually shows the out-of-scope effect, such as a raised privilege,
+another account's data, or an internal document, not merely a `200`. The guard compares a caller id from
+the bearer token to user-scoped path parameters and to owner fields on JSON responses, and keys the object
+ledger by that identity rather than only by IP. The summary reports false-block rate on the pack, catch
+rate by attempt family, steps until first block, and median hold time.
 
 ```bash
 # Run the demo backend and the guard (ENFORCE_BLOCKS=true, TRUST_FORWARDED_FOR=true), then:
@@ -344,11 +358,11 @@ A corrected label is a step that had been marked `malicious` but is one declared
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 EchoGrid | train | 944 | 123 / 123 | 0 | 1.000 | 11 |
 | 2 RiftNote | train | 800 | 109 / 109 | 0 | 1.000 | 24 |
-| 3 StratumNotes | train | 901 | 72 / 72 | 2 | 0.998 | 16 |
-| 4 ChromaPress | test | 813 | 118 / 118 | 0 | 1.000 | 14 |
+| 3 StratumNotes | train | 901 | 72 / 72 | 6 | 0.993 | 16 |
+| 4 ChromaPress | test | 813 | 118 / 118 | 2 | 0.998 | 14 |
 | 5 SporeNote | test | 889 | 126 / 126 | 0 | 1.000 | 15 |
 
-StratumNotes' two false blocks are benign reads of a third artifact id in one session. The agent treated that hop as object enumeration. Each server has two session files, `sess001`–`sess100` and `sess101`–`sess200`, under `examples/holdout/train` or `examples/holdout/test`.
+Re-scored after the proxy hold split and BOLA prompt. Malicious catch stayed 548 / 548. False blocks rose on object reads the model treated as BOLA: StratumNotes 2 → 6 (extra artifact or stratum ids in one session, including one relabeled `suspicious_benign` id), and ChromaPress 0 → 2 (a second owned project). EchoGrid, RiftNote, and SporeNote stayed at 1.000. Each server has two session files, `sess001`–`sess100` and `sess101`–`sess200`, under `examples/holdout/train` or `examples/holdout/test`.
 
 ### Fast filter after the refit
 
